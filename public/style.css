@@ -1,0 +1,38 @@
+body {
+    background-color: grey;
+}
+
+input[type="search"] {
+    height: 64px !important;
+}
+
+
+.task {
+    border: solid;
+    border-color: blue;
+    border-radius: 2px;
+}
+
+nav {
+    position: relative;
+    width: 100%;
+}
+
+.main {
+    text-align: center;
+}
+
+.grid {
+    width: 90%;
+    margin: 0 auto;
+    
+}
+
+.grid-sizer, .grid-item {
+    width: 20%;
+    margin: 2px;
+}
+
+.grid-item--width2 {
+    width: 40%;
+}
