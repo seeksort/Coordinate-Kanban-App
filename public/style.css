@@ -1,38 +1,88 @@
+/* ========== Main ========== */
 body {
-    background-color: grey;
+    background-color: #fffde7; 
+    /* #fffde7 */
 }
 
 input[type="search"] {
     height: 64px !important;
 }
 
-
-.task {
-    border: solid;
-    border-color: blue;
-    border-radius: 2px;
-}
-
+/* ========== Nav ========== */
 nav {
     position: relative;
     width: 100%;
 }
+a {
+    color: #000;
+}
 
-.main {
+/* ========== Board ========== */
+.main-board {
+    width: 90%;
     text-align: center;
+    margin: 0 auto;
 }
 
 .grid {
-    width: 90%;
-    margin: 0 auto;
-    
+    /*width: 90%;*/
 }
 
+/* ========== Task List ========== */
+.task {
+
+    border-radius: 4px;
+    background-color: #c5cae9;
+}
+.collection {
+    border-radius: 6px;
+    background-color: #fff;
+    margin: 6px;
+}
+.collection-item {
+
+}
+.task,
+.collection .collection-item {
+/*    background-color: #c5cae9;*/
+}
+.collection-item:hover {
+    background-color: #e8eaf6;
+}
+.task-name {
+    display: inline;
+    /*float: left;*/
+}
+.grid-item>ul>li,
+.grid-item>ul>a {
+    text-align: left;
+}
+.due-date-div {
+    display: block;
+
+    /*float: left;*/
+    border-radius: 6px;
+    background-color: red;
+    max-width: 100%;
+}
+.due-date-span {
+    /*white-space: normal;*/
+
+}
+
+/*Masonry.js classes*/
 .grid-sizer, .grid-item {
+    float: left;
     width: 20%;
     margin: 2px;
 }
 
 .grid-item--width2 {
-    width: 40%;
+    width: 400px;
+    margin: 2px;
 }
+
+
+
+
+
