@@ -32,7 +32,7 @@ a {
     border-radius: 3px;
     background-color: #c5cae9;
 }
-.collection {
+.task-group {
     border-radius: 3px;
     background-color: #fff;
     margin: 6px;
@@ -40,20 +40,20 @@ a {
     overflow-y: scroll;
     border-color: #c5cae9;
 }
-.collection-item {
-    background-color: red;
+.task-ind {
+    /*background-color: red;*/
 }
-.collection-item:hover {
+.task-ind:hover {
     background-color: #e8eaf6;
 }
 .task-name {
     display: inline;
 }
-li.collection-item.add-new-card {
+li.task-ind.add-new-card {
     background-color: #c5cae9;
     border-color: #c5cae9;
 }
-li.collection-item.add-new-card:hover {
+li.task-ind.add-new-card:hover {
     background-color: #ADB1CC;
 }
 .grid-item>ul>li,
