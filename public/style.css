@@ -1,22 +1,63 @@
 /* ========== Main ========== */
 body {
     background-color: #fffde7; 
-    /* #fffde7 */
 }
 
 input[type="search"] {
     height: 64px !important;
 }
 
+.user_name {
+    font-weight: bold;
+    color: #BF3D3D !important;
+}
+
 /* ========== Nav ========== */
+.nav-wrapper {
+    background-color: #5c6bc0;
+}
 nav {
     position: relative;
     width: 100%;
+    margin-bottom: 12px;
 }
 a {
     color: #000;
 }
-
+.dropdown-content {
+  margin: 0;
+  display: none;
+  min-width: 175px;
+  max-height: 650px;
+  overflow-y: scroll;
+  opacity: 0;
+  position: absolute;
+  z-index: 999;
+  will-change: width, height;
+}
+.dropdown-content li > a, .dropdown-content li > span {
+  font-size: 14px;
+  color: #5B5B5B;
+  display: block;
+  line-height: 18px;
+  padding: 14px 16px;
+}
+.dropdown-content li > a > i {
+  display: inline;
+  float: left;
+  font-size: 20px;
+}
+#dropdown-notifications {
+    min-width: 350px;
+}
+.notif-team-member,
+.notif-task {
+    font-weight: bold;
+}
+.notif-time {
+    font-style: italic;
+    color: #7F7F7F;
+}
 /* ========== Board ========== */
 .main-board {
 }
@@ -32,16 +73,45 @@ a {
     border-radius: 3px;
     background-color: #c5cae9;
 }
+.add-new-list:hover {
+    background-color: #ADB1CC;
+}
+.add-new-list:hover {
+    background-color: #ADB1CC;
+}
+.task-title {
+    margin: 4px 12px 0px 12px;   
+}
+.task-title-text {
+    display: inline-block;
+}
+.task-title-icon {
+    border-radius: 2px;
+    display: inline-block; 
+    height: 30px;
+    margin: 8px 0px;
+    float: right;  
+}
+.task-title-icon>i {
+    font-size: 18px;
+}
+.task-title-icon:hover {
+    background-color: #ADB1CC;
+}
 .task-group {
     border-radius: 3px;
-    background-color: #fff;
-    margin: 6px;
+    background-color: #c5cae9;
+    margin: 0px 6px;
     max-height: 350px;
+    overflow: -moz-scrollbars-vertical; 
     overflow-y: scroll;
     border-color: #c5cae9;
 }
 .task-ind {
-    /*background-color: red;*/
+    border-radius: 3px;
+    padding: 2px 4px 6px 4px;
+    background-color: #fff;
+    margin: 5px;
 }
 .task-ind:hover {
     background-color: #e8eaf6;
@@ -49,25 +119,29 @@ a {
 .task-name {
     display: inline;
 }
-li.task-ind.add-new-card {
+div.task-ind.add-new-card {
     background-color: #c5cae9;
     border-color: #c5cae9;
 }
-li.task-ind.add-new-card:hover {
+div.task-ind.add-new-card:hover {
     background-color: #ADB1CC;
 }
-.grid-item>ul>li,
-.grid-item>ul>a {
+.grid-item {
     text-align: left;
 }
 .due-date-div {
     display: block;
+}
+.due-date-text {
+    display: inline-block;
     border-radius: 3px;
+    padding: 2px 4px 0px 2px;
     background-color: red;
     max-width: 100%;
+    font-size: 13px;
 }
-.due-date-span {
-
+.due-date-text>i {
+    font-size: 12px;
 }
 
 /*Masonry.js classes*/

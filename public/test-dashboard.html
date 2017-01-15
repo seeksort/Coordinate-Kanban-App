@@ -18,13 +18,14 @@
 
 <body>
     <!-- Dropdowns -->
-    <ul id="dropdown1" class="dropdown-content">
-        <li><a href="#!">project one</a></li>
-        <li><a href="#!">project two</a></li>
+
+    <ul id="dropdown-projects" class="dropdown-content">
+        <li><a href="#!">Project One</a></li>
+        <li><a href="#!">Project Two</a></li>
         <li class="divider"></li>
-        <li><a href="#!">project three</a></li>
+        <li><a href="#!"><i class="tiny material-icons">add</i>Create Project...</a></li>
     </ul>
-    <ul id="dropdown2" class="dropdown-content">
+    <ul id="dropdown-filters" class="dropdown-content">
         <li><a href="#!">All Tasks</a></li>
         <li><a href="#!">My Tasks</a></li>
         <li><a href="#!">Due Soon</a></li>
@@ -32,74 +33,101 @@
         <li class="divider"></li>
         <li><a href="#!">Remove Filter</a></li>
     </ul>
+    <ul id="dropdown-notifications" class="dropdown-content">
+        <li><a href="#!"><span class="notif-team-member">Goku</span> completed <span class="notif-task">Obtain 3rd dragonball</span>.<br><span class="notif-time">22 minutes ago</span></a></li>
+        <li><a href="#!"><span class="notif-team-member">Piccolo</span> was assigned to <span class="notif-task">Mentor Gohan</span>.<br><span class="notif-time">3 hours ago</span></a></li>
+        <!-- Show when empty -->
+        <li><a>No recent notifications</a></li>
+    </ul>
+    <ul id="dropdown-profile" class="dropdown-content">
+        <li><span class="user_name">Tina Turner</span></li>
+        <li><a href="#!">Sign Out</a></li>
+    </ul>
     <!-- Nav -->
     <nav>
-        <div class="nav-wrapper indigo lighten-1">
+        <div class="nav-wrapper">
             <!-- Normal Nav -->
             <a href="#" class="brand-logo center">Co-ord-in-ate!</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="left hide-on-med-and-down">
-                <li><a href="#!"><i class="material-icons">help</i></a></li>
+
                 <!-- Search Bar -->
                 <li>
                     <form>
                         <div class="input-field">
                             <input id="search" type="search" required class="indigo lighten-1" placeholder="Search...">
-                            <label for="search"><i class="material-icons">search</i></label>
+                            <label for="search"><i class="material-icons ">search</i></label>
                             <i class="material-icons">close</i>
                         </div>
                     </form>
                 </li>
             </ul>
+            <!-- Top Right Nav -->
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="#!" class="dropdown-button" href="#!" data-activates="dropdown1" data-beloworigin="true" data-hover="true">Projects</a></li>
-                <li><a href="#!">Team</a></li>
-                <li><a href="#!">Activity</a></li>
-                <li><a href="#!" class="dropdown-button" href="#!" data-activates="dropdown2" data-beloworigin="true" data-hover="true">Filters...</a></li>
-                <li><a href="#!"><i class="material-icons">person_pin</i></li>
+                <li>
+                    <a href="#!"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team">people</i></a>
+                </li>
+                <li>
+                    <a href="#!" class="dropdown-button" data-activates="dropdown-projects" data-beloworigin="true" data-hover="true"><i class="material-icons">developer_board</i></a>
+                </li>
+                <li>
+                    <a href="#!" class="dropdown-button" data-activates="dropdown-filters" data-beloworigin="true" data-hover="true"><i class="material-icons">filter_list</i></a>
+                </li>
+                <li>
+                    <a href="#!" class="dropdown-button" data-activates="dropdown-notifications" data-beloworigin="true" data-hover="true"><i class="material-icons">notifications</i></a>
+                </li>
+                <li>
+                    <a href="#!" class="dropdown-button" data-activates="dropdown-profile" data-beloworigin="true" data-hover="true"><i class="material-icons">person_pin</i></a>
+                </li>
             </ul>
             <!-- Side Nav -->
             <ul class="side-nav" id="mobile-demo">
-                <li><a href="#!">Help</a></li>
-                <li><a href="#!">Projects</a></li>
-                <li><a href="#!">Team</a></li>
-                <li><a href="#!">Activity</a></li>
-                <li><a href="#!">Filters...</a></li>
+
+                <li><a href="#!"><i class="tiny material-icons">people</i>Team</a></li>
+                <li><a href="#!"><i class="tiny material-icons">developer_board</i>Projects</a></li>
+                <li><a href="#!"><i class="tiny material-icons">filter_list</i>Filters...</a></a></li>
+                <li><a href="#!"><i class="tiny material-icons">notifications</i>Notifications</a></li>
+                <li><a><span class="user_name">Tina Turner</span></a></li>
+                <li><a href="#!">Sign Out</a></li>
             </ul>
         </div>
     </nav>
     <!-- Board -->
     <div class="main-board yellow lighten-5">
+        <!-- Packery grid settings -->
         <div class="grid">
             <div class="gutter-sizer"></div>
             <div class="grid-sizer"></div>
             
             <!-- List -->
             <div class="list grid-item">
-                <h5>List!</h5>
+                <div class="task-title">
+                    <div class="task-title-text"><h5>List!</h5></div>
+                    <div class="task-title-icon"><i class="material-icons">more_horiz</i></div>
+                </div>
                 <div class="task-group">
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="tiny material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
 
                     <!-- Add New Card -->
                     <a href="#">
@@ -113,16 +141,19 @@
 
             <!-- Task -->
             <div class="list grid-item">
-                <h5>List!</h5>
+                <div class="task-title">
+                    <div class="task-title-text"><h5>List!</h5></div>
+                    <div class="task-title-icon"><i class="material-icons">more_horiz</i></div>
+                </div>
                 <div class="task-group">
                     <!-- Indiv Card -->
                     <a href="#">
                         <div class="task-ind">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14</a>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -131,10 +162,27 @@
                         <div class="task-ind">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14</a>
+                                </div>
                             </div>
+                        </div>
+                    </a>
+                    <!-- Indiv Card -->
+                    <div class="task-ind">
+                        <a href="#">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Add New Card -->
+                    <a href="#">
+                        <div class="task-ind add-new-card">
+                            <span class="task-name">Add new card...</span>
                         </div>
                     </a>
 
@@ -143,28 +191,26 @@
 
             <!-- Task -->
             <div class="list grid-item">
-                <h5>List!</h5>
+                <div class="task-title">
+                    <div class="task-title-text"><h5>List!</h5></div>
+                    <div class="task-title-icon"><i class="material-icons">more_horiz</i></div>
+                </div>
                 <div class="task-group">
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                    <!-- Indiv Card -->
+                        </a>
+                    </div>
+                    <!-- Add New Card -->
                     <a href="#">
-                        <div class="task-ind">
-                            <span class="task-name">Go to the store</span>
-                            <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
-                            </div>
+                        <div class="task-ind add-new-card">
+                            <span class="task-name">Add new card...</span>
                         </div>
                     </a>
 
@@ -174,7 +220,10 @@
 
             <!-- Task -->
             <div class="list grid-item">
-                <h5>List!</h5>
+                <div class="task-title">
+                    <div class="task-title-text"><h5>List!</h5></div>
+                    <div class="task-title-icon"><i class="material-icons">more_horiz</i></div>
+                </div>
                 <div class="task-group">
                     <!-- Add New Card -->
                     <a href="#">
@@ -188,28 +237,37 @@
 
             <!-- Task -->
             <div class="list grid-item">
-                <h5>List!</h5>
+                <div class="task-title">
+                    <div class="task-title-text"><h5>List!</h5></div>
+                    <div class="task-title-icon"><i class="material-icons">more_horiz</i></div>
+                </div>
                 <div class="task-group">
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
+                        </a>
+                    </div>
+                    <!-- Add New Card -->
+                    <a href="#">
+                        <div class="task-ind add-new-card">
+                            <span class="task-name">Add new card...</span>
                         </div>
                     </a>
 
@@ -218,94 +276,103 @@
 
             <!-- Task -->
             <div class="list grid-item">
-                <h5>List!</h5>
+                <div class="task-title">
+                    <div class="task-title-text"><h5>List!</h5></div>
+                    <div class="task-title-icon"><i class="material-icons">more_horiz</i></div>
+                </div>
                 <div class="task-group">
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     <!-- Indiv Card -->
-                    <a href="#">
-                        <div class="task-ind">
+                    <div class="task-ind">
+                        <a href="#">
                             <span class="task-name">Go to the store</span>
                             <div class="due-date-div">
-                                <span class="due-date-span">
-                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
-                                </span>
+                                <div class="due-date-text">
+                                    <i class="material-icons">schedule</i>Jan 14
+                                </div>
                             </div>
+                        </a>
+                    </div>
+                    <!-- Add New Card -->
+                    <a href="#">
+                        <div class="task-ind add-new-card">
+                            <span class="task-name">Add new card...</span>
                         </div>
                     </a>
 
@@ -313,8 +380,8 @@
             </div>
 
             <!-- List -->
-            <div class="list grid-item">
-                <h5>Add a list...</h5>
+            <div class="list grid-item add-new-list">
+                <div class="task-title"><a href="#!"><h5>Add a list...</h5></a></div>
             </div>
         </div>
     </div>
@@ -349,15 +416,6 @@
       var draggie = new Draggabilly( itemElem );
       pckry.bindDraggabillyEvents( draggie );
     });
-
-    // Drag Tasks
-    // var lists = document.querySelectorAll('.task-group');
-    // var tasks = document.querySelectorAll('.task-ind');
-    // tasks.forEach( function(itemElem) {
-    //   var draggie = new Draggabilly( itemElem );
-    //   pckry.bindDraggabillyEvents( draggie );
-    //   // draggie.on('dragStart', function(){})
-    // });
 
     </script>
 </body>
