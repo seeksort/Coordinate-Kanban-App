@@ -19,39 +19,42 @@ a {
 
 /* ========== Board ========== */
 .main-board {
-    width: 90%;
+}
+
+.grid {
+    width: 95%;
     text-align: center;
     margin: 0 auto;
 }
 
-.grid {
-    /*width: 90%;*/
-}
-
-/* ========== Task List ========== */
-.task {
-
-    border-radius: 4px;
+/* ========== List ========== */
+.list {
+    border-radius: 3px;
     background-color: #c5cae9;
 }
 .collection {
-    border-radius: 6px;
+    border-radius: 3px;
     background-color: #fff;
     margin: 6px;
+    max-height: 350px;
+    overflow-y: scroll;
+    border-color: #c5cae9;
 }
 .collection-item {
-
-}
-.task,
-.collection .collection-item {
-/*    background-color: #c5cae9;*/
+    background-color: red;
 }
 .collection-item:hover {
     background-color: #e8eaf6;
 }
 .task-name {
     display: inline;
-    /*float: left;*/
+}
+li.collection-item.add-new-card {
+    background-color: #c5cae9;
+    border-color: #c5cae9;
+}
+li.collection-item.add-new-card:hover {
+    background-color: #ADB1CC;
 }
 .grid-item>ul>li,
 .grid-item>ul>a {
@@ -59,30 +62,46 @@ a {
 }
 .due-date-div {
     display: block;
-
-    /*float: left;*/
-    border-radius: 6px;
+    border-radius: 3px;
     background-color: red;
     max-width: 100%;
 }
 .due-date-span {
-    /*white-space: normal;*/
 
 }
 
 /*Masonry.js classes*/
-.grid-sizer, .grid-item {
-    float: left;
-    width: 20%;
-    margin: 2px;
+.gutter-sizer {
+    width: 1%;
+}
+.grid-sizer,
+.grid-item {
+    width: 19%; 
 }
 
-.grid-item--width2 {
-    width: 400px;
-    margin: 2px;
+/* ========== Media Queries ========== */
+@media screen and (max-width: 980px) {
+    .grid-sizer,
+    .grid-item {
+        float: left;
+        width: 32%;
+    }
 }
 
+@media screen and (max-width: 768px) {
+    .grid-sizer,
+    .grid-item {
+        float: left;
+        width: 48%;
+    }
+}
 
-
+@media screen and (max-width: 640px) {
+    .grid-sizer,
+    .grid-item {
+        float: left;
+        width: 98%;
+    }
+}
 
 

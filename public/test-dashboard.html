@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Hind|Patua+One" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <!-- Dropdowns -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!">project one</a></li>
+        <li><a href="#!">project two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">project three</a></li>
+    </ul>
+    <ul id="dropdown2" class="dropdown-content">
+        <li><a href="#!">All Tasks</a></li>
+        <li><a href="#!">My Tasks</a></li>
+        <li><a href="#!">Due Soon</a></li>
+        <li><a href="#!">Filter By...</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Remove Filter</a></li>
+    </ul>
+    <!-- Nav -->
+    <nav>
+        <div class="nav-wrapper indigo lighten-1">
+            <!-- Normal Nav -->
+            <a href="#" class="brand-logo center">Co-ord-in-ate!</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="left hide-on-med-and-down">
+                <li><a href="#!"><i class="material-icons">help</i></a></li>
+                <!-- Search Bar -->
+                <li>
+                    <form>
+                        <div class="input-field">
+                            <input id="search" type="search" required class="indigo lighten-1" placeholder="Search...">
+                            <label for="search"><i class="material-icons">search</i></label>
+                            <i class="material-icons">close</i>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#!" class="dropdown-button" href="#!" data-activates="dropdown1" data-beloworigin="true" data-hover="true">Projects</a></li>
+                <li><a href="#!">Team</a></li>
+                <li><a href="#!">Activity</a></li>
+                <li><a href="#!" class="dropdown-button" href="#!" data-activates="dropdown2" data-beloworigin="true" data-hover="true">Filters...</a></li>
+                <li><a href="#!"><i class="material-icons">person_pin</i></li>
+            </ul>
+            <!-- Side Nav -->
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="#!">Help</a></li>
+                <li><a href="#!">Projects</a></li>
+                <li><a href="#!">Team</a></li>
+                <li><a href="#!">Activity</a></li>
+                <li><a href="#!">Filters...</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Board -->
+    <div class="main-board yellow lighten-5">
+        <div class="grid">
+            <div class="gutter-sizer"></div>
+            <div class="grid-sizer"></div>
+            
+            <!-- List -->
+            <div class="list grid-item">
+                <h5>List!</h5>
+                <ul class="collection">
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+
+                    <!-- Add New Card -->
+                    <a href="#">
+                        <li class="collection-item add-new-card">
+                            <span class="task-name">Add new card...</span>
+                        </li>
+                    </a>
+
+                </ul>
+            </div>
+
+            <!-- Task -->
+            <div class="list grid-item">
+                <h5>List!</h5>
+                <ul class="collection">
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+
+                </ul>
+            </div>
+
+            <!-- Task -->
+            <div class="list grid-item">
+                <h5>List!</h5>
+                <ul class="collection">
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+
+                </ul>
+            </div>
+            
+
+            <!-- Task -->
+            <div class="list grid-item">
+                <h5>List!</h5>
+                <ul class="collection">
+                    <!-- Add New Card -->
+                    <a href="#">
+                        <li class="collection-item add-new-card">
+                            <span class="task-name">Add new card...</span>
+                        </li>
+                    </a>
+
+                </ul>
+            </div>
+
+            <!-- Task -->
+            <div class="list grid-item">
+                <h5>List!</h5>
+                <ul class="collection">
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+
+                </ul>
+            </div>
+
+            <!-- Task -->
+            <div class="list grid-item">
+                <h5>List!</h5>
+                <ul class="collection">
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+                    <!-- Indiv Card -->
+                    <a href="#">
+                        <li class="collection-item">
+                            <span class="task-name">Go to the store</span>
+                            <div class="due-date-div">
+                                <span class="due-date-span">
+                                    <a class=""><i class="tiny material-icons">schedule</i>Jan 14 - 8:00 PM</a>
+                                </span>
+                            </div>
+                        </li>
+                    </a>
+
+                </ul>
+            </div>
+
+            <!-- List -->
+            <div class="list grid-item">
+                <h5>Add a list...</h5>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- jQuery for Materialize -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <!-- Materialize.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <!-- Packery.js (grid layout) -->
+    <script src="./../node_modules/packery/dist/packery.pkgd.min.js"></script>
+    <!-- Draggabilly (draggable grid) -->
+    <script src="./../node_modules/draggabilly/dist/draggabilly.pkgd.min.js"></script>
+    <!-- JavaScript -->
+    <script type="text/javascript">
+    // Toggle side navbar
+    $(document).ready(function() {
+        $(".button-collapse").sideNav();
+    });
+
+    // Packery intitialize
+    var elem = document.querySelector('.grid');
+    var pckry = new Packery(elem, {
+        // options
+        columnWidth: '.grid-sizer',
+        gutter: '.gutter-sizer',
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        fitWidth: false
+    });
+    // Packery + Draggabilly
+    // Drag Lists
+    pckry.getItemElements().forEach( function( itemElem ) {
+      var draggie = new Draggabilly( itemElem );
+      pckry.bindDraggabillyEvents( draggie );
+    });
+
+    // Drag Tasks
+    // var lists = document.querySelectorAll('.collection');
+    // var tasks = document.querySelectorAll('.collection-item');
+    // tasks.forEach( function(itemElem) {
+    //   var draggie = new Draggabilly( itemElem );
+    //   pckry.bindDraggabillyEvents( draggie );
+    //   // draggie.on('dragStart', function(){})
+    // });
+
+    </script>
+</body>
+
+</html>
