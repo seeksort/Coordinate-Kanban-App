@@ -22,6 +22,21 @@ main {
 a {
     color: #000;
 }
+.btn,
+.btn-large {
+    background-color: #5c6bc0;
+    color: #FFF;
+}
+.btn:hover,
+.btn-large:hover {
+    background-color: #c5cae9;
+    color: #000;
+}
+.btn:focus,
+.btn-large:focus {
+    background-color: #c5cae9;
+    color: #000;
+}
 /* ========== Home Page ========== */
 #welcome-div {
     color: #FFF;
@@ -64,11 +79,34 @@ a {
     text-align: left;
     margin-left: 32px;
 }
-.team-categories>h3 {
-    /* weird issue where h4 and up indents left... */
-    font-size: 28px;
+.team-options {
+    position: relative;
+    height: 70px;
 }
-
+.team-page-title {
+    padding-bottom: 12px;
+    border-bottom: 1px solid grey;
+}
+.team-member-div {
+    position: relative;
+    border-bottom: 1px solid grey;
+    height: 70px;
+}
+.team-member-div>div {
+    display: inline-block;
+    margin: auto 0;
+}
+.team-member-icon>img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+.team-member-info>span {
+    display: block;
+}
+.team-member-options>div {
+    display: inline-block;
+}
 /* ========== Nav ========== */
 nav a {
     color: #000;
@@ -129,18 +167,27 @@ nav {
 .side-nav {
     width: 500px;
 }
+.delete-team-btn {
+    background-color: #DD413B;
+    color: #FFF;
+}
+.delete-team-btn:hover {
+    background-color: #FF4B44;
+    color: #000;
+}
+#delete-team-confirm {
+    color: #DD413B !important;
+}
 /* ========== Board ========== */
 .main-board {
     background-color: #fffde7;
-    margin-top: 24px;
+    margin-top: 80px;
 }
-
 .grid {
     width: 95%;
     text-align: center;
     margin: 0 auto;
 }
-
 /* ========== List ========== */
 .list {
     border-radius: 3px;
