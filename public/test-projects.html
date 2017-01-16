@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projects</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Hind|Patua+One" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body id="dashboard">
+    <header>
+    <!-- Dropdowns -->
+    <ul id="dropdown-projects" class="dropdown-content">
+        <li><a href="#!">Project One</a></li>
+        <li><a href="#!">Project Two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!"><i class="tiny material-icons">add</i>Create Project...</a></li>
+    </ul>
+    <!-- <ul id="dropdown-filters" class="dropdown-content">
+        <li><a href="#!">All Tasks</a></li>
+        <li><a href="#!">My Tasks</a></li>
+        <li><a href="#!">Due Soon</a></li>
+        <li><a href="#!">Filter By...</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Remove Filter</a></li>
+    </ul> -->
+    <ul id="dropdown-notifications" class="dropdown-content">
+        <li><a href="#!"><span class="notif-team-member">Goku</span> completed <span class="notif-task">Obtain 3rd dragonball</span>.<br><span class="notif-time">22 minutes ago</span></a></li>
+        <li><a href="#!"><span class="notif-team-member">Piccolo</span> was assigned to <span class="notif-task">Mentor Gohan</span>.<br><span class="notif-time">3 hours ago</span></a></li>
+        <!-- Show when empty -->
+        <li><a>No recent notifications</a></li>
+    </ul>
+    <ul id="dropdown-profile" class="dropdown-content">
+        <li><span class="user_name">Tina Turner</span></li>
+        <li><a href="#!">Sign Out</a></li>
+    </ul>
+    <!-- Nav -->
+    <div class="nav-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <!-- Normal Nav -->
+                <a href="#" class="brand-logo center">Co-ord-in-ate!</a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="left hide-on-med-and-down">
+                    <!-- Search Bar -->
+                    <li>
+                        <form>
+                            <div class="input-field">
+                                <input id="search" type="search" required placeholder="Search...">
+                                <label for="search"><i class="material-icons ">search</i></label>
+                                <i class="material-icons">close</i>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+                <!-- Top Right Nav -->
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li>
+                        <a href="#!"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team">people</i></a>
+                    </li>
+                    <li>
+                        <a href="#!" class="dropdown-button" data-activates="dropdown-projects" data-beloworigin="true" data-hover="true"><i class="material-icons">developer_board</i></a>
+                    </li>
+<!--                     <li>
+                        <a href="#!" class="dropdown-button" data-activates="dropdown-filters" data-beloworigin="true" data-hover="true"><i class="material-icons">filter_list</i></a>
+                    </li> -->
+                    <li>
+                        <a href="#!" class="dropdown-button" data-activates="dropdown-notifications" data-beloworigin="true" data-hover="true"><i class="material-icons">notifications</i></a>
+                    </li>
+                    <li>
+                        <a href="#!" class="dropdown-button" data-activates="dropdown-profile" data-beloworigin="true" data-hover="true"><i class="material-icons">person_pin</i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Side Nav -->
+        <!-- side nav must be outside of nav tag to coexist w/ fixed nav. -->
+        <ul class="side-nav collapsible" id="mobile-demo">
+            <li>
+                <div class="collapsible-header"><a href="#!"><i class="tiny material-icons">people</i>Team</a></div>
+            </li>
+            <li>
+                <div class="collapsible-header"><a href="#" class="secondary-content"><i class="tiny material-icons">expand_more</i></a><a href="#!"><i class="tiny material-icons">developer_board</i>Projects</a></div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="#!">Project One</a></li>
+                        <li><a href="#!">Project Two</a></li>
+                        <li><a href="#!"><i class="tiny material-icons">add</i>Create Project...</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><a href="#" class="secondary-content"><i class="tiny material-icons">expand_more</i></a><a href="#!"><i class="tiny material-icons">filter_list</i>Filters...</a></div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="#!">All Tasks</a></li>
+                        <li><a href="#!">My Tasks</a></li>
+                        <li><a href="#!">Due Soon</a></li>
+                        <li><a href="#!">Filter By...</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#!">Remove Filter</a></li>
+                    </ul>
+                </div>  
+            </li>
+            <li>
+                <div class="collapsible-header"><a href="#" class="secondary-content"><i class="tiny material-icons">expand_more</i></a><a href="#!"><i class="tiny material-icons">notifications</i>Notifications</a></div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="#!"><span class="notif-team-member">Goku</span> completed <span class="notif-task">Obtain 3rd dragonball</span>.</a></li>
+                        <li><a href="#!"><span class="notif-team-member">Piccolo</span> was assigned to <span class="notif-task">Mentor Gohan</span>.</a></li>
+                        <!-- Show when empty -->
+                        <li><a>No recent notifications</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a><span class="user_name">Tina Turner</span></a>
+            </li>
+            <li>
+                <a href="#!">Sign Out</a>
+            </li>
+        </ul>
+    </div>
+    </header>
+
+    <main>
+    <!-- Board -->
+    <div class="main-board">
+        <!-- Packery grid settings -->
+        <!-- Personal Projects -->
+        <div>
+            <div class="team-categories">
+                <h3>Personal Projects</h3>
+            </div>
+            <div class="grid grid-1">
+                <div class="gutter-sizer"></div>
+                <div class="grid-sizer"></div>
+                <!-- Projects -->
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 1</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 2</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 3</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 4</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 5</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 6</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Projects -->
+        <div>
+            <div class="team-categories">
+                <h3>Team Rocket</h3>
+            </div>
+            <div class="grid grid-2">
+                <div class="gutter-sizer"></div>
+                <div class="grid-sizer"></div>
+                <!-- Projects -->
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 1</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 2</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Projects -->
+        <div>
+            <div class="team-categories">
+                <h3>Badonkadonk Squad</h3>
+            </div>
+            <div class="grid grid-3">
+                <div class="gutter-sizer"></div>
+                <div class="grid-sizer"></div>
+                <!-- Projects -->
+                <div class="list grid-item project-snapshot">
+                    <div class="task-title">
+                        <a href="#!"><h5>Project 1</h5>
+                        <p>Total Tasks: <span>54</span><br>
+                        Tasks Due: <span>3</span></p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Project -->
+        <div>
+            <div class="grid grid-0">
+                <div class="gutter-sizer"></div>
+                <div class="grid-sizer"></div>
+                <!-- Projects -->
+                <br>
+                <div class="grid-item create-proj">
+                    <div class="task-title">
+                        <h5><a href="#!"><i class="material-icons">add</i>Create Project...</a></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </main>
+    <!-- jQuery for Materialize -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <!-- Materialize.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <!-- Packery.js (grid layout) -->
+    <script src="./../node_modules/packery/dist/packery.pkgd.min.js"></script>
+    <!-- Draggabilly (draggable grid) -->
+    <script src="./../node_modules/draggabilly/dist/draggabilly.pkgd.min.js"></script>
+    <!-- JavaScript -->
+    <script type="text/javascript">
+    // Toggle side navbar
+    $(document).ready(function() {
+        $(".button-collapse").sideNav();
+    });
+
+    // Packery intitialize
+    var elem = document.querySelector('.grid-1');
+    var pckry = new Packery(elem, {
+        // options
+        columnWidth: '.grid-sizer',
+        gutter: '.gutter-sizer',
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        fitWidth: false
+    });
+
+    // Packery intitialize
+    var elem = document.querySelector('.grid-2');
+    var pckry = new Packery(elem, {
+        // options
+        columnWidth: '.grid-sizer',
+        gutter: '.gutter-sizer',
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        fitWidth: false
+    });
+    // Packery intitialize
+    var elem = document.querySelector('.grid-3');
+    var pckry = new Packery(elem, {
+        // options
+        columnWidth: '.grid-sizer',
+        gutter: '.gutter-sizer',
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        fitWidth: false
+    });
+    </script>
+</body>
+
+</html>

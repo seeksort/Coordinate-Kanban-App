@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Co-ord-in-ate</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Hind|Patua+One" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Google Sign In -->
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+
+<body id="home-page">
+
+
+<!-- Home -->
+    <main class="container">
+        <div class="row">
+            <div id="welcome-div" class="col s12">
+                <h1>Co-ord-in-ate!</h1>
+                <h5>Kanban dashboards that help teams flow.</h5>
+                <br>
+                <a href="#modal1" class="waves-effect waves-light btn">Log In</a>
+                <a href="#modal2" class="waves-effect waves-light btn">Sign Up</a>
+            </div>
+        </div>
+    </main>
+
+<!-- Footer -->
+    <footer class="home-page-footer">
+        <div class="">
+            <div class="container">
+            Final Project for the Coding Bootcamp at UT Austin. © 2017 Kristin Faner
+            </div>
+          </div>
+    </footer>   
+
+<!-- Modal - Log In -->
+    <div id="modal1" class="modal home-modal">
+        <div class="modal-content">
+            <h4>Log In</h4>
+            <div class="row center-align">
+                <div class="col s12 g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+                <a href="#modal2" class="waves-effect waves-light btn btn-modal">Placeholder Google Sign In</a>
+            </div>
+            <div class="row">
+                <!-- FORM WITH POST -->
+                <form class="col s12">
+                    <div class="row">
+                        <hr>
+                        <p style="text-align: center;">Or sign in with email:</p>
+                        <div class="input-field col s12">
+                            <input id="email" type="text" class="validate">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="password" type="password" class="validate">
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn btn-modal">Submit</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- Modal - Sign Up -->
+    <div id="modal2" class="modal home-modal">
+        <div class="modal-content">
+            <h4>Sign Up</h4>
+            <div class="row">
+                <!-- FORM WITH POST -->
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" type="text" class="validate">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="password" type="password" class="validate">
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn btn-modal">Submit</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery for Materialize -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <!-- Materialize.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <!-- Packery.js (grid layout) -->
+    <script src="./../node_modules/packery/dist/packery.pkgd.min.js"></script>
+    <!-- Draggabilly (draggable grid) -->
+    <script src="./../node_modules/draggabilly/dist/draggabilly.pkgd.min.js"></script>
+    <!-- JavaScript -->
+    <script type="text/javascript">
+    // Modal listener
+    $('.modal').modal();
+
+    // Google Sign In
+    function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+      };
+    </script>
+</body>
+
+</html>

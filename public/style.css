@@ -1,18 +1,81 @@
 /* ========== Main ========== */
-body {
+#home-page {
+    background-color: #5c6bc0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+#dashboard {
     background-color: #fffde7; 
 }
-
 input[type="search"] {
     height: 64px !important;
+    background-color: #5c6bc0;
 }
-
+main {
+     flex: 1 0 auto;
+ }
 .user_name {
     font-weight: bold;
     color: #BF3D3D !important;
 }
+a {
+    color: #000;
+}
+/* ========== Home Page ========== */
+#welcome-div {
+    color: #FFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 400px;
+    width: 30%;
+    height: 500px;
+    text-align: center;
+}
+#welcome-div>.btn,
+#welcome-div>.btn-large {
+    background-color: #c5cae9;
+    color: #000;
+}
+#welcome-div>.btn:hover,
+#welcome-div>.btn-large:hover {
+    background-color: #5c6bc0;
+    color: #FFF;
+}
+.home-modal {
+    width: 33%;
+}
+.btn-modal {
+    background-color: #5c6bc0;
+    color: #FFF;
+}
+.btn-modal:hover {
+    background-color: #c5cae9;
+    color: #000;
+}
+.home-page-footer {
+    text-align: center;
+    color: #FFF;
+}
+/* ========== Teams ========== */
+.team-categories {
+    text-align: left;
+    margin-left: 32px;
+}
+.team-categories>h3 {
+    /* weird issue where h4 and up indents left... */
+    font-size: 28px;
+}
 
 /* ========== Nav ========== */
+nav a {
+    color: #000;
+}
+nav a:hover {
+    color: #D8DDEF;
+}
 .nav-wrapper {
     background-color: #5c6bc0;
 }
@@ -21,31 +84,36 @@ nav {
     width: 100%;
     margin-bottom: 12px;
 }
-a {
-    color: #000;
-}
+.nav-fixed {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    margin-bottom: 0px;
+    z-index: 998;
+  }
 .dropdown-content {
-  margin: 0;
-  display: none;
-  min-width: 175px;
-  max-height: 650px;
-  overflow-y: scroll;
-  opacity: 0;
-  position: absolute;
-  z-index: 999;
-  will-change: width, height;
+    margin: 0;
+    display: none;
+    min-width: 175px;
+    max-height: 650px;
+    overflow-y: scroll;
+    opacity: 0;
+    position: absolute;
+    z-index: 999;
+    will-change: width, height;
 }
 .dropdown-content li > a, .dropdown-content li > span {
-  font-size: 14px;
-  color: #5B5B5B;
-  display: block;
-  line-height: 18px;
-  padding: 14px 16px;
+    font-size: 14px;
+    color: #5B5B5B;
+    display: block;
+    line-height: 18px;
+    padding: 14px 16px;
 }
 .dropdown-content li > a > i {
-  display: inline;
-  float: left;
-  font-size: 20px;
+    display: inline;
+    float: left;
+    font-size: 20px;
 }
 #dropdown-notifications {
     min-width: 350px;
@@ -58,8 +126,13 @@ a {
     font-style: italic;
     color: #7F7F7F;
 }
+.side-nav {
+    width: 500px;
+}
 /* ========== Board ========== */
 .main-board {
+    background-color: #fffde7;
+    margin-top: 24px;
 }
 
 .grid {
@@ -73,9 +146,7 @@ a {
     border-radius: 3px;
     background-color: #c5cae9;
 }
-.add-new-list:hover {
-    background-color: #ADB1CC;
-}
+.project-snapshot:hover,
 .add-new-list:hover {
     background-color: #ADB1CC;
 }
@@ -142,6 +213,15 @@ div.task-ind.add-new-card:hover {
 }
 .due-date-text>i {
     font-size: 12px;
+}
+.create-proj {
+    border-radius: 3px;
+}
+.create-proj:hover {
+    background-color: #ADB1CC;
+}
+.create-proj>div>h5>a:hover {
+    color: #000;
 }
 
 /*Masonry.js classes*/
