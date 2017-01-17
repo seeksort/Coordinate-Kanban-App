@@ -177,7 +177,7 @@
     </main>
 
 <!-- Modal - Add Team Member -->
-    <div id="modal1" class="modal home-modal">
+    <div id="modal1" class="modal">
         <div class="modal-content">
             <h4>Add a Team Member</h4>
             <div class="row">
@@ -201,8 +201,9 @@
                             </p>
                             <br>
                         </div>
-                        <div class="modal-footer">
+                        <div class="col s12 right-align">
                             <a href="#!" class="modal-action modal-close waves-effect waves-green btn btn-modal">Send Invitation Email</a>
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -211,7 +212,7 @@
     </div>
 
 <!-- Modal - Create Team -->
-    <div id="modal2" class="modal home-modal">
+    <div id="modal2" class="modal">
         <div class="modal-content">
             <h4>Create New Team</h4>
             <div class="row">
@@ -226,8 +227,9 @@
                             <textarea id="team_description" type="textarea" class="materialize-textarea"></textarea>
                             <label for="team_description">Team Description</label>
                         </div>
-                        <div class="modal-footer">
+                        <div class="col s12 right-align">
                             <a href="#!" class="modal-action modal-close waves-effect waves-green btn btn-modal">Submit</a>
+                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -236,7 +238,7 @@
     </div>
 
 <!-- Modal - Delete Team -->
-    <div id="modal3" class="modal home-modal">
+    <div id="modal3" class="modal">
         <div class="modal-content">
             <h4>DELETE TEAM</h4>
             <div class="row">
@@ -248,12 +250,19 @@
                                 This action will delete your team and all of your team's boards. This cannot be reversed.
                             </p>
                             <span id="delete-team-confirm">Are you sure you want to delete your team?</span>
-                            <br><br>
                         </div>
                         <div class="input-field col s12">
+                            Type "Yes" to confirm:
+                            <div class="input-field inline">
+                                <input id="delete-team-resp" type="text" class="validate">
+                                <label for="delete-team-resp">Input</label>
+                            </div>
+                        </div>
+                        <div class="col s12 right-align">
                             <a href="#!" class="modal-action modal-close waves-effect waves-green btn delete-team-btn">Delete Team</a>
                             <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Cancel</a>
                         </div>
+
                     </div>
                 </form>
             </div>

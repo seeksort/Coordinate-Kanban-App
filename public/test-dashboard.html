@@ -143,14 +143,14 @@
             <div class="list grid-item">
                 <div class="task-title">
                     <div class="task-title-text">
-                        <h5>List!</h5></div>
+                        <h5>This is a test list</h5></div>
                     <div class="task-title-icon"><i class="material-icons">more_horiz</i></div>
                 </div>
                 <div class="task-group">
                     <!-- Indiv Card -->
                     <div class="task-ind">
-                        <a href="#">
-                            <span class="task-name">Go to the store</span>
+                        <a href="#modal1">
+                            <span class="task-name">Write and test this modal</span>
                             <div class="due-date-div">
                                 <div class="due-date-text">
                                     <i class="material-icons">schedule</i>Jan 14
@@ -419,6 +419,75 @@
         </div>
     </div>
     </main>
+
+
+<!-- Modal - Task Modal -->
+    <div id="modal1" class="modal task-modal">
+        <div class="modal-content">
+            <div class="task-modal-title-div">
+                <i class="material-icons right close-modal">close</i>
+                <div class="task-modal-title-details">
+                    <p><span class="task-modal-title">Write and test this modal</span></p>
+                    <p>in list <span class="task-modal-list">This is a test list</span></p>
+                </div>
+            </div>
+            <div class="task-modal-sidebar right">
+                <div class="modal-heading-first">Add</div>
+                <a href="#modal1" class="waves-effect waves-light btn">Tags</a>
+                <a href="#modal1" class="waves-effect waves-light btn">Due Date</a>
+            </div>
+            <div class="task-modal-content">
+                <div class="task-modal-content-details">
+                    <div class="task-modal-tags-div">
+                        <p class="modal-heading-second">Tags:</p>
+                        <div class="task-modal-tag" style="background-color: blue;"></div>
+                        <div class="task-modal-tag" style="background-color: red;"></div>
+                    </div>
+                    <div class="task-modal-description">
+                        <p class="modal-heading-second">Description</p>
+                    </div>
+                </div>
+                <div class="task-modal-comment">
+                    <div class="modal-heading-first comment-title">Add Comment</div>
+                    <div class="comment-user-div">
+                        <span class="comment-user-pic team-member-icon"><img src="yuna.jpg"></span>
+                        <div class="comment-box-div">
+                            <textarea id="textarea1" cols="45"></textarea>
+                        <a href="#modal1" class="waves-effect waves-light btn">Submit</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="task-modal-activity">
+                    <div class="modal-heading-first activity-title">Comments</div>
+                    <div class="activity-line">
+                        <span class="comment-user-pic team-member-icon"><img src="yuna.jpg"></span>
+                        <div class="comment-details">
+                            <p>
+                            Artificial amateurs, aren't at all amazing
+                            Analytically, I assault, animate things
+                            Broken barriers bounded by the bomb beat
+                            Buildings are broken, basically I'm bombarding
+                            Casually create catastrophes, casualties
+                            Canceling cats got their canopies collapsing
+                            Detonate a dime of dank daily doing dough
+                            Demonstrations, Don Dada on the down low
+                            </p>
+                            <span class="notif-time">12 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-line">
+                        <span class="comment-user-pic team-member-icon"><img src="yuna.jpg"></span>
+                        <div class="comment-details">
+                            <p>first</p>
+                            <span class="notif-time">a week ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- jQuery for Materialize -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <!-- Materialize.js -->
@@ -433,6 +502,9 @@
     $(document).ready(function() {
         $(".button-collapse").sideNav();
     });
+
+    // Modal listener
+    $('.modal').modal();
 
     // Packery intitialize
     var elem = document.querySelector('.grid');
