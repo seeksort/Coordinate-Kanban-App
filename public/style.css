@@ -196,6 +196,25 @@ nav {
     text-align: center;
     margin: 0 auto;
 }
+/* ========== Filter ========== */
+.filter-div {
+    display: block;
+    height: 40px;
+    width: 95%;
+    margin: 10px auto;
+}
+#filter-icon-div {
+    border-radius: 50px;
+    background-color: #5c6bc0;
+    color: #FFF;
+    height: 40px;
+    width: 40px;
+    padding-top: 8px;
+    text-align: center;
+}
+#filter-icon {
+    color: #FFF;
+}
 /* ========== List ========== */
 .list {
     border-radius: 3px;

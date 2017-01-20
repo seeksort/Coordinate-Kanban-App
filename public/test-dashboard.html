@@ -65,9 +65,6 @@
                 <!-- Top Right Nav -->
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li>
-                        <a href="#!" class="dropdown-button" data-activates="dropdown-filters" data-beloworigin="true" data-hover="true"><i class="material-icons">filter_list</i></a>
-                    </li>
-                    <li>
                         <a href="#!"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team">people</i></a>
                     </li>
                     <li>
@@ -85,19 +82,6 @@
         <!-- Side Nav -->
         <!-- side nav must be outside of nav tag to coexist w/ fixed nav. -->
         <ul class="side-nav collapsible" id="mobile-demo">
-            <li>
-                <div class="collapsible-header"><a href="#" class="secondary-content"><i class="tiny material-icons">expand_more</i></a><a href="#!"><i class="tiny material-icons">filter_list</i>Filters...</a></div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="#!">All Tasks</a></li>
-                        <li><a href="#!">My Tasks</a></li>
-                        <li><a href="#!">Due Soon</a></li>
-                        <li><a href="#!">Filter By...</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#!">Remove Filter</a></li>
-                    </ul>
-                </div>  
-            </li>
             <li>
                 <div class="collapsible-header"><a href="#!"><i class="tiny material-icons">people</i>Team</a></div>
             </li>
@@ -135,6 +119,12 @@
     <main>
     <!-- Board -->
     <div class="main-board">
+        <!-- Filter -->
+        <div class="filter-div">
+             <div id="filter-icon-div">
+                 <a href="#!" class="dropdown-button" id="filter-icon" data-activates="dropdown-filters" data-beloworigin="true" data-hover="true"><i class="material-icons center">filter_list</i></a>
+             </div>
+        </div>
         <!-- Packery grid settings -->
         <div class="grid">
             <div class="gutter-sizer"></div>
