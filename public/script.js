@@ -1,3 +1,6 @@
+// Modal listener
+$('.modal').modal();
+
 // Packery intitialize
 var elem = document.querySelector('.grid');
 var pckry = new Packery(elem, {

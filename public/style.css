@@ -116,10 +116,12 @@ textarea {
     display: inline-block;
 }
 /* ========== Nav ========== */
-nav a {
-    color: #000;
+nav a,
+.button-collapse>a {
+    color: #FFF;
 }
-nav a:hover {
+nav a:hover,
+.button-collapse>a:hover {
     color: #D8DDEF;
 }
 .nav-wrapper {
