@@ -58,5 +58,15 @@ if (document.querySelector('#projects-page')) {
 
 
 // Change board body color
-var body = document.querySelector('body');
-body.style.backgroundColor = '#fffde7';
+if (!document.querySelector('home-page')) {
+    var body = document.querySelector('body');
+    body.style.backgroundColor = '#fffde7';
+}
+
+// Add Google login for Home Page
+if (document.querySelector('home-page')) {
+    var body = document.querySelector('body');
+    var script = document.createElement('script');
+    script.src('./loginFcn.js')
+    body.appendChild = script;
+}

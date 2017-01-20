@@ -3,12 +3,17 @@ var React = require('react'),
 
 var TeamBoard = React.createClass({
     componentDidMount: function() {
+        if (document.querySelector('#main-script')) {
+            var replaceScr = document.querySelector('#main-script');
+            replaceScr.remove();
+        }
         var script = document.createElement("script");
+        script.id = "main-script";
         script.src = "./../public/script.js";
         script.async = true;
         document.body.appendChild(script);
     },
-
+    
     render: function() {
         return (
             <div>
