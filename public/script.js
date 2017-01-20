@@ -21,6 +21,41 @@ if (document.querySelector('.grid-item')) {
     });   
 }
 
+// Packery for Projects page
+if (document.querySelector('#projects-page')) {
+    // Packery intitialize
+    var elem = document.querySelector('.grid-1');
+    var pckry = new Packery(elem, {
+        // options
+        columnWidth: '.grid-sizer',
+        gutter: '.gutter-sizer',
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        fitWidth: false
+    });
+
+    // Packery intitialize
+    var elem = document.querySelector('.grid-2');
+    var pckry = new Packery(elem, {
+        // options
+        columnWidth: '.grid-sizer',
+        gutter: '.gutter-sizer',
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        fitWidth: false
+    });
+    // Packery intitialize
+    var elem = document.querySelector('.grid-3');
+    var pckry = new Packery(elem, {
+        // options
+        columnWidth: '.grid-sizer',
+        gutter: '.gutter-sizer',
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        fitWidth: false
+    });
+}
+
 
 // Change board body color
 var body = document.querySelector('body');

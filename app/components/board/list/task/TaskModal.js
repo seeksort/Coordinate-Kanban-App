@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    TaskModalActivity = require('./TaskModalActivity');
 
 var TaskModal = React.createClass({
     render: function() {
@@ -41,29 +42,11 @@ var TaskModal = React.createClass({
                         </div>
                         <div className="task-modal-activity">
                             <div className="modal-heading-first activity-title">Comments</div>
-                            <div className="activity-line">
-                                <span className="comment-user-pic team-member-icon"><img src="yuna.jpg" /></span>
-                                <div className="comment-details">
-                                    <p>
-                                    Artificial amateurs, aren't at all amazing
-                                    Analytically, I assault, animate things
-                                    Broken barriers bounded by the bomb beat
-                                    Buildings are broken, basically I'm bombarding
-                                    Casually create catastrophes, casualties
-                                    Canceling cats got their canopies collapsing
-                                    Detonate a dime of dank daily doing dough
-                                    Demonstrations, Don Dada on the down low
-                                    </p>
-                                    <span className="notif-time">12 hours ago</span>
-                                </div>
-                            </div>
-                            <div className="activity-line">
-                                <span className="comment-user-pic team-member-icon"><img src="yuna.jpg" /></span>
-                                <div className="comment-details">
-                                    <p>first</p>
-                                    <span className="notif-time">a week ago</span>
-                                </div>
-                            </div>
+                            
+                            <TaskModalActivity />
+
+                            <TaskModalActivity />
+
                         </div>
                     </div>
 

@@ -13,7 +13,8 @@ var
 var 
     Main = require('./../components/Main'),
     Board = require('./../components/board/ProjBoard'),
-    TeamBoard = require('./../components/teams/TeamBoard');
+    Projects = require('./../components/projects/Projects'),
+    TeamBoard = require('./../components/team/TeamBoard');
 
     
 module.exports = (
@@ -24,6 +25,8 @@ module.exports = (
             <IndexRedirect to="/board" />
 
             <Route path='board' component={Board} />
+
+            <Route path='projects' component={Projects} />
 
             <Route path='team' component={TeamBoard} />
 
