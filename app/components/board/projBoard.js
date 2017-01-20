@@ -23,6 +23,15 @@ var ProjBoard = React.createClass({
                 {/* Nav */}
                 <Nav />
 
+                {/* Filter Dropdown */}
+                <ul id="dropdown-filters" className="dropdown-content">
+                    <li><a href="#!">All Tasks</a></li>
+                    <li><a href="#!">My Tasks</a></li>
+                    <li><a href="#!">Due Soon</a></li>
+                    <li className="divider"></li>
+                    <li><a href="#!">Remove Filter</a></li>
+                </ul>
+
                 {/* Board */}
                 <main>
                     <div className="main-board">
@@ -33,6 +42,7 @@ var ProjBoard = React.createClass({
                                  <a href="#!" className="dropdown-button" id="filter-icon" data-activates="dropdown-filters" data-beloworigin="true" data-hover="true"><i className="material-icons center">filter_list</i></a>
                              </div>
                         </div>
+
 
                         {/* Packery grid settings */}
                         <div className="grid">

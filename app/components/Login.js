@@ -55,7 +55,7 @@ var Login = React.createClass({
                                         <hr />
                                         <p style={{"textAlign": "center"}}>Or sign in with email:</p>
                                         <div className="input-field col s12">
-                                            <input id="email" type="text" className="validate" />
+                                            <input id="email" type="email" className="validate" />
                                             <label htmlFor="email">Email</label>
                                         </div>
                                         <div className="input-field col s12">
@@ -63,7 +63,9 @@ var Login = React.createClass({
                                             <label htmlFor="password">Password</label>
                                         </div>
                                         <div className="col s12 right-align">
-                                            <a href="#!" className="modal-action modal-close waves-effect waves-green btn btn-modal">Send Invite Email</a>
+                                            <button className="modal-action waves-effect waves-green btn btn-modal" type="submit" name="action">Submit
+                                            </button>
+                                            
                                             <a href="#!" className="modal-action modal-close waves-effect waves-green btn">Cancel</a>
                                         </div>
                                     </div>
@@ -81,7 +83,7 @@ var Login = React.createClass({
                                 <form className="col s12">
                                     <div className="row">
                                         <div className="input-field col s12">
-                                            <input id="email" type="text" className="validate" />
+                                            <input id="email" type="email" className="validate" />
                                             <label htmlFor="email">Email</label>
                                         </div>
                                         <div className="input-field col s12">
@@ -89,7 +91,8 @@ var Login = React.createClass({
                                             <label htmlFor="password">Password</label>
                                         </div>
                                         <div className="col s12 right-align">
-                                            <a href="#!" className="modal-action modal-close waves-effect waves-green btn btn-modal">Submit</a>
+                                            <button className="modal-action waves-effect waves-green btn btn-modal" type="submit" name="action">Send Invite Email
+                                            </button>
                                             <a href="#!" className="modal-action modal-close waves-effect waves-green btn">Cancel</a>
                                         </div>
                                     </div>
