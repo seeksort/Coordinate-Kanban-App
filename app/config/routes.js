@@ -11,18 +11,21 @@ var
 
 // require components to be used as Routes
 var 
+    Main = require('./../components/Main'),
     Board = require('./../components/board/ProjBoard'),
-    List = require('./../components/board/list/List'),
-    Task = require('./../components/board/list/task/Task'),
-    Task = require('./../components/board/list/task/TaskModal'),
-    TeamBoard = require('./../components/teams/TeamBoard'),
-    TeamTitle = require('./../components/teams/TeamTitle');
+    TeamBoard = require('./../components/teams/TeamBoard');
 
     
 module.exports = (
     <Router history={hashHistory}>
 
-        <Route path='/' component={Board}>
+        <Route path='/' component={Main}>
+
+            <IndexRedirect to="/board" />
+
+            <Route path='board' component={Board} />
+
+            <Route path='team' component={TeamBoard} />
 
         </Route>
 
