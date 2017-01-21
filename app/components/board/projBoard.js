@@ -43,7 +43,6 @@ var ProjBoard = React.createClass({
                              </div>
                         </div>
 
-
                         {/* Packery grid settings */}
                         <div className="grid">
                             <div className="gutter-sizer"></div>
@@ -58,6 +57,8 @@ var ProjBoard = React.createClass({
                         </div>
                     </div>
                 </main>
+
+            
             </div>
         );
     }

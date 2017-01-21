@@ -1,14 +1,29 @@
 var React = require('react'),
-    TaskModalActivity = require('./TaskModalActivity');
+    TaskModalActivity = require('./TaskModalActivity'),
+    Modal = require('react-materialize').Modal; // Modal component from react-materialize
 
 var TaskModal = React.createClass({
     render: function() {
         return(
-            <div id="modal1" className="modal task-modal">
+            <Modal
+                trigger = {
+                    <div className="task-ind">
+                    {/* Indiv Card */}
+                        <a href="#modal1">
+                            <span className="task-name">Write and test this modal</span>
+                            <div className="due-date-div">
+                                <div className="due-date-text">
+                                    <i className="material-icons">schedule</i>Jan 14
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            >
             {/* Modal - Task Modal */}
                 <div className="modal-content">
                     <div className="task-modal-title-div">
-                        <i className="material-icons right close-modal">close</i>
+
                         <div className="task-modal-title-details">
                             <p><span className="task-modal-title">Write and test this modal</span></p>
                             <p>in list <span className="task-modal-list">This is a test list</span></p>
@@ -49,9 +64,9 @@ var TaskModal = React.createClass({
 
                         </div>
                     </div>
-
                 </div>
-            </div>
+
+            </Modal>
         )
     }
 });

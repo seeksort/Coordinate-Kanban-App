@@ -1,5 +1,5 @@
 var React = require('react'),
-    Task = require('./task/Task');
+    TaskModal = require('./task/TaskModal');
 
 var List = React.createClass({
     render: function() {
@@ -14,7 +14,7 @@ var List = React.createClass({
                 </div>
                 <div className="task-group">
                     
-                    <Task />
+                    <TaskModal />
 
 
                     <div className="task-ind add-new-card">

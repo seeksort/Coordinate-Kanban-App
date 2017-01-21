@@ -1,6 +1,3 @@
-// Modal listener
-$('.modal').modal();
-
 // Detect Packery classes
 if (document.querySelector('.grid-item')) {
     // Packery intitialize

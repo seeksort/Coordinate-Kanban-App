@@ -1,5 +1,6 @@
 var React = require('react'),
-    Nav = require('./../Nav');
+    Nav = require('./../Nav'),
+    TeamModals = require('./TeamModals');
 
 var TeamBoard = React.createClass({
     componentDidMount: function() {
@@ -25,9 +26,9 @@ var TeamBoard = React.createClass({
             <main>
                 <div className="main-board container">
                     <div className="team-options">
-                        <a href="#modal1" className="waves-effect waves-light btn" id="add-member-btn">Add Team Member</a>
-                        <a href="#modal2" className="waves-effect waves-light btn" id="create-team-btn">Create New Team</a>
-                        <a href="#modal3" className="waves-effect waves-light btn delete-team-btn">Delete Team</a>
+                        
+                        <TeamModals />
+
                     </div>
 
                     <div className="team-page-title">
