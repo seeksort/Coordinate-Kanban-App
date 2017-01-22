@@ -15,7 +15,7 @@ var io = require('socket.io')(server);
 var PORT = process.env.PORT || 3000;
 
 // HTTP Port 80
-server.listen(80);
+// server.listen(80);
 
 // start logger and make public files available
 app.use(morgan('dev'));
@@ -31,6 +31,7 @@ var ObjectId = require('mongoose').Types.ObjectId,
     databaseUri = 'mongodb://localhost/kanban',
     db = mongoose.connection,
     User = require('./models/User.js'),
+    Team = require('./models/Team.js'),
     Project = require('./models/Project.js');
 
 if (process.env.MONGODB_URI) {
@@ -49,14 +50,16 @@ db.once('open', function() {
 });
 
 
-/* User Account Actions */
+/* ======== User Account Actions ======== */
 // Create new account
-app.post('/api/newuser', function(req, res) {
+app.post('/newuser', function(req, res) {
+    console.log(req.body)
     var newUser = new User({
-        user_name: req.body.name,
+        user_name: req.body.user_name,
         email: req.body.email,
         password: req.body.password
     });
+    console.log(newUser);
     // Look for user in DB, if in DB throw error, if not save to DB
     User.find({user_name: req.body.name}, function(err, docs) {
         if (err) {
@@ -82,30 +85,100 @@ app.post('/api/newuser', function(req, res) {
 
 // Log in
 
-/* Projects List Actions */
+/* ======== Projects List Actions ======== */
 // Get User Projects
 // Create Project
 // Get Project - redirect to Get - All Lists and Tasks
 
-/* Team Actions */
+/* ======== Team Actions ======== */
 // Create New Team
+app.post('/newteam', function(req,res) {
+    var newTeam = new Team({
+        team_name: req.body.team_name,
+        team_desc: req.body.team_desc
+    });
+    Team.find({team_name: req.body.team_name}, function(err, docs) {
+        if (err) {
+            console.log(err);
+            res.sendStatus(404);
+        }
+        else if (docs.length <= 0) {
+            newTeam.save(function(error, doc) {
+                if (error) {
+                    console.log(error);
+                    res.json({ success: false, message: 'Could not save to DB.'});
+                } 
+                else {
+                    res.json({ success: true, message: 'New user created.'});
+                }
+            });
+        }
+        else {
+            res.json({ success: false, message: 'User in database.'});
+        }
+    });
+})
+
 // Get Team Members
+app.post('/myteam', function(req, res) {
+    var userQuery = {"email": req.body.email};
+    console.log(userQuery);
+
+    User.findOne(userQuery, function(err, doc) {
+        if (err) {
+            console.log(err);
+        } 
+        else {
+            console.log(doc);
+            res.json(doc);
+        }
+    });
+});
+
 // Websocket
 io.on('connection', function (socket) {
     // Add Team Member - WEBSOCKET (added you to team)
-    socket.emit('add member', { message: 'member added' });
-    socket.on('add member', function (data) {
-      console.log(data);
+    socket.on('add member', function (msg) {
+        console.log(msg);
+        // Check to see if user in database, using email. if not, send user not found
+        var userQuery = {email: msg.email};
+
+        User.findOne( userQuery, function(err, user){
+            if (err) {
+                console.log(err);
+                io.emit('an error occurred');
+            }
+            else if (user) {
+                var teamQuery = {team_name: user.team_name};
+                var teamUpdate = { 
+                    $addToSet: { 
+                        non_admin_users: { 
+                            userId: user.user_name,
+                            userRole: user.role
+                        } 
+                    } 
+                };
+                Team.findOneAndUpdate( teamQuery, teamUpdate, function(err, doc) {
+                    if (err) return handleError(err);
+                    console.log('The raw response from Mongo was ', doc);
+                });       
+                io.emit('add member', {user: user.user_name})
+            }
+            else {
+                io.emit('user not found');
+            }
+        });
     });
     // Delete Team - WEBSOCKET (this team has been deleted)
     socket.emit('delete team', { message: 'team deleted' });
     socket.on('delete', function (data) {
-      console.log(data);
+        console.log(data);
     });
 });
+
 // Update Team Member (name, role, title) - WEBSOCKET (your permissions have been udpated - page refresh)
 
-/* Project Actions - certain actions (add/update member/list/task/comment) should update notifications table */
+/* ======== Project Actions - certain actions (add/update member/list/task/comment) should update notifications table ======== */
 // Create New Project - WEBSOCKET 
 // Get - All Lists and Tasks
 // Get - My Tasks
