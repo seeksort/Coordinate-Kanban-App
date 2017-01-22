@@ -4,7 +4,9 @@ var
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
-    Promise = require('bluebird');
+    Promise = require('bluebird'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
 
 mongoose.Promise = Promise;
 
@@ -14,26 +16,25 @@ var io = require('socket.io')(server);
 // Local Host or Heroku env.Port
 var PORT = process.env.PORT || 3000;
 
-// HTTP Port 80
-// server.listen(80);
-
 // start logger and make public files available
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Start Mongoose & test connection
+// Need Mongoose ObjectID type in order to search for specific model's ID
 var ObjectId = require('mongoose').Types.ObjectId,
     databaseUri = 'mongodb://localhost/kanban',
     db = mongoose.connection,
+    // Import Mongoose models for tables
     User = require('./models/User.js'),
     Team = require('./models/Team.js'),
-    Project = require('./models/Project.js');
+    Project = require('./models/Project.js'),
+    List = require('./models/List.js'),
+    Task = require('./models/Task.js');
 
+// Use either localhost or env, if in Heroku
 if (process.env.MONGODB_URI) {
     mongoose.connect(process.env.MONGODB_URI);
 } 
@@ -41,44 +42,51 @@ else {
     mongoose.connect(databaseUri);
 }
 
+// Catch Mongoose errors
 db.on('error', function(error) {
     console.log('Mongoose Error: ', error);
 });
 
+//Connect to database
 db.once('open', function() {
     console.log('Mongoose connection successful.');
 });
 
+// Passport.js authentication
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 /* ======== User Account Actions ======== */
 // Create new account
 app.post('/newuser', function(req, res) {
-    console.log(req.body)
-    var newUser = new User({
-        user_name: req.body.user_name,
-        email: req.body.email,
-        password: req.body.password
-    });
-    console.log(newUser);
+    console.log(req.body);
     // Look for user in DB, if in DB throw error, if not save to DB
-    User.find({user_name: req.body.name}, function(err, docs) {
+    User.find({username: req.body.username}, function(err, docs) {
         if (err) {
             console.log(err);
             res.sendStatus(404);
         }
-        else if (docs.length <= 0) {
-            newUser.save(function(error, doc) {
-                if (error) {
-                    console.log(error);
-                    res.json({ success: false, message: 'Could not save to DB.'});
-                } 
-                else {
-                    res.json({ success: true, message: 'New user created.'});
-                }
-            });
+        else if (docs.length > 0) {
+            console.log(docs);
+            res.json({ success: false, message: 'User in database.'});
         }
         else {
-            res.json({ success: false, message: 'User in database.'});
+            User.register(new User({
+                username: req.body.username,
+                email: req.body.email,
+            }), req.body.password, function(error, userAccount) {
+                if (error) {
+                    console.log('there was an error ' + error);
+                    return res.json({ message : 'that didn\'t work' });
+                }
+
+                passport.authenticate('local')(req, res, function () {
+                    return res.json({ message : 'that worked' });
+                });
+            });
         }
     });
 });
@@ -88,17 +96,13 @@ app.post('/newuser', function(req, res) {
 /* ======== Projects List Actions ======== */
 // Get User Projects
 // Create Project
-app.post('/newproject', function(req, res) {
-    var newProj = new Project({
-        project_name: req.body.project_name,
-        team_name: req.body.team_name
-    });
+app.post('/:team_name/newproject', function(req, res) {
     console.log(newProj);
-    // Look for Project for Teamin DB, if in DB throw error, if not, save to DB
+    // Look for Project for Team in DB, if in DB throw error, if not, save to DB
     var projQuery = { 
         $and: [
             {project_name: req.body.project_name},
-            {team_name: req.body.team_name}
+            {team_name: req.params.team_name}
         ]
     };
     Project.find( projQuery, function(err, doc) {
@@ -106,6 +110,10 @@ app.post('/newproject', function(req, res) {
             console.log(err);
         } 
         else {
+            var newProj = new Project({
+                project_name: req.body.project_name,
+                teamID: ObjectID(req.body.teamID)
+            });
             newProj.save(function(error, proj) {
                 if (error) {
                     console.log(error);
@@ -118,6 +126,7 @@ app.post('/newproject', function(req, res) {
         }
     });
 });
+
 // Get Project - redirect to Get - All Lists and Tasks
 
 /* ======== Team Actions ======== */
@@ -128,7 +137,7 @@ app.post('/newteam', function(req,res) {
         team_desc: req.body.team_desc,
         admin_users: [{ 
             userID: user._id,
-            user_name: user.user_name,
+            username: user.username,
             email: user.email,
             userRole: req.body.role
         }]
@@ -191,7 +200,7 @@ app.post('/addteammember', function(req, res){
                 $addToSet: { 
                     non_admin_users: { 
                         userID: user._id,
-                        user_name: user.user_name,
+                        username: user.username,
                         email: user.email,
                         userRole: req.body.role
                     } 
@@ -231,7 +240,7 @@ io.on('connection', function (socket) {
 // Update Team Member (name, role, title) - WEBSOCKET (your permissions have been udpated - page refresh)
 
 /* ======== Project Actions - certain actions (add/update member/list/task/comment) should update notifications table ======== */
-// Create New Project - WEBSOCKET 
+
 // Get - All Lists and Tasks
 app.post('/getprojlists', function(req,res) {
     //TODO
@@ -240,6 +249,12 @@ app.post('/getprojlists', function(req,res) {
 // Get - Due Soon
 // Get - Custom Filter - This might be a 'reach' goal.
 // Add List - WEBSOCKET
+app.post('/:team_name/:project_name/newlist', function(req, res) {
+    var newList = new List({
+        list_name: req.body.list_name,
+        project: req.body.projID
+    });
+});
 // Add Task - WEBSOCKET
 // Add Member to Task - WEBSOCKET
 // Add Tag to Task - WEBSOCKET

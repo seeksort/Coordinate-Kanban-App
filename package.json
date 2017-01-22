@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/seeksort/Coordinate-Kanban-App#readme",
   "dependencies": {
+    "axios": "^0.15.3",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
     "draggabilly": "^2.1.1",
@@ -24,6 +25,9 @@
     "mongoose": "^4.7.6",
     "morgan": "^1.7.0",
     "packery": "^2.1.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-materialize": "^0.17.7",

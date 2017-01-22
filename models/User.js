@@ -1,9 +1,9 @@
 var mongoose = require("mongoose");
-
 var Schema = mongoose.Schema;
+var passportLocalMongoose = require('passport-local-mongoose');
 
 var UserSchema = new Schema({
-  user_name: {
+  username: {
     type: String
   },
   email: {
@@ -14,12 +14,8 @@ var UserSchema = new Schema({
   }
 });
 
+UserSchema.plugin(passportLocalMongoose);
+
 var User = mongoose.model("User", UserSchema);
 
 module.exports = User;
-
-// ,
-//   teams: [{
-//     type: Schema.Types.ObjectId,
-//     ref: "Team" 
-//   }]
