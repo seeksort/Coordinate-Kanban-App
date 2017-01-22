@@ -6,10 +6,9 @@ var ProjectSchema = new Schema({
   project_name: {
     type: String
   },
-  members: [{
-    type: Schema.Types.ObjectId,
-    ref: "User" 
-  }],
+  team_name: {
+    type: String
+  },
   lists: [{
     type: Schema.Types.ObjectId,
     ref: "List" 

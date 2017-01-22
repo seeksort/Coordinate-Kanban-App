@@ -11,13 +11,15 @@ var UserSchema = new Schema({
   },
   password: {
     type: String
-  },
-  teams: [{
-    type: Schema.Types.ObjectId,
-    ref: "Team" 
-  }]
+  }
 });
 
 var User = mongoose.model("User", UserSchema);
 
 module.exports = User;
+
+// ,
+//   teams: [{
+//     type: Schema.Types.ObjectId,
+//     ref: "Team" 
+//   }]
