@@ -14,7 +14,8 @@ var UserSchema = new Schema({
   }
 });
 
-UserSchema.plugin(passportLocalMongoose);
+// Plugin to incorporate Passport-Local Mongoose into schema
+UserSchema.plugin(passportLocalMongoose, {usernameField: "email"});
 
 var User = mongoose.model("User", UserSchema);
 

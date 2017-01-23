@@ -6,6 +6,7 @@ var
     morgan = require('morgan'),
     Promise = require('bluebird'),
     passport = require('passport'),
+    session = require('express-session'),
     LocalStrategy = require('passport-local').Strategy;
 
 mongoose.Promise = Promise;
@@ -52,46 +53,59 @@ db.once('open', function() {
     console.log('Mongoose connection successful.');
 });
 
-// Passport.js authentication
+// Passport.js passport-local-mongoose authentication
+app.use(session({
+  secret: 'turn around bright eyes',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 /* ======== User Account Actions ======== */
 // Create new account
-app.post('/newuser', function(req, res) {
+app.post('/newuser', function(req, res, next) {
     console.log(req.body);
-    // Look for user in DB, if in DB throw error, if not save to DB
-    User.find({username: req.body.username}, function(err, docs) {
-        if (err) {
-            console.log(err);
-            res.sendStatus(404);
+    // Passport-Local Mongoose function; will create new user, hash the password (2nd argument) and store username, email, hashed pw, and pw salt in DB
+    User.register(new User({
+        username: req.body.username,
+        email: req.body.email,
+    }), req.body.password, function(error, userAccount) {
+        if (error) {
+            console.log('there was an error ' + error);
+            return res.json({ message : 'there was an error' });
         }
-        else if (docs.length > 0) {
-            console.log(docs);
-            res.json({ success: false, message: 'User in database.'});
-        }
-        else {
-            User.register(new User({
-                username: req.body.username,
-                email: req.body.email,
-            }), req.body.password, function(error, userAccount) {
-                if (error) {
-                    console.log('there was an error ' + error);
-                    return res.json({ message : 'that didn\'t work' });
+        // After account created, authenticate user
+        passport.authenticate('local')(req, res, function () {
+            req.session.save(function(err) {
+                if (err) {
+                    return next(err);
                 }
-
-                passport.authenticate('local')(req, res, function () {
-                    return res.json({ message : 'that worked' });
-                });
-            });
-        }
+                //TODO how to redirect to boards page via react-router?
+                return res.json({ message : 'account created.' });
+            })
+        });
     });
 });
 
-// Log in
+// Log in - if fail flash fail msg and redirect to login page
+app.post('/userlogin', function(req, res, next) {
+    console.log(req.body);
+    passport.authenticate('local')(req, res, function () {
+        req.session.save(function(err) {
+            if (err) {
+                return next(err);
+            }
+            //TODO how to redirect to boards page via react-router?
+            return res.json({ message : 'login successful.' });
+        });
+    })
+});
+
 
 /* ======== Projects List Actions ======== */
 // Get User Projects
