@@ -6,11 +6,7 @@ var ListSchema = new Schema({
   list_name: {
     type: String
   },
-  tasks: [{
-    type: Schema.Types.ObjectId,
-    ref: "Task" 
-  }],
-  project: {
+  projectID: {
     type: Schema.Types.ObjectId,
     ref: "Project" 
   }

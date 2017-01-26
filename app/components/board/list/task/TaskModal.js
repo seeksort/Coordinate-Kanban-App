@@ -2,6 +2,10 @@ var React = require('react'),
     TaskModalActivity = require('./TaskModalActivity'),
     Modal = require('react-materialize').Modal; // Modal component from react-materialize
 
+Modal.defaultProps = {
+    actions: false
+};
+
 var TaskModal = React.createClass({
     render: function() {
         return(

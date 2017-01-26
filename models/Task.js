@@ -13,17 +13,17 @@ var TaskSchema = new Schema({
     type: String
   }],
   comments: [
-    userID {
-      type: Schema.Types.ObjectId,
-      ref: "User" 
-    },
-    text: {
-      type: String
-    },
-    comment_date: { 
-      type: Date,
-      default: Date.now 
-    },
+    {userID: {
+          type: Schema.Types.ObjectId,
+          ref: "User" 
+    }},
+    {text: {
+          type: String
+    }},
+    {comment_date: { 
+          type: Date,
+          default: Date.now 
+    }},
   ],
   due_date: { 
     type: Date,
@@ -32,10 +32,6 @@ var TaskSchema = new Schema({
   list: {
     type: Schema.Types.ObjectId,
     ref: "List" 
-  },
-  project: {
-    type: Schema.Types.ObjectId,
-    ref: "Project" 
   }
 });
 

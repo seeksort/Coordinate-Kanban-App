@@ -1,7 +1,11 @@
 var React = require('react'),
     Nav = require('./../Nav'),
     List = require('./list/List'),
-    AddList = require('./AddList');
+    Modal = require('react-materialize').Modal; // Modal component from react-materialize;
+
+Modal.defaultProps = {
+    actions: false
+};
 
 var ProjBoard = React.createClass({
     componentDidMount: function() {
@@ -37,9 +41,40 @@ var ProjBoard = React.createClass({
                     <div className="main-board">
 
                         {/* Filter */}
-                        <div className="filter-div">
-                             <div id="filter-icon-div">
+                        <div className="proj-buttons-div">
+                             <div className="proj-buttons-inner">
                                  <a href="#!" className="dropdown-button" id="filter-icon" data-activates="dropdown-filters" data-beloworigin="true" data-hover="true"><i className="material-icons center">filter_list</i></a>
+                             </div>
+
+                            {/* Add a List */}
+                             <div className="proj-buttons-inner">
+                                <Modal
+                                    trigger={
+                                        <a href="#modal1" className="tooltipped" data-delay="50" data-tooltip="Add a List"><i className="material-icons center">add</i></a>
+                                    }
+                                >
+
+                                    <div className="modal-content">
+                                        <h4>Add a List</h4>
+                                        <div className="row">
+                                            {/* FORM WITH POST */}
+                                            <form className="col s12" onSubmit={this.handleSubmit}>
+                                                <div className="row">
+                                                    <div className="input-field col s12">
+                                                        <input id="list-name" type="text" className="validate" />
+                                                        <label htmlFor="list-name">List Name</label>
+                                                    </div>
+                                                    <div className="col s12 right-align">
+                                                        <a href="#!" className="modal-action modal-close waves-effect waves-green btn btn-modal">Save</a>
+                                                        <a href="#!" className="modal-action modal-close waves-effect waves-green btn">Cancel</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </Modal>
+
                              </div>
                         </div>
 
@@ -50,9 +85,6 @@ var ProjBoard = React.createClass({
 
                             {/* List Component */}
                             <List />
-                            
-                            {/* AddList Component */}
-                            <AddList />
 
                         </div>
                     </div>

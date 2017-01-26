@@ -1,6 +1,10 @@
 var React = require('react'),
     Modal = require('react-materialize').Modal; // Modal component from react-materialize;
 
+Modal.defaultProps = {
+    actions: false
+};
+
 var LoginModal = React.createClass({
     render: function(){
         return (

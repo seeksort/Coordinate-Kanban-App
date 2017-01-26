@@ -199,22 +199,24 @@ nav {
     margin: 0 auto;
 }
 /* ========== Filter ========== */
-.filter-div {
+.proj-buttons-div {
     display: block;
     height: 40px;
     width: 95%;
     margin: 10px auto;
 }
-#filter-icon-div {
+.proj-buttons-inner {
+    display: inline-block;
     border-radius: 50px;
     background-color: #5c6bc0;
     color: #FFF;
     height: 40px;
     width: 40px;
+    margin: 2px;
     padding-top: 8px;
     text-align: center;
 }
-#filter-icon {
+.proj-buttons-inner > a {
     color: #FFF;
 }
 /* ========== List ========== */

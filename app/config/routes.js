@@ -13,7 +13,7 @@ var
 var 
     Main = require('./../components/Main'),
     Board = require('./../components/board/ProjBoard'),
-    Login = require('./../components/Login'),
+    Login = require('./../components/login/Login'),
     Projects = require('./../components/projects/Projects'),
     TeamBoard = require('./../components/team/TeamBoard');
 

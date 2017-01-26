@@ -66,6 +66,11 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+/* ======== Default Route ======== */
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
 /* ======== User Account Actions ======== */
 // Create new account
 app.post('/newuser', function(req, res, next) {
@@ -85,14 +90,13 @@ app.post('/newuser', function(req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                //TODO how to redirect to boards page via react-router?
-                return res.json({ message : 'account created.' });
+                return res.redirect('/');
             })
         });
     });
 });
 
-// Log in - if fail flash fail msg and redirect to login page
+// Log in - if fail redirect to login page
 app.post('/userlogin', function(req, res, next) {
     console.log(req.body);
     passport.authenticate('local')(req, res, function () {
@@ -100,8 +104,7 @@ app.post('/userlogin', function(req, res, next) {
             if (err) {
                 return next(err);
             }
-            //TODO how to redirect to boards page via react-router?
-            return res.json({ message : 'login successful.' });
+            return res.redirect('/');
         });
     })
 });

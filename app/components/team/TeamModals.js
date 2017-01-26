@@ -1,7 +1,24 @@
 var React = require('react'),
+    helpers = require('./../utils/helpers'),
     Modal = require('react-materialize').Modal; // Modal component from react-materialize;
 
+Modal.defaultProps = {
+    actions: false
+};
+
+// var socket = io.connect();
+
 var TeamModals = React.createClass({
+    getInitialState: function() {
+        return { term: "" };
+    },
+    componentDidMount: function() {
+        socket.on('add message', this.notification);
+    },
+    handleSubmit: function(event) {
+        // TODO
+    },
+
     render: function() {
         return (
             <div>
@@ -16,7 +33,7 @@ var TeamModals = React.createClass({
                         <h4>Add a Team Member</h4>
                         <div className="row">
                             {/* FORM WITH POST */}
-                            <form className="col s12">
+                            <form className="col s12" onSubmit={this.handleSubmit}>
                                 <div className="row">
                                     <div className="input-field col s12">
                                         <input id="name" type="text" className="validate" />
@@ -108,13 +125,13 @@ var TeamModals = React.createClass({
                                         <a href="#!" className="modal-action modal-close waves-effect waves-green btn delete-team-btn">Delete Team</a>
                                         <a href="#!" className="modal-action modal-close waves-effect waves-green btn">Cancel</a>
                                     </div>
-
                                 </div>
                             </form>
                         </div>
                     </div>
 
                 </Modal>
+
             </div>
         )
     }

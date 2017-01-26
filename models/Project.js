@@ -6,13 +6,10 @@ var ProjectSchema = new Schema({
   project_name: {
     type: String
   },
-  team_name: {
-    type: String
-  },
-  lists: [{
+  teamID: {
     type: Schema.Types.ObjectId,
-    ref: "List" 
-  }]
+    ref: "Team" 
+  }
 });
 
 var Project = mongoose.model("Project", ProjectSchema);
