@@ -1,5 +1,6 @@
 var React = require('react'),
     TaskModalActivity = require('./TaskModalActivity'),
+    GithubPicker = require('react-color').GithubPicker,
     Modal = require('react-materialize').Modal; // Modal component from react-materialize
 
 Modal.defaultProps = {
@@ -7,7 +8,32 @@ Modal.defaultProps = {
 };
 
 var TaskModal = React.createClass({
+    getInitialState: function() {
+        return {
+            displayColorPicker: false,
+            
+        }
+    },
+    handleClick: function() {
+        this.setState({displayColorPicker: !this.displayColorPicker});
+    },
+    handleClose: function() {
+        this.setState({ displayColorPicker: false });
+    },
+
     render: function() {
+        var popover = {
+            position: 'absolute',
+            right: '5px',
+            zIndex: '2'
+        }
+        var cover = {
+            position: 'fixed',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            left: '0px'
+        }
         return(
             <Modal
                 trigger = {
@@ -27,7 +53,6 @@ var TaskModal = React.createClass({
             {/* Modal - Task Modal */}
                 <div className="modal-content">
                     <div className="task-modal-title-div">
-
                         <div className="task-modal-title-details">
                             <p><span className="task-modal-title">Write and test this modal</span></p>
                             <p>in list <span className="task-modal-list">This is a test list</span></p>
@@ -35,8 +60,16 @@ var TaskModal = React.createClass({
                     </div>
                     <div className="task-modal-sidebar right">
                         <div className="modal-heading-first">Add</div>
-                        <a href="#modal1" className="waves-effect waves-light btn">Tags</a>
-                        <a href="#modal1" className="waves-effect waves-light btn">Due Date</a>
+                        <div>
+                            <a className="waves-effect waves-light btn" onClick={this.handleClick}>Tags</a>
+                            { this.state.displayColorPicker ? <div style={ popover }>
+                              <div style={ cover } onClick={ this.handleClose }/>
+                              <GithubPicker
+                                width='138px'
+                               />
+                            </div> : null }
+                        </div>
+                        <a className="waves-effect waves-light btn">Due Date</a>
                     </div>
                     <div className="task-modal-content">
                         <div className="task-modal-content-details">
@@ -55,7 +88,7 @@ var TaskModal = React.createClass({
                                 <span className="comment-user-pic team-member-icon"><img src="yuna.jpg" /></span>
                                 <div className="comment-box-div">
                                     <textarea id="textarea1" cols="45"></textarea>
-                                <a href="#modal1" className="waves-effect waves-light btn">Submit</a>
+                                <a href="" className="waves-effect waves-light btn">Submit</a>
                                 </div>
                             </div>
                         </div>
