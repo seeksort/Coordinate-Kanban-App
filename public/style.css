@@ -69,6 +69,7 @@ textarea {
 .modal {
     width: 60%;
     min-width: 450px;
+    max-height: 100%;
 }
 .btn-modal {
     background-color: #5c6bc0;
@@ -303,7 +304,6 @@ div.task-ind.add-new-card:hover {
 }
 /* ========== Task Modal ========== */
 .task-modal {
-    width: 60%;
     min-width: 450px;
     border-radius: 3px;
     background-color: #C3C7E5;
@@ -317,7 +317,7 @@ div.task-ind.add-new-card:hover {
 }
 .task-modal-title-div,
 .task-modal-content-details,
-.task-modal-tags-div,
+.task-modal-date-div,
 .task-modal-description,
 .task-modal-comment,
 .comment-title,
@@ -350,23 +350,23 @@ div.task-ind.add-new-card:hover {
     color: gray;
     font-style: italic;
 }
-.task-modal-tags-div>p,
-.task-modal-tags-div>div {
+.task-modal-date-div>p,
+.task-modal-date-div>div {
     margin: 1px;
     display: inline-block;
 }
-.task-modal-tag {
+/*.task-modal-tag {
     height: 18px;
     width: 18px;
     border-radius: 3px;
-}
+}*/
 .task-modal-content {
     width: 80%;
 }
-.task-modal-sidebar {
+/*.task-modal-sidebar {
     display: inline-block;
     width: 19%;
-}
+}*/
 .comment-details {
     margin: 2px;
     padding: 0 10px;

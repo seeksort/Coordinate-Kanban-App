@@ -1,6 +1,5 @@
 var React = require('react'),
     TaskModalActivity = require('./TaskModalActivity'),
-    GithubPicker = require('react-color').GithubPicker,
     Modal = require('react-materialize').Modal; // Modal component from react-materialize
 
 Modal.defaultProps = {
@@ -8,32 +7,20 @@ Modal.defaultProps = {
 };
 
 var TaskModal = React.createClass({
-    getInitialState: function() {
-        return {
-            displayColorPicker: false,
-            
-        }
+    componentDidMount: function() {
+        $('.datepicker').pickadate({
+            selectMonths: true,
+            selectYears: 15
+          });
     },
     handleClick: function() {
-        this.setState({displayColorPicker: !this.displayColorPicker});
+        return {}
     },
     handleClose: function() {
-        this.setState({ displayColorPicker: false });
+        return {}
     },
 
     render: function() {
-        var popover = {
-            position: 'absolute',
-            right: '5px',
-            zIndex: '2'
-        }
-        var cover = {
-            position: 'fixed',
-            top: '0px',
-            right: '0px',
-            bottom: '0px',
-            left: '0px'
-        }
         return(
             <Modal
                 trigger = {
@@ -51,32 +38,18 @@ var TaskModal = React.createClass({
                 }
             >
             {/* Modal - Task Modal */}
-                <div className="modal-content">
+
                     <div className="task-modal-title-div">
                         <div className="task-modal-title-details">
                             <p><span className="task-modal-title">Write and test this modal</span></p>
                             <p>in list <span className="task-modal-list">This is a test list</span></p>
                         </div>
                     </div>
-                    <div className="task-modal-sidebar right">
-                        <div className="modal-heading-first">Add</div>
-                        <div>
-                            <a className="waves-effect waves-light btn" onClick={this.handleClick}>Tags</a>
-                            { this.state.displayColorPicker ? <div style={ popover }>
-                              <div style={ cover } onClick={ this.handleClose }/>
-                              <GithubPicker
-                                width='138px'
-                               />
-                            </div> : null }
-                        </div>
-                        <a className="waves-effect waves-light btn">Due Date</a>
-                    </div>
                     <div className="task-modal-content">
                         <div className="task-modal-content-details">
-                            <div className="task-modal-tags-div">
-                                <p className="modal-heading-second">Tags:</p>
-                                <div className="task-modal-tag" style={{"backgroundColor": "blue"}}></div>
-                                <div className="task-modal-tag" style={{"backgroundColor": "red"}}></div>
+                            <div className="task-modal-date-div">
+                                <p className="modal-heading-second">Due Date:</p>
+                                <input type="date" className="datepicker" />
                             </div>
                             <div className="task-modal-description">
                                 <p className="modal-heading-second">Description</p>
@@ -101,7 +74,7 @@ var TaskModal = React.createClass({
 
                         </div>
                     </div>
-                </div>
+
 
             </Modal>
         )
