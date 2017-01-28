@@ -7,6 +7,9 @@ Modal.defaultProps = {
 };
 
 var TeamRow = React.createClass({
+    handleRemoveMember: function(event) {
+        this.props.memberRemove(event.target.id);
+    },
     render: function () {
         return (
 
@@ -30,7 +33,11 @@ var TeamRow = React.createClass({
                           </select>
                     </div>
                     <div>
-                        <a className="waves-effect waves-light btn">Remove Member</a>
+                        <a 
+                            className="waves-effect waves-light btn" 
+                            id="member name"
+                            onClick={this.handleRemoveMember}>Remove Member
+                        </a>
                     </div>
                 </div>
             </div>

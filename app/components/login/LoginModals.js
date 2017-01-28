@@ -18,8 +18,10 @@ var LoginModal = React.createClass({
                 >
 
                     <div className="modal-content">
+                        <i className="material-icons right modal-close">close</i>
                         <h4>Log In</h4>
                         <div className="row center-align">
+                        {/* TODO - Configure Log In */}
                             <div className="col s12 g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
                             <a href="#modal2" className="waves-effect waves-light btn btn-modal">Placeholder Google Sign In</a>
                         </div>
@@ -60,6 +62,7 @@ var LoginModal = React.createClass({
                 >
 
                     <div className="modal-content">
+                        <i className="material-icons right modal-close">close</i>
                         <h4>Sign Up</h4>
                         <div className="row">
                             {/* FORM WITH POST */}

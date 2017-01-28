@@ -9,15 +9,22 @@ Modal.defaultProps = {
 
 var ProjBoard = React.createClass({
     componentDidMount: function() {
-        if (document.querySelector('#main-script')) {
-            var replaceScr = document.querySelector('#main-script');
-            replaceScr.remove();
-        }
-        var script = document.createElement("script");
-        script.id = "main-script";
-        script.src = "./../public/script.js";
-        script.async = true;
-        document.body.appendChild(script);
+        // Packery intitialize
+        var elem = document.querySelector('.grid');
+        var pckry = new Packery(elem, {
+            // options
+            columnWidth: '.grid-sizer',
+            gutter: '.gutter-sizer',
+            itemSelector: '.grid-item',
+            percentPosition: true,
+            fitWidth: false
+        });
+        // Packery + Draggabilly
+        // Drag Lists
+        pckry.getItemElements().forEach(function(itemElem) {
+            var draggie = new Draggabilly(itemElem);
+            pckry.bindDraggabillyEvents(draggie);
+        });
     },
 
     render: function() {
@@ -86,10 +93,13 @@ var ProjBoard = React.createClass({
                             {/* List Component */}
                             <List />
 
+                            <List />
+
+                            <List />
+
                         </div>
                     </div>
                 </main>
-
             
             </div>
         );

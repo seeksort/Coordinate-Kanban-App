@@ -1,4 +1,7 @@
 /* ========== Main ========== */
+body {
+    background-color: #fffde7;
+}
 #home-page {
     background-color: #5c6bc0;
     display: flex;
@@ -299,8 +302,8 @@ div.task-ind.add-new-card:hover {
 .create-proj:hover {
     background-color: #ADB1CC;
 }
-.create-proj>div>h5>a:hover {
-    color: #000;
+.create-proj>.task-title>h5>a {
+    color: #5c6bc0;
 }
 /* ========== Task Modal ========== */
 .task-modal {
@@ -314,10 +317,13 @@ div.task-ind.add-new-card:hover {
 }
 .modal-heading-second {
     font-weight: bold;
+    margin: 1px;
+    padding: 1px;
+    display: inline-block;
 }
 .task-modal-title-div,
 .task-modal-content-details,
-.task-modal-date-div,
+.task-modal-ppl-date,
 .task-modal-description,
 .task-modal-comment,
 .comment-title,
@@ -329,7 +335,7 @@ div.task-ind.add-new-card:hover {
 }
 .task-modal-content,
 .task-modal-sidebar,
-.close-modal,
+.modal-close,
 .task-modal-title-details,
 .comment-user-pic,
 .comment-box-div,
@@ -349,11 +355,6 @@ div.task-ind.add-new-card:hover {
 .task-modal-list{
     color: gray;
     font-style: italic;
-}
-.task-modal-date-div>p,
-.task-modal-date-div>div {
-    margin: 1px;
-    display: inline-block;
 }
 /*.task-modal-tag {
     height: 18px;

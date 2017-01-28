@@ -1,22 +1,26 @@
 var React = require('react'),
     Nav = require('./../Nav'),
     TeamModals = require('./TeamModals'),
-    TeamRow = require('./TeamRow');
+    TeamRow = require('./TeamRow'),
+    Modal = require('react-materialize').Modal; // Modal component from react-materialize;
 
 var TeamBoard = React.createClass({
     getInitialState: function() {
         return { team_name: '', team_desc: '', team_members: [], admin_members: [] };
     },
+    setParent: function(member) { 
+        //
+    },
+    componentDidUpdate: function(prevProps, prevState){
+        // 
+    },
+    memberRemove: function(member) {
+        if(window.confirm("Do you really want to remove " + member + " from the team?")){
+            console.log(member);
+        };
+    },
     componentDidMount: function() {
-        if (document.querySelector('#main-script')) {
-            var replaceScr = document.querySelector('#main-script');
-            replaceScr.remove();
-        }
-        var script = document.createElement("script");
-        script.id = "main-script";
-        script.src = "./../public/script.js";
-        script.async = true;
-        document.body.appendChild(script);
+        //
     },
     
     render: function() {
@@ -43,10 +47,8 @@ var TeamBoard = React.createClass({
                             <div className="team-list">
                                 <div className="team-member-filler"></div>
                                 
-                                <TeamRow />
+                                <TeamRow memberRemove={this.memberRemove}/>
 
-
-                                
                             </div>
                         </div>
                     </div>

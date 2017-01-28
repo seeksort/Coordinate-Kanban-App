@@ -13,7 +13,7 @@ var TeamModals = React.createClass({
         return { term: "" };
     },
     componentDidMount: function() {
-        socket.on('add message', this.notification);
+        //socket.on('add message', this.notification);
     },
     handleSubmit: function(event) {
         // TODO
@@ -129,12 +129,9 @@ var TeamModals = React.createClass({
                             </form>
                         </div>
                     </div>
-
                 </Modal>
-
             </div>
         )
     }
 });
-
 module.exports = TeamModals;

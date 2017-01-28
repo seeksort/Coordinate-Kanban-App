@@ -1,6 +1,10 @@
 var React = require('react');
 
 var Nav = React.createClass({
+    componentDidMount: function() {
+        $(".button-collapse").sideNav();
+        $('.dropdown-button').dropdown();
+    },
     render: function(){
         return (
             <div>
@@ -29,7 +33,7 @@ var Nav = React.createClass({
                     <nav>
                         <div className="nav-wrapper">
                             {/* Normal Nav */} 
-                            <a href="#" className="brand-logo center">Co-ord-in-ate!</a>
+                            <a href="#/team" className="brand-logo center">Co-ord-in-ate!</a>
                             <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                             <ul className="left hide-on-med-and-down">
                                 {/* Search Bar */}
@@ -46,10 +50,10 @@ var Nav = React.createClass({
                             {/* Top Right Nav */} 
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
                                 <li>
-                                    <a href="#"><i className="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team">people</i></a>
+                                    <a href="#/team"><i className="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team">people</i></a>
                                 </li>
                                 <li>
-                                    <a href="#" className="dropdown-button" data-activates="dropdown-projects" data-beloworigin="true" data-hover="true"><i className="material-icons">developer_board</i></a>
+                                    <a href="#/projects" className="dropdown-button" data-activates="dropdown-projects" data-beloworigin="true" data-hover="true"><i className="material-icons">developer_board</i></a>
                                 </li>
                                 <li>
                                     <a href="#" className="dropdown-button" data-activates="dropdown-notifications" data-beloworigin="true" data-hover="true"><i className="material-icons">notifications</i></a>
