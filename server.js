@@ -122,25 +122,36 @@ app.post('/userlogin', function(req, res, next) {
 app.post('/:userid/:team_name/newproject', function(req, res) {
     // Look for Project for Team in DB, if in DB throw error, if not, save to DB
     // console.log(req.session.cookie.user);
-    Team.findOne({team_name: req.params.team_name}, function(error, doc) {
+    var teamQuery = {team_name: {
+        $regex: new RegExp('^' + req.params.team_name, 'i')
+    }}
+
+    Team.findOne(teamQuery, function(error, team) {
         if (error) {
             console.log(err);
         } 
+        else if (team <= 0) {
+            res.json({ success: false, message: 'Team is not in database.'});
+        }
         else {
             var projQuery = { 
                 $and: [
                     {project_name: req.body.project_name},
-                    {team_name: req.params.team_name}
+                    {team_name: team._id}
                 ]
             };
-            Project.find( projQuery, function(err, doc) {
+            // ensure project is not in DB and assoc w/ team
+            Project.find(projQuery, function(err, doc) {
                 if (err) {
                     console.log(err);
                 } 
-                else {
+                else if (doc > 0) {
+                    console.log(error);
+                    res.json({ success: false, message: 'This team already has a project with that name.'});
+                } else {
                     var newProj = new Project({
                         project_name: req.body.project_name,
-                        teamID: ObjectId(doc._id)
+                        teamID: ObjectId(team._id)
                     });
                     newProj.save(function(error, proj) {
                         if (error) {
@@ -163,7 +174,8 @@ app.post('/:userid/:team_name/newproject', function(req, res) {
 // Create New Team, set creating user as default admin
 app.post('/:userid/newteam', function(req,res) {
     console.log(req.params.userid)
-    User.findOne({_id: ObjectId(req.params.userid)}, function(error, doc) {
+    var userQuery = {_id: ObjectId(req.params.userid)}
+    User.findOne(userQuery, function(error, doc) {
         var newTeam = new Team({
             team_name: req.body.team_name,
             team_desc: req.body.team_desc,
@@ -174,7 +186,8 @@ app.post('/:userid/newteam', function(req,res) {
                 userRole: "Team Creator"
             }]
         });
-        Team.find({team_name: req.body.team_name}, function(err, docs) {
+        var teamQuery = {team_name: req.body.team_name}
+        Team.find(teamQuery, function(err, docs) {
             if (err) {
                 console.log(err);
                 res.sendStatus(404);
@@ -217,7 +230,7 @@ app.post('/myteam', function(req, res) {
 // Add Team Member - TEMP, will add websocket later
 app.post('/:team_name/addteammember', function(req, res){
     // Check to see if user in database, using email. if not, send user not found
-    var userQuery = {"email": {
+    var userQuery = {email: {
         $regex: new RegExp('^' + req.body.email, 'i')
     }};
 
@@ -288,22 +301,83 @@ app.post('/getprojlists', function(req,res) {
 // Get - Custom Filter - This might be a 'reach' goal.
 // Add List - WEBSOCKET
 app.post('/:team_name/:project_name/newlist', function(req, res) {
-    var newList = new List({
-        list_name: req.body.list_name,
-        project: req.body.projID
+    var teamQuery = {team_name: {
+        $regex: new RegExp('^' + req.params.team_name, 'i')
+    }};
+    Team.findOne(teamQuery, function(error, team){
+        if (error) {
+            console.log(error);
+            res.send({'message': 'an error occurred'});
+        }
+        else if (team <= 0) {
+            res.send({'message': 'team not found'});
+        }
+        else {
+            // Remove dashes from project_name param and replace w/ space for regex search
+            var cleanProjName = req.params.project_name.split('-').join(' ');
+            var projQuery = { project_name: { 
+                $regex: new RegExp('^' + cleanProjName, 'i') 
+            }}
+            var projectQuery = {
+                $and: [
+                    projQuery,
+                    { teamID: ObjectId(team._id) }
+                ] 
+            };
+            Project.findOne(projectQuery, function(err, project){
+                if (err) {
+                    console.log(err);
+                    res.send({'message': 'an error occurred'});
+                }
+                else if (project <= 0) {
+                    res.send({'message': 'project not found'});
+                }
+                else {
+                    var newList = new List({
+                        list_name: req.body.list_name,
+                        projectID: ObjectId(project._id)
+                    });
+                    newList.save(function(err, list) {
+                        if (err) {
+                            console.log(err);
+                            res.json({ success: false, message: 'Could not save to DB.'});
+                        } 
+                        else {
+                            res.json({ success: true, message: 'New list created.'});
+                        }
+                    });
+                }
+            });   
+        }
     });
 });
-// Add Task - WEBSOCKET
+// Add Task (user can have more than one task w/ same title, diff _id) - WEBSOCKET
+app.post('/:listid/newtask', function(req, res) {
+    var newTask = new Task({
+        task_name: req.body.task_name,
+        list: ObjectId(req.params.listid)
+    });
+    newTask.save(function(err, task) {
+        if (err) {
+            console.log(err);
+            res.json({ success: false, message: 'Could not save to DB.'});
+        }
+        else {
+            res.json({ success: true, message: 'New task created.'});
+        }
+    })
+});
+
 // Add Member to Task - WEBSOCKET
-// Add Tag to Task - WEBSOCKET
 // Add Comment to Task - WEBSOCKET
+app.post('', function(req, res) {
+
+});
 // Update List - WEBSOCKET
 // Update Task - WEBSOCKET
-// Update Tag - WEBSOCKET
 // Update Comment - WEBSOCKET
 // Delete List - WEBSOCKET
 // Delete Task - WEBSOCKET
-// Delete Tag - WEBSOCKET
 // Delete Comment - WEBSOCKET
 
 
