@@ -300,6 +300,7 @@ app.post('/getprojlists', function(req,res) {
 // Get - My Tasks
 // Get - Due Soon
 // Get - Custom Filter - This might be a 'reach' goal.
+
 // Add List - WEBSOCKET
 app.post('/:team_name/:project_name/newlist', function(req, res) {
     var teamQuery = {team_name: {
@@ -394,8 +395,9 @@ app.post('/:taskid/addmember', function(req, res) {
                     console.log(err);
                     res.send({'message': 'there was an error'});
                 }
-                else if (doc <= 0)
+                else if (doc <= 0) {
                     res.send({'message': 'task not found'});
+                }
                 else {
                     res.send({'message': 'success'});
                 }
@@ -432,8 +434,9 @@ app.post('/:taskid/addcomment', function(req, res) {
                     console.log(err);
                     res.send({'message': 'there was an error'});
                 }
-                else if (doc <= 0)
+                else if (doc <= 0) {
                     res.send({'message': 'task not found'});
+                }
                 else {
                     res.send({'message': 'success'});
                 }
@@ -454,20 +457,139 @@ app.post('/:taskid/desc', function(req, res) {
             console.log(err);
             res.send({'message': 'there was an error'});
         }
-        else if (doc <= 0)
+        else if (doc <= 0) {
             res.send({'message': 'task not found'});
+        }
         else {
             res.send({'message': 'success'});
         }
     });
 });
 // Update List - WEBSOCKET
+app.post('/:listid/listupdate', function(req, res) {
+    var listQuery = { _id: ObjectId(req.params.listid) }
+    var update = {
+        $set: {
+            list_name: req.body.title
+        }
+    }
+    List.findOneAndUpdate(listQuery, update, function(err, doc) {
+        if (err) {
+            console.log(err);
+            res.send({'message': 'there was an error'});
+        }
+        else if (doc <= 0) {
+            res.send({'message': 'list not found'});
+        }
+        else {
+            res.send({'message': 'success'});
+        }
+    });
+});
 // Update Task - WEBSOCKET
-// Delete List - WEBSOCKET
-// Delete Task - WEBSOCKET
+app.post('/:taskid/taskupdate', function(req, res) {
+    var updateObj;
+    var title = req.body.field.toString();
+    // query can update either task_name or description
+    if (title === "task_name") {
+        updateObj = {task_name: req.body.text}
+    }
+    else {
+        updateObj = {description: req.body.text}
+    }
+    var taskQuery = { _id: ObjectId(req.params.taskid) }
+    var update = {
+        $set: updateObj
+    }
+    Task.findOneAndUpdate(taskQuery, update, function(err, doc) {
+        if (err) {
+            console.log(err);
+            res.send({'message': 'there was an error'});
+        }
+        else if (doc <= 0) {
+            res.send({'message': 'task not found'});
+        }
+        else {
+            res.send({'message': 'success'});
+        }
+    });
+});
 // Remove Member from Task - WEBSOCKET
+app.post('/:taskid/removemember', function(req, res) {
+    var userQuery = { username: req.body.username }
+    User.findOne(userQuery, function(err, user){
+        if (err) {
+            console.log(err);
+            res.json({'message': 'an error occurred'});
+        }
+        else if (user <= 0) {
+            res.send({'message': 'user not found'});
+        }
+        else {
+            var taskQuery = { _id: ObjectId(req.params.taskid) }
+            var updateMember = {
+                $pull: {
+                    assigned: {
+                        userID: ObjectId(user._id)
+                    }
+                }
+            }
+            Task.findOneAndUpdate(taskQuery, updateMember, function(err, doc) {
+                if (err) {
+                    console.log(err);
+                    res.send({'message': 'there was an error'});
+                }
+                else if (doc <= 0) {
+                    res.send({'message': 'task not found'});
+                }
+                else {
+                    res.send({'message': 'success'});
+                }
+            });
+            
+        }
+    });
+});
+// Delete List - WEBSOCKET
+app.post('/:listid/removelist', function(req, res) {
+    var listQuery = {
+        _id: ObjectId(req.params.listid)
+    }
+    List.remove(listQuery, function(err, obj) {
+        if (err) {
+            console.log(err);
+            res.send({'message': 'there was an error'});
+        } 
+        else if (obj.result.n === 0) {
+            res.send({'message': 'the list was not found'})
+        }
+        else {
+            res.send({'message': 'success'});
+        }
+    })
+});
+// Delete Task - WEBSOCKET
+app.post('/:taskid/removetask', function(req, res) {
+    var listQuery = {
+        _id: ObjectId(req.params.taskid)
+    }
+    Task.remove(listQuery, function(err, obj) {
+        if (err) {
+            console.log(err);
+            res.send({'message': 'there was an error'});
+        } 
+        else if (obj.result.n === 0) {
+            res.send({'message': 'the task was not found'})
+        }
+        else {
+            res.send({'message': 'success'});
+        }
+    })
+});
+// Add Due Date - WEBSOCKET
+// Update Due Date
 
-
+// Turn on server
 app.listen(PORT, function() {
     console.log('Server now listening on port ' + PORT);
 });
