@@ -7,6 +7,7 @@ var
     Promise = require('bluebird'),
     passport = require('passport'),
     session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
     LocalStrategy = require('passport-local').Strategy;
 
 mongoose.Promise = Promise;
@@ -24,7 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Start Mongoose & test connection
-// Need Mongoose ObjectID type in order to search for specific model's ID
+// Need Mongoose ObjectId type in order to search for specific model's ID
 var ObjectId = require('mongoose').Types.ObjectId,
     databaseUri = 'mongodb://localhost/kanban',
     db = mongoose.connection,
@@ -56,9 +57,15 @@ db.once('open', function() {
 // Passport.js passport-local-mongoose authentication
 app.use(session({
   secret: 'turn around bright eyes',
+  store: new MongoStore({
+    mongooseConnection: db,
+  }),
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
+  cookie: { 
+    maxAge: 60000,
+    secure: true 
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -98,7 +105,6 @@ app.post('/newuser', function(req, res, next) {
 
 // Log in - if fail redirect to login page
 app.post('/userlogin', function(req, res, next) {
-    console.log(req.body);
     passport.authenticate('local')(req, res, function () {
         req.session.save(function(err) {
             if (err) {
@@ -113,31 +119,38 @@ app.post('/userlogin', function(req, res, next) {
 /* ======== Projects List Actions ======== */
 // Get User Projects
 // Create Project
-app.post('/:team_name/newproject', function(req, res) {
-    console.log(newProj);
+app.post('/:userid/:team_name/newproject', function(req, res) {
     // Look for Project for Team in DB, if in DB throw error, if not, save to DB
-    var projQuery = { 
-        $and: [
-            {project_name: req.body.project_name},
-            {team_name: req.params.team_name}
-        ]
-    };
-    Project.find( projQuery, function(err, doc) {
-        if (err) {
+    // console.log(req.session.cookie.user);
+    Team.findOne({team_name: req.params.team_name}, function(error, doc) {
+        if (error) {
             console.log(err);
         } 
         else {
-            var newProj = new Project({
-                project_name: req.body.project_name,
-                teamID: ObjectID(req.body.teamID)
-            });
-            newProj.save(function(error, proj) {
-                if (error) {
-                    console.log(error);
-                    res.json({ success: false, message: 'Could not save to DB.'});
+            var projQuery = { 
+                $and: [
+                    {project_name: req.body.project_name},
+                    {team_name: req.params.team_name}
+                ]
+            };
+            Project.find( projQuery, function(err, doc) {
+                if (err) {
+                    console.log(err);
                 } 
                 else {
-                    res.json({ success: true, message: 'New project created.'});
+                    var newProj = new Project({
+                        project_name: req.body.project_name,
+                        teamID: ObjectId(doc._id)
+                    });
+                    newProj.save(function(error, proj) {
+                        if (error) {
+                            console.log(error);
+                            res.json({ success: false, message: 'Could not save to DB.'});
+                        } 
+                        else {
+                            res.json({ success: true, message: 'New project created.'});
+                        }
+                    });
                 }
             });
         }
@@ -148,37 +161,41 @@ app.post('/:team_name/newproject', function(req, res) {
 
 /* ======== Team Actions ======== */
 // Create New Team, set creating user as default admin
-app.post('/newteam', function(req,res) {
-    var newTeam = new Team({
-        team_name: req.body.team_name,
-        team_desc: req.body.team_desc,
-        admin_users: [{ 
-            userID: user._id,
-            username: user.username,
-            email: user.email,
-            userRole: req.body.role
-        }]
-    });
-    Team.find({team_name: req.body.team_name}, function(err, docs) {
-        if (err) {
-            console.log(err);
-            res.sendStatus(404);
-        }
-        else if (docs.length <= 0) {
-            newTeam.save(function(error, doc) {
-                if (error) {
-                    console.log(error);
-                    res.json({ success: false, message: 'Could not save to DB.'});
-                } 
-                else {
-                    res.json({ success: true, message: 'New user created.'});
-                }
-            });
-        }
-        else {
-            res.json({ success: false, message: 'User in database.'});
-        }
-    });
+app.post('/:userid/newteam', function(req,res) {
+    console.log(req.params.userid)
+    User.findOne({_id: ObjectId(req.params.userid)}, function(error, doc) {
+        var newTeam = new Team({
+            team_name: req.body.team_name,
+            team_desc: req.body.team_desc,
+            admin_users: [{ 
+                userID: doc._id,
+                username: doc.username,
+                email: doc.email,
+                userRole: "Team Creator"
+            }]
+        });
+        Team.find({team_name: req.body.team_name}, function(err, docs) {
+            if (err) {
+                console.log(err);
+                res.sendStatus(404);
+            }
+            else if (docs.length <= 0) {
+                newTeam.save(function(error, doc) {
+                    if (error) {
+                        console.log(error);
+                        res.json({ success: false, message: 'Could not save to DB.'});
+                    } 
+                    else {
+                        res.json({ success: true, message: 'New team created.'});
+                    }
+                });
+            }
+            else {
+                res.json({ success: false, message: 'Team not available.'});
+            }
+        });
+        
+    })
 })
 
 // Get Team Members
@@ -198,9 +215,11 @@ app.post('/myteam', function(req, res) {
 });
 
 // Add Team Member - TEMP, will add websocket later
-app.post('/addteammember', function(req, res){
+app.post('/:team_name/addteammember', function(req, res){
     // Check to see if user in database, using email. if not, send user not found
-    var userQuery = {email: req.body.email};
+    var userQuery = {"email": {
+        $regex: new RegExp('^' + req.body.email, 'i')
+    }};
 
     User.findOne(userQuery, function(err, user){
         if (err) {
@@ -212,7 +231,9 @@ app.post('/addteammember', function(req, res){
         }
         else {
             // Look for team, if found add user id
-            var teamQuery = {team_name: req.body.team_name};
+            var teamQuery = {"team_name": {
+                $regex: new RegExp('^' + req.params.team_name, 'i')
+            }};
             var teamUpdate = { 
                 $addToSet: { 
                     non_admin_users: { 
@@ -221,7 +242,7 @@ app.post('/addteammember', function(req, res){
                         email: user.email,
                         userRole: req.body.role
                     } 
-                } 
+                }
             };
             Team.findOneAndUpdate(teamQuery, teamUpdate, function(err, doc) {
                 if (err) {

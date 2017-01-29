@@ -9,6 +9,12 @@ var TaskSchema = new Schema({
   description: {
     type: String
   },
+  assigned: [
+    {userID: {
+          type: Schema.Types.ObjectId,
+          ref: "User" 
+    }}
+  ],
   comments: [
     {userID: {
           type: Schema.Types.ObjectId,
