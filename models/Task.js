@@ -7,25 +7,25 @@ var TaskSchema = new Schema({
     type: String
   },
   description: {
-    type: String
+    type: String,
+    default: ""
   },
   assigned: [
     {userID: {
-          type: Schema.Types.ObjectId,
-          ref: "User" 
+      type: Schema.Types.ObjectId,
+      ref: "User" 
     }}
   ],
   comments: [
     {userID: {
-          type: Schema.Types.ObjectId,
-          ref: "User" 
-    }},
-    {text: {
-          type: String
-    }},
-    {comment_date: { 
-          type: Date,
-          default: Date.now 
+      type: Schema.Types.ObjectId,
+      ref: "User" 
+    },
+    text: {
+      type: String
+    },
+    comment_date: { 
+      type: String
     }},
   ],
   due_date: { 

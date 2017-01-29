@@ -4,6 +4,7 @@ var
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
+    moment = require('moment'),
     Promise = require('bluebird'),
     passport = require('passport'),
     session = require('express-session'),
@@ -368,17 +369,103 @@ app.post('/:listid/newtask', function(req, res) {
     })
 });
 
-// Add Member to Task - WEBSOCKET
+// Update Member to Task - WEBSOCKET
+app.post('/:taskid/addmember', function(req, res) {
+    var userQuery = { username: req.body.username }
+    User.findOne(userQuery, function(err, user){
+        if (err) {
+            console.log(err);
+            res.json({'message': 'an error occurred'});
+        }
+        else if (user <= 0) {
+            res.send({'message': 'user not found'});
+        }
+        else {
+            var taskQuery = { _id: ObjectId(req.params.taskid) }
+            var updateMember = {
+                $addToSet: {
+                    assigned: {
+                        userID: ObjectId(user._id)
+                    }
+                }
+            }
+            Task.findOneAndUpdate(taskQuery, updateMember, function(err, doc) {
+                if (err) {
+                    console.log(err);
+                    res.send({'message': 'there was an error'});
+                }
+                else if (doc <= 0)
+                    res.send({'message': 'task not found'});
+                else {
+                    res.send({'message': 'success'});
+                }
+            });
+            
+        }
+    });
+});
 // Add Comment to Task - WEBSOCKET
-app.post('', function(req, res) {
-
+app.post('/:taskid/addcomment', function(req, res) {
+    var userQuery = { username: req.body.username }
+    User.findOne(userQuery, function(err, user){
+        if (err) {
+            console.log(err);
+            res.json({'message': 'an error occurred'});
+        }
+        else if (user <= 0) {
+            res.send({'message': 'user not found'});
+        }
+        else {
+            var time = moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+            var taskQuery = { _id: ObjectId(req.params.taskid) }
+            var updateMember = {
+                $push: {
+                    comments: {
+                        userID: ObjectId(user._id),
+                        text: req.body.comment,
+                        comment_date: time
+                    }
+                }
+            }
+            Task.findOneAndUpdate(taskQuery, updateMember, function(err, doc) {
+                if (err) {
+                    console.log(err);
+                    res.send({'message': 'there was an error'});
+                }
+                else if (doc <= 0)
+                    res.send({'message': 'task not found'});
+                else {
+                    res.send({'message': 'success'});
+                }
+            });
+        }
+    });
+});
+// Update Task Description
+app.post('/:taskid/desc', function(req, res) {
+    var taskQuery = { _id: ObjectId(req.params.taskid) }
+    var updateDesc = {
+        $set: {
+            description: req.body.desc
+        }
+    }
+    Task.findOneAndUpdate(taskQuery, updateDesc, function(err, doc) {
+        if (err) {
+            console.log(err);
+            res.send({'message': 'there was an error'});
+        }
+        else if (doc <= 0)
+            res.send({'message': 'task not found'});
+        else {
+            res.send({'message': 'success'});
+        }
+    });
 });
 // Update List - WEBSOCKET
 // Update Task - WEBSOCKET
-// Update Comment - WEBSOCKET
 // Delete List - WEBSOCKET
 // Delete Task - WEBSOCKET
-// Delete Comment - WEBSOCKET
+// Remove Member from Task - WEBSOCKET
 
 
 app.listen(PORT, function() {
