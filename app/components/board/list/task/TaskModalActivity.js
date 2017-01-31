@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    moment = require('moment');
 
 var TaskModalActivity = React.createClass({
     render: function() {
@@ -7,16 +8,10 @@ var TaskModalActivity = React.createClass({
                 <span className="comment-user-pic team-member-icon"><img src="yuna.jpg" /></span>
                 <div className="comment-details">
                     <p>
-                    Artificial amateurs, aren't at all amazing
-                    Analytically, I assault, animate things
-                    Broken barriers bounded by the bomb beat
-                    Buildings are broken, basically I'm bombarding
-                    Casually create catastrophes, casualties
-                    Canceling cats got their canopies collapsing
-                    Detonate a dime of dank daily doing dough
-                    Demonstrations, Don Dada on the down low
+                    {this.props.text}
                     </p>
-                    <span className="notif-time">12 hours ago</span>
+                    <span></span>
+                    <span className="notif-time">{moment(this.props.commentDate).fromNow()}</span>
                 </div>
             </div>
         )

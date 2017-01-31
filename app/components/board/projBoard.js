@@ -2,7 +2,9 @@ var React = require('react'),
     Nav = require('./../Nav'),
     List = require('./list/List'),
     Modal = require('react-materialize').Modal,
-    helpers = require('./../utils/helpers');
+    helpers = require('./../utils/helpers'),
+    Packery = require('packery'),
+    Draggabilly = require('draggabilly');
 
 Modal.defaultProps = {
     actions: false
@@ -11,7 +13,7 @@ Modal.defaultProps = {
 var ProjBoard = React.createClass({
     getInitialState: function() {
         return {
-            project: {}
+            lists: []
         }
     },
 
@@ -34,7 +36,46 @@ var ProjBoard = React.createClass({
         });
 
         // Make server call to get project
-        this.setState(helpers.getProject().then(function(data){}.bind(this)));
+        helpers.getProject("bake-some-pies").then(function(data){
+            this.setState({lists: data.lists});
+        }.bind(this))
+    },
+
+    componentDidUpdate: function(prevProps, prevState) {
+        // user must enter at least a topic
+        if (prevState.lists !== this.state.lists) {
+            console.log('true')
+            console.log(this.state.lists);
+        }
+        // Packery intitialize
+        var elem = document.querySelector('.grid');
+        var pckry = new Packery(elem, {
+            // options
+            columnWidth: '.grid-sizer',
+            gutter: '.gutter-sizer',
+            itemSelector: '.grid-item',
+            percentPosition: true,
+            fitWidth: false
+        });
+        // Packery + Draggabilly
+        // Drag Lists
+        pckry.getItemElements().forEach(function(itemElem) {
+            var draggie = new Draggabilly(itemElem);
+            pckry.bindDraggabillyEvents(draggie);
+        });
+    },
+
+    renderLists: function() {
+        return this.state.lists.map(function(currentList,index){
+            return (
+                <List 
+                    key={index}
+                    id={"list-"+index}
+                    title={currentList.title}
+                    tasks={currentList.tasks}
+                />
+            )
+        });
     },
 
     render: function() {
@@ -101,11 +142,8 @@ var ProjBoard = React.createClass({
                             <div className="grid-sizer"></div>
 
                             {/* List Component */}
-                            <List />
 
-                            <List />
-
-                            <List />
+                            {this.renderLists.call(this)}
 
                         </div>
                     </div>

@@ -21,8 +21,13 @@ var helpers = {
     // Get project lists & tasks
     getProject: function(projectName){
         var url = '/' + projectName + '/getall'
+        console.log(url)
         return axios.get(url).then(function(res){
-            return res;
+            var projObj = {
+                title: res.data.project_name,
+                lists: res.data.lists
+            }
+            return projObj;
         });
     }
 

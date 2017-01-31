@@ -1,4 +1,5 @@
 var React = require('react'),
+    moment = require('moment'),
     TaskModalActivity = require('./TaskModalActivity'),
     Modal = require('react-materialize').Modal; // Modal component from react-materialize
 
@@ -10,17 +11,48 @@ var TaskModal = React.createClass({
     componentDidMount: function() {
         // Initialize date picker and set default date
         $('.datepicker').pickadate({
-            selectMonths: true,
-            selectYears: 15
+            // selectMonths: true,
+            // selectYears: 15
         });
         var picker = $('.datepicker').pickadate('picker');
-        picker.set('select', [2017, 1, 31]);
+        var year = parseInt(moment(this.props.due_date).format("YYYY"))
+        var month = parseInt(moment(this.props.due_date).format("M"))
+        var day = parseInt(moment(this.props.due_date).format("D"))
+        picker.set('select', [year, month, day]);
     },
-    handleClick: function() {
-        return {}
+
+    componentDidUpdate: function() {
+        console.log(this.props)
+        // Initialize date picker and set default date
+        $('.datepicker').pickadate({
+            // selectMonths: true,
+            // selectYears: 15
+        });
+        var picker = $('.datepicker').pickadate('picker');
+        var year = parseInt(moment(this.props.due_date).format("YYYY"))
+        var month = parseInt(moment(this.props.due_date).format("M"))
+        var day = parseInt(moment(this.props.due_date).format("D"))
+        picker.set('select', [year, month, day]);
     },
-    handleClose: function() {
-        return {}
+
+    renderAssigned: function() {
+        return this.props.assigned.map(function(currentMember,index){
+            return (<li>{currentMember}</li>)
+        });
+    },
+
+    renderComments: function() {
+        return this.props.comments.map(function(currentComment,index){
+            return (
+                <TaskModalActivity 
+                    key={index}
+                    id={"list-"+index}
+                    commentDate={currentComment.commentDate}
+                    text={currentComment.text}
+                    userID={currentComment.userID}
+                />
+            )
+        });
     },
 
     render: function() {
@@ -30,10 +62,10 @@ var TaskModal = React.createClass({
                     <div className="task-ind">
                     {/* Indiv Card */}
                         <a href="#modal1">
-                            <span className="task-name">Write and test this modal</span>
+                            <span className="task-name">{this.props.title}</span>
                             <div className="due-date-div">
                                 <div className="due-date-text">
-                                    <i className="material-icons">schedule</i>Jan 14
+                                    <i className="material-icons">schedule</i>{moment(this.props.dueDate).format("MMM D")}
                                 </div>
                             </div>
                         </a>
@@ -44,8 +76,7 @@ var TaskModal = React.createClass({
                 <div className="task-modal-title-div">
                 <i className="material-icons right modal-close">close</i>
                     <div className="task-modal-title-details">
-                        <p><span className="task-modal-title">Write and test this modal</span></p>
-                        <p>in list <span className="task-modal-list">This is a test list</span></p>
+                        <p><span className="task-modal-title">{this.props.title}</span></p>
                     </div>
                 </div>
                 <div className="task-modal-content">
@@ -54,9 +85,9 @@ var TaskModal = React.createClass({
                             <div className="task-modal-ppl-date col s6">
                                 <p className="modal-heading-second">Assigned:</p>
                                 <ul>
-                                    <li>Goku</li>
-                                    <li>Bulma</li>
-                                    <li>Mr. Piccolo</li>
+                                    
+                                    {this.renderAssigned.call(this)}
+
                                 </ul>
                             </div>
                             <div className="task-modal-ppl-date col s6">
@@ -67,7 +98,7 @@ var TaskModal = React.createClass({
                         <div className="task-modal-description">
                             <p className="modal-heading-second">Description</p>
                             <p className="modal-description">
-                                Make this thing into a minimum viable product.
+                                {this.props.description}
                             </p>
                         </div>
                     </div>
@@ -84,9 +115,7 @@ var TaskModal = React.createClass({
                     <div className="task-modal-activity">
                         <div className="modal-heading-first activity-title">Comments</div>
                         
-                        <TaskModalActivity />
-
-                        <TaskModalActivity />
+                        {this.renderComments.call(this)}
 
                     </div>
                 </div>
