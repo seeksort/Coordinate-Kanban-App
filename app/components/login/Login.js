@@ -28,7 +28,7 @@ var Login = React.createClass({
                     <main className="container">
                         <div className="row">
                             <div id="welcome-div" className="col s12">
-                                <h1>Co-ord-in-ate!</h1>
+                                <h1>Get It Together</h1>
                                 <h5>Kanban dashboards that help teams flow.</h5>
                                 <br />
 

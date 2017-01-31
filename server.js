@@ -116,9 +116,12 @@ app.post('/userlogin', function(req, res, next) {
     })
 });
 
-
 /* ======== Projects List Actions ======== */
 // Get User Projects
+app.get('/:userid/projects', function(req, res) {
+    //Team.find()
+});
+
 // Create Project
 app.post('/:userid/:team_name/newproject', function(req, res) {
     // Look for Project for Team in DB, if in DB throw error, if not, save to DB
@@ -138,7 +141,7 @@ app.post('/:userid/:team_name/newproject', function(req, res) {
             var projQuery = { 
                 $and: [
                     {project_name: req.body.project_name},
-                    {team_name: team._id}
+                    {team_name: ObjectId(team._id)}
                 ]
             };
             // ensure project is not in DB and assoc w/ team
@@ -170,6 +173,74 @@ app.post('/:userid/:team_name/newproject', function(req, res) {
 });
 
 // Get Project - redirect to Get - All Lists and Tasks
+app.get('/:project_name/getall', function(req,res){
+    var resObj;
+    var cleanProjName = req.params.project_name.split('-').join(' ');
+    var projQuery = { project_name: { 
+        $regex: new RegExp('^' + cleanProjName, 'i') 
+    }}
+    Project.findOne(projQuery, function(err, proj) {
+        if (err) {
+            console.log(err);
+            res.sendStatus(404);
+        }
+        else if (proj === 0) {
+            res.json({ success: false, message: 'Could not find user.'});
+        }
+        else {
+            var listQuery = {projectID: ObjectId(proj._id.toString())}
+            console.log(listQuery)
+            List.find({}, function(err, lists) {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(404);
+                }
+                else if (lists === 0 ) {
+                    // A project with no lists was found.
+                    res.json({ 
+                        success: true,
+                        project_name: proj.project_name,
+                        lists: []
+                    });
+                }
+                else {
+                    resObj = { 
+                        success: true,
+                        project_name: proj.project_name,
+                        lists: []
+                    }
+                    lists.forEach(function(currList, indexList) {
+                        var populatedList = {
+                            title: currList.list_name,
+                            tasks: []
+                        };
+                        var taskQuery = {list: currList._id};
+                        Task.find(taskQuery, function(err, tasks){
+                            if (err) {
+                                console.log(err);
+                                res.sendStatus(404);
+                            }
+                            else if (tasks === 0) {
+                                // A list with no tasks was found.
+                                resObj.lists.push(populatedList);
+                            }
+                            else {
+                                tasks.forEach(function(currTask, indexTask){
+                                    populatedList.tasks.push(currTask);
+                                });
+                                resObj.lists.push(populatedList);
+                                console.log(resObj.lists)
+                            }
+                        });
+                    });
+                    setTimeout(function(){
+                        res.json(resObj);
+                    }, 1000);
+                }
+            });
+        }
+    });
+});
 
 /* ======== Team Actions ======== */
 // Create New Team, set creating user as default admin
@@ -181,7 +252,7 @@ app.post('/:userid/newteam', function(req,res) {
             team_name: req.body.team_name,
             team_desc: req.body.team_desc,
             admin_users: [{ 
-                userID: doc._id,
+                userID: ObjectId(doc._id),
                 username: doc.username,
                 email: doc.email,
                 userRole: "Team Creator"
@@ -251,7 +322,7 @@ app.post('/:team_name/addteammember', function(req, res){
             var teamUpdate = { 
                 $addToSet: { 
                     non_admin_users: { 
-                        userID: user._id,
+                        userID: ObjectId(user._id),
                         username: user.username,
                         email: user.email,
                         userRole: req.body.role
@@ -292,14 +363,12 @@ io.on('connection', function (socket) {
 // Update Team Member (name, role, title) - WEBSOCKET (your permissions have been udpated - page refresh)
 
 /* ======== Project Actions - certain actions (add/update member/list/task/comment) should update notifications table ======== */
-
 // Get - All Lists and Tasks
 app.post('/getprojlists', function(req,res) {
     //TODO
 });
 // Get - My Tasks
 // Get - Due Soon
-// Get - Custom Filter - This might be a 'reach' goal.
 
 // Add List - WEBSOCKET
 app.post('/:team_name/:project_name/newlist', function(req, res) {
@@ -584,10 +653,37 @@ app.post('/:taskid/removetask', function(req, res) {
         else {
             res.send({'message': 'success'});
         }
-    })
+    });
 });
-// Add Due Date - WEBSOCKET
-// Update Due Date
+// Add/update Due Date - WEBSOCKET
+app.post('/:taskid/duedate', function(req, res) {
+    var taskQuery = {
+        _id: ObjectId(req.params.taskid)
+    }
+    var update = {
+        $set: {
+            due_date: Timestamp(req.body.due_date)
+        }
+    }
+    Task.findOneAndUpdate(taskQuery, update, function(err, doc) {
+        if (err) {
+            console.log(err);
+            res.send({'message': 'there was an error'});
+        }
+        else if (doc <= 0) {
+            res.send({'message': 'task not found'});
+        }
+        else {
+            res.send({'message': 'success'});
+        }
+    });
+});
+
+/*
+Info for figuring out date from front-end:
+    document.getElementById("P805428233").value
+    > "17 March, 2017" "DD MMMM, YYYY"
+*/
 
 // Turn on server
 app.listen(PORT, function() {

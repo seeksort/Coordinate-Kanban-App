@@ -33,7 +33,7 @@ var Nav = React.createClass({
                     <nav>
                         <div className="nav-wrapper">
                             {/* Normal Nav */} 
-                            <a href="#/team" className="brand-logo center">Co-ord-in-ate!</a>
+                            <a href="#/team" className="brand-logo center">Get It Together</a>
                             <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                             <ul className="left hide-on-med-and-down">
                                 {/* Search Bar */}

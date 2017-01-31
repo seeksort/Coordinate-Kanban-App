@@ -1,13 +1,20 @@
 var React = require('react'),
     Nav = require('./../Nav'),
     List = require('./list/List'),
-    Modal = require('react-materialize').Modal; // Modal component from react-materialize;
+    Modal = require('react-materialize').Modal,
+    helpers = require('./../utils/helpers');
 
 Modal.defaultProps = {
     actions: false
 };
 
 var ProjBoard = React.createClass({
+    getInitialState: function() {
+        return {
+            project: {}
+        }
+    },
+
     componentDidMount: function() {
         // Packery intitialize
         var elem = document.querySelector('.grid');
@@ -25,6 +32,9 @@ var ProjBoard = React.createClass({
             var draggie = new Draggabilly(itemElem);
             pckry.bindDraggabillyEvents(draggie);
         });
+
+        // Make server call to get project
+        this.setState(helpers.getProject().then(function(data){}.bind(this)));
     },
 
     render: function() {
