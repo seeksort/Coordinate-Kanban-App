@@ -10,29 +10,35 @@ Modal.defaultProps = {
 var TaskModal = React.createClass({
     componentDidMount: function() {
         // Initialize date picker and set default date
-        $('.datepicker').pickadate({
-            // selectMonths: true,
-            // selectYears: 15
-        });
+        $('.datepicker').pickadate({});
         var picker = $('.datepicker').pickadate('picker');
-        var year = parseInt(moment(this.props.due_date).format("YYYY"))
-        var month = parseInt(moment(this.props.due_date).format("M"))
-        var day = parseInt(moment(this.props.due_date).format("D"))
-        picker.set('select', [year, month, day]);
+        if (this.props.due_date !== '') {
+            var year = parseInt(moment(this.props.due_date).format("YYYY"))
+            var month = parseInt(moment(this.props.due_date).format("M"))
+            var day = parseInt(moment(this.props.due_date).format("D"))
+            picker.set('select', [year, month, day]);
+        }
     },
 
     componentDidUpdate: function() {
-        console.log(this.props)
         // Initialize date picker and set default date
-        $('.datepicker').pickadate({
-            // selectMonths: true,
-            // selectYears: 15
-        });
+        $('.datepicker').pickadate({});
         var picker = $('.datepicker').pickadate('picker');
-        var year = parseInt(moment(this.props.due_date).format("YYYY"))
-        var month = parseInt(moment(this.props.due_date).format("M"))
-        var day = parseInt(moment(this.props.due_date).format("D"))
-        picker.set('select', [year, month, day]);
+        if (this.props.due_date !== '') {
+            var year = parseInt(moment(this.props.due_date).format("YYYY"))
+            var month = parseInt(moment(this.props.due_date).format("M"))
+            var day = parseInt(moment(this.props.due_date).format("D"))
+            picker.set('select', [year, month, day]);
+        }
+    },
+
+    evalDate: function() {
+        if (this.props.dueDate !== '') {
+            return moment(this.props.dueDate).format("MMM D") 
+        }
+        else {
+            return ''
+        }
     },
 
     renderAssigned: function() {
@@ -65,7 +71,7 @@ var TaskModal = React.createClass({
                             <span className="task-name">{this.props.title}</span>
                             <div className="due-date-div">
                                 <div className="due-date-text">
-                                    <i className="material-icons">schedule</i>{moment(this.props.dueDate).format("MMM D")}
+                                    <i className="material-icons">schedule</i>{this.evalDate.call(this)}
                                 </div>
                             </div>
                         </a>
@@ -85,7 +91,8 @@ var TaskModal = React.createClass({
                             <div className="task-modal-ppl-date col s6">
                                 <p className="modal-heading-second">Assigned:</p>
                                 <ul>
-                                    
+                                    <li>Team Member</li>
+                                    <li>Team Member</li>
                                     {this.renderAssigned.call(this)}
 
                                 </ul>

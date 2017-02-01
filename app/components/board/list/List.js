@@ -1,4 +1,5 @@
 var React = require('react'),
+    helpers = require('./../../utils/helpers'),
     TaskModal = require('./task/TaskModal'),
     Modal = require('react-materialize').Modal; // Modal component from react-materialize;
 
@@ -7,14 +8,37 @@ Modal.defaultProps = {
 };
 
 var List = React.createClass({
-    componentDidMount: function() {
-        console.log(this.props)
+    getInitialState: function() {
+        return {
+            taskName: '',
+            tasks: this.props.tasks
+        }
     },
 
     componentDidUpdate: function(prevProps, prevState) {
         if (prevProps.tasks !== this.props.tasks) {
             console.log(this.props.tasks)
         }
+    },
+
+    handleChange: function(event){
+        var newState = {};
+        newState[event.target.id] = event.target.value;
+        this.setState(newState);
+    },
+
+    handleSubmit: function(event){
+        event.preventDefault();
+        // Variables for incomplete app...
+        var team = 'regulators';
+        var project = 'bake-some-pies';
+        helpers.addTask(this.props.listId, this.state.taskName).then(function(data){
+            this.state.taskName = '';
+            // Another server call to reload tasks
+            helpers.getProject("bake-some-pies").then(function(data){
+                this.props.setParent(data.lists);
+            }.bind(this))
+        }.bind(this));
     },
 
     renderTasks: function() {
@@ -27,7 +51,7 @@ var List = React.createClass({
                     description={currentTask.description}
                     assigned={currentTask.assigned}
                     comments={currentTask.comments}
-                    dueDate={currentTask.due_date}
+                    dueDate={currentTask.due_date || ''}
                 />
             )
         });
@@ -68,12 +92,18 @@ var List = React.createClass({
                                 <form className="col s12" onSubmit={this.handleSubmit}>
                                     <div className="row">
                                         <div className="input-field col s12">
-                                            <input id="task-name" type="text" className="validate" />
-                                            <label htmlFor="task-name">Enter task name...</label>
+                                            <input 
+                                                id="taskName" 
+                                                type="text" 
+                                                className="validate" 
+                                                value={this.state.taskName}
+                                                onChange={this.handleChange}
+                                            />
+                                            <label htmlFor="taskName">Enter task name...</label>
                                         </div>
                                         <div className="col s12 right-align">
-                                            <a href="#!" className="modal-action modal-close waves-effect waves-green btn btn-modal">Save</a>
-                                            <a href="#!" className="modal-action modal-close waves-effect waves-green btn">Cancel</a>
+                                            <button className="modal-action modal-close waves-effect waves-green btn btn-modal">Save</button>
+                                            <a className="modal-action modal-close waves-effect waves-green btn" onClick={$('#modal1').modal('close')}>Cancel</a>
                                         </div>
                                     </div>
                                 </form>

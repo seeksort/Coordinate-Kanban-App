@@ -29,8 +29,7 @@ var TaskSchema = new Schema({
     }},
   ],
   due_date: { 
-    type: Date,
-    default: Date.now 
+    type: Date
   },
   list: {
     type: Schema.Types.ObjectId,

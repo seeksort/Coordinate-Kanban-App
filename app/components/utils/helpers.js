@@ -18,6 +18,30 @@ var helpers = {
         // });
     },
 
+    // Add a new list
+    addList: function(teamName, projectName, listName) {
+        var url = '/' + teamName + '/' + projectName + '/newlist'
+        return axios.post(url, {
+            'list_name': listName
+        }).then(function(res){
+            console.log('new list created.');
+        }).catch(function (error) {
+            console.log(error);
+        });
+    },
+
+    // add a new task
+    addTask: function(listId, taskName) {
+        var url = '/' + listId + '/newtask'
+        return axios.post(url, {
+            'task_name': taskName
+        }).then(function(res){
+            console.log('new task created.');
+        }).catch(function (error) {
+            console.log(error);
+        });
+    },
+
     // Get project lists & tasks
     getProject: function(projectName){
         var url = '/' + projectName + '/getall'

@@ -200,7 +200,11 @@ app.get('/:project_name/getall', function(req,res){
                     res.json({ 
                         success: true,
                         project_name: proj.project_name,
-                        lists: []
+                        lists: [{
+                            title: '',
+                            listId: '',
+                            tasks: []
+                        }]
                     });
                 }
                 else {
@@ -212,6 +216,7 @@ app.get('/:project_name/getall', function(req,res){
                     lists.forEach(function(currList, indexList) {
                         var populatedList = {
                             title: currList.list_name,
+                            listId: currList._id,
                             tasks: []
                         };
                         var taskQuery = {list: currList._id};

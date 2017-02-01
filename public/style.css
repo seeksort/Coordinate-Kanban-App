@@ -289,7 +289,8 @@ div.task-ind.add-new-card:hover {
     display: inline-block;
     border-radius: 3px;
     padding: 2px 4px 0px 2px;
-    background-color: red;
+    background-color: #CC4343;
+    color: #FFF;
     max-width: 100%;
     font-size: 13px;
 }

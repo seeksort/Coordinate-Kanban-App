@@ -13,6 +13,7 @@ Modal.defaultProps = {
 var ProjBoard = React.createClass({
     getInitialState: function() {
         return {
+            listName: '',
             lists: []
         }
     },
@@ -42,11 +43,6 @@ var ProjBoard = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        // user must enter at least a topic
-        if (prevState.lists !== this.state.lists) {
-            console.log('true')
-            console.log(this.state.lists);
-        }
         // Packery intitialize
         var elem = document.querySelector('.grid');
         var pckry = new Packery(elem, {
@@ -65,14 +61,43 @@ var ProjBoard = React.createClass({
         });
     },
 
+    handleChange: function(event){
+        var newState = {};
+        newState[event.target.id] = event.target.value;
+        this.setState(newState);
+    },
+
+    handleSubmit: function(event){
+        event.preventDefault();
+        // Variables for incomplete app...
+        var team = 'regulators';
+        var project = 'bake-some-pies';
+        helpers.addList(team, project, this.state.listName).then(function(data){
+            this.state.listName = '';
+            // Another server call to reload lists
+            helpers.getProject("bake-some-pies").then(function(data){
+                this.setState({lists: data.lists});
+            }.bind(this))
+        }.bind(this));
+    },
+
+    setParent: function(newLists){
+        this.setState({
+            lists: newLists
+        })
+    },
+
     renderLists: function() {
+        var parentFcn = this.setParent
         return this.state.lists.map(function(currentList,index){
             return (
                 <List 
                     key={index}
                     id={"list-"+index}
                     title={currentList.title}
+                    listId={currentList.listId}
                     tasks={currentList.tasks}
+                    setParent={parentFcn}
                 />
             )
         });
@@ -119,12 +144,18 @@ var ProjBoard = React.createClass({
                                             <form className="col s12" onSubmit={this.handleSubmit}>
                                                 <div className="row">
                                                     <div className="input-field col s12">
-                                                        <input id="list-name" type="text" className="validate" />
-                                                        <label htmlFor="list-name">List Name</label>
+                                                        <input 
+                                                            id="listName" 
+                                                            type="text" 
+                                                            className="validate"
+                                                            value={this.state.listName}
+                                                            onChange={this.handleChange} 
+                                                        />
+                                                        <label htmlFor="listName">List Name</label>
                                                     </div>
                                                     <div className="col s12 right-align">
-                                                        <a href="#!" className="modal-action modal-close waves-effect waves-green btn btn-modal">Save</a>
-                                                        <a href="#!" className="modal-action modal-close waves-effect waves-green btn">Cancel</a>
+                                                        <button type="submit" className="modal-action modal-close waves-effect waves-green btn btn-modal">Save</button>
+                                                        <a className="modal-action modal-close waves-effect waves-green btn" onClick={$('#modal1').modal('close')}>Cancel</a>
                                                     </div>
                                                 </div>
                                             </form>
