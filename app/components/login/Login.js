@@ -1,7 +1,15 @@
 var React = require('react'),
+    helpers = require('./../utils/helpers'),
     LoginModals = require('./LoginModals');
 
 var Login = React.createClass({
+    getInitialState: function() {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+
     componentDidMount: function() {
         function onSignIn(googleUser) {
             // Useful data for your client-side scripts:
@@ -19,6 +27,24 @@ var Login = React.createClass({
         };
     },
 
+    handleChange: function(event){
+        var newState = {};
+        newState[event.target.id] = event.target.value;
+        this.setState(newState);
+    },
+
+    handleSubmit: function(event){
+        event.preventDefault();
+        helpers.login(this.state.email, this.state.password).then(function(data){
+            this.state.email = '';
+            this.state.password = '';
+            // Another server call to reload lists
+            helpers.getProject("bake-some-pies").then(function(data){
+                this.setState({lists: data.lists});
+            }.bind(this))
+        }.bind(this));
+    },
+
     render: function(){
         return (
             
@@ -32,7 +58,12 @@ var Login = React.createClass({
                                 <h5>Kanban dashboards that help teams flow.</h5>
                                 <br />
 
-                                <LoginModals />
+                                <LoginModals 
+                                    email={this.state.email}
+                                    password={this.state.password}
+                                    handleChange={this.handleChange}
+                                    handleSubmit={this.handleSubmit}
+                                />
                                 
                             </div>
                         </div>

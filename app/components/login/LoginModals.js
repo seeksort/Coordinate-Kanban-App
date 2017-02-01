@@ -23,27 +23,38 @@ var LoginModal = React.createClass({
                         <div className="row center-align">
                         {/* TODO - Configure Log In */}
                             <div className="col s12 g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-                            <a href="#modal2" className="waves-effect waves-light btn btn-modal">Placeholder Google Sign In</a>
                         </div>
                         <div className="row">
                             {/* FORM WITH POST */}
-                            <form className="col s12">
+                            <form className="col s12" onSubmit={this.props.handleSubmit}>
                                 <div className="row">
                                     <hr />
                                     <p style={{"textAlign": "center"}}>Or sign in with email:</p>
                                     <div className="input-field col s12">
-                                        <input id="email" type="email" className="validate" />
+                                        <input 
+                                            id="email" 
+                                            type="email" 
+                                            className="validate" 
+                                            value={this.props.email}
+                                            onChange={this.props.handleChange}
+                                        />
                                         <label htmlFor="email">Email</label>
                                     </div>
                                     <div className="input-field col s12">
-                                        <input id="password" type="password" className="validate" />
+                                        <input 
+                                            id="password"
+                                            type="password" 
+                                            className="validate" 
+                                            value={this.props.password}
+                                            onChange={this.props.handleChange}
+                                        />
                                         <label htmlFor="password">Password</label>
                                     </div>
                                     <div className="col s12 right-align">
                                         <button className="modal-action waves-effect waves-green btn btn-modal" type="submit" name="action">Submit
                                         </button>
                                         
-                                        <a href="#!" className="modal-action modal-close waves-effect waves-green btn">Cancel</a>
+                                        <a className="modal-action modal-close waves-effect waves-green btn" onClick={$('#modal1').modal('close')}>Cancel</a>
                                     </div>
                                 </div>
                             </form>
@@ -83,7 +94,7 @@ var LoginModal = React.createClass({
                                     <div className="col s12 right-align">
                                         <button className="modal-action waves-effect waves-green btn btn-modal" type="submit" name="action">Send Invite Email
                                         </button>
-                                        <a href="#!" className="modal-action modal-close waves-effect waves-green btn">Cancel</a>
+                                        <a className="modal-action modal-close waves-effect waves-green btn" onClick={$('#modal1').modal('close')}>Cancel</a>
                                     </div>
                                 </div>
                             </form>

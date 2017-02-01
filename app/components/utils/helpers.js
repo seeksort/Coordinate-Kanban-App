@@ -18,6 +18,20 @@ var helpers = {
         // });
     },
 
+    // Login
+    login: function(email, password){
+        return axios.post('/userlogin', {
+            'email': email,
+            'password': password
+        }).then(function(res){
+            localStorage.token = res.token;
+            console.log('successful login');
+        }).catch(function (error) {
+            console.log(error);
+            alert('Incorrect password or login')
+        });
+    },
+
     // Add a new list
     addList: function(teamName, projectName, listName) {
         var url = '/' + teamName + '/' + projectName + '/newlist'
