@@ -1,12 +1,14 @@
 var React = require('react'),
     helpers = require('./../utils/helpers'),
-    LoginModals = require('./LoginModals');
+    LoginModals = require('./LoginModals'),
+    withRouter = require('react-router').withRouter;
 
-var Login = React.createClass({
+var Login = withRouter(React.createClass({
     getInitialState: function() {
         return {
             email: '',
-            password: ''
+            password: '',
+            loggedin: false
         }
     },
 
@@ -38,10 +40,11 @@ var Login = React.createClass({
         helpers.login(this.state.email, this.state.password).then(function(data){
             this.state.email = '';
             this.state.password = '';
-            // Another server call to reload lists
-            helpers.getProject("bake-some-pies").then(function(data){
-                this.setState({lists: data.lists});
-            }.bind(this))
+            this.state.loggedin = data;
+            if (this.state.loggedin) {
+                console.log('team')
+                this.props.router.replace('/team');
+            }
         }.bind(this));
     },
 
@@ -82,6 +85,6 @@ var Login = React.createClass({
 
         )
     }
-});
+}));
 
 module.exports = Login;

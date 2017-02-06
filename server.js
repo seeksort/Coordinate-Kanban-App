@@ -113,38 +113,51 @@ app.post('/newuser', function(req, res, next) {
 app.post('/userlogin', function(req, res, next) {
     passport.authenticate('local', function(err, user) {
         if (err) { 
-            return res.send({success: false, user: null, message: err }); 
+            return res.send({success: false, message: err }); 
         }
         if (!user) { 
-            return res.send({success: false, user: null, message: "Invalid Login" }); 
+            return res.send({success: false, message: "Invalid Login" }); 
         }
         req.logIn(user, function(err) {
             if (err) { 
                 return next(err); 
             }
-            return res.send({success: true, user: user, message: "" });
+            return res.send({success: true, message: "Login successful." }); 
         });
     })(req, res, next);
 });
+
+/* ======== Require authentication on all routes ======== */
+// Middleware authentication will intercept unauth users and send 401 Not Auth error.
+app.all('*', function(req, res, next){
+    if(req.isAuthenticated()){
+        next();
+    }
+    else {
+        return res.send({success: false, message: "Invalid Login" });
+    }
+});
+ 
+app.get('/userlogin', function(req, res, next) {
+    if(req.isAuthenticated()){
+        return res.send({success: true, message: "Login successful." });
+    }
+    else {
+        return res.send({success: false, message: "Invalid Login" });
+    }
+})
 
 /* ======== Projects List Actions ======== */
 // Get User Projects
 app.get('/projects', function(req, res) {
     //Team.find()
+    //TODO
 });
 
 // Create Project
 app.post('/:team_name/newproject', function(req, res) {
     // Look for Project for Team in DB, if in DB throw error, if not, save to DB
     // console.log(req.session.cookie.user);
-    console.log(req.isAuthenticated())
-    if (req.isAuthenticated() == false) {
-        console.log(req)
-        res.json({'message': 'nah'})
-    }
-    else {
-
-
     var teamQuery = {team_name: {
         $regex: new RegExp('^' + req.params.team_name, 'i')
     }}
@@ -189,7 +202,6 @@ app.post('/:team_name/newproject', function(req, res) {
             });
         }
     });
-        }
 });
 
 // Get Project - redirect to Get - All Lists and Tasks
@@ -270,8 +282,8 @@ app.get('/:project_name/getall', function(req,res){
 /* ======== Team Actions ======== */
 // Create New Team, set creating user as default admin
 app.post('/newteam', function(req,res) {
-    console.log(req.params.useremail)
-    var userQuery = {_id: ObjectId(req.params.useremail)}
+    console.log(req.user.email)
+    var userQuery = {email: req.user.email}
     User.findOne(userQuery, function(error, doc) {
         var newTeam = new Team({
             team_name: req.body.team_name,
@@ -386,6 +398,7 @@ io.on('connection', function (socket) {
 });
 
 // Update Team Member (name, role, title) - WEBSOCKET (your permissions have been udpated - page refresh)
+//TODO
 
 /* ======== Project Actions - certain actions (add/update member/list/task/comment) should update notifications table ======== */
 // Get - All Lists and Tasks
@@ -393,7 +406,9 @@ app.post('/getprojlists', function(req,res) {
     //TODO
 });
 // Get - My Tasks
+    //TODO
 // Get - Due Soon
+    //TODO
 
 // Add List - WEBSOCKET
 app.post('/:team_name/:project_name/newlist', function(req, res) {

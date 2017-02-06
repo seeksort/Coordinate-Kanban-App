@@ -24,11 +24,32 @@ var helpers = {
             'email': email,
             'password': password
         }).then(function(res){
-            localStorage.token = res.token;
-            console.log('successful login');
+            console.log('helpers res: '+res.data.success)
+            if (res.data.success === true) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }).catch(function (error) {
             console.log(error);
             alert('Incorrect password or login')
+        });
+    },
+
+    // Check if logged in
+    loginCheck: function() {
+        console.log('loginCheck')
+        return axios.get('/userlogin').then(function(res){
+                console.log(res)
+            if (res.data.success === true) {
+                console.log('should return true')
+                return true;
+            }
+            else {
+                console.log('should return false')
+                return false;
+            }
         });
     },
 
