@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Start Mongoose & test connection
 // Need Mongoose ObjectId type in order to search for specific model's ID
 var ObjectId = require('mongoose').Types.ObjectId,
-    databaseUri = 'mongodb://localhost/kanban',
+    databaseUri = 'mongodb://localhost/kanban2',
     db = mongoose.connection,
     // Import Mongoose models for tables
     User = require('./models/User.js'),
@@ -61,11 +61,11 @@ app.use(session({
   store: new MongoStore({
     mongooseConnection: db,
   }),
-  resave: false,
+  resave: true,
   saveUninitialized: true,
   cookie: { 
     maxAge: 60000,
-    secure: true 
+    secure: false 
   }
 }));
 app.use(passport.initialize());
@@ -90,7 +90,12 @@ app.post('/newuser', function(req, res, next) {
     }), req.body.password, function(error, userAccount) {
         if (error) {
             console.log('there was an error ' + error);
-            return res.json({ message : 'there was an error' });
+            if (error.name == 'UserExistsError') {
+                return res.json({ message : 'a user with that email already exists.'});
+            }
+            else {
+                return res.json({ message : error.message });       
+            }
         }
         // After account created, authenticate user
         passport.authenticate('local')(req, res, function () {
@@ -106,26 +111,40 @@ app.post('/newuser', function(req, res, next) {
 
 // Log in - if fail redirect to login page
 app.post('/userlogin', function(req, res, next) {
-    passport.authenticate('local')(req, res, function () {
-        req.session.save(function(err) {
-            if (err) {
-                return next(err);
+    passport.authenticate('local', function(err, user) {
+        if (err) { 
+            return res.send({success: false, user: null, message: err }); 
+        }
+        if (!user) { 
+            return res.send({success: false, user: null, message: "Invalid Login" }); 
+        }
+        req.logIn(user, function(err) {
+            if (err) { 
+                return next(err); 
             }
-            return res.redirect('/');
+            return res.send({success: true, user: user, message: "" });
         });
-    })
+    })(req, res, next);
 });
 
 /* ======== Projects List Actions ======== */
 // Get User Projects
-app.get('/:userid/projects', function(req, res) {
+app.get('/projects', function(req, res) {
     //Team.find()
 });
 
 // Create Project
-app.post('/:userid/:team_name/newproject', function(req, res) {
+app.post('/:team_name/newproject', function(req, res) {
     // Look for Project for Team in DB, if in DB throw error, if not, save to DB
     // console.log(req.session.cookie.user);
+    console.log(req.isAuthenticated())
+    if (req.isAuthenticated() == false) {
+        console.log(req)
+        res.json({'message': 'nah'})
+    }
+    else {
+
+
     var teamQuery = {team_name: {
         $regex: new RegExp('^' + req.params.team_name, 'i')
     }}
@@ -170,6 +189,7 @@ app.post('/:userid/:team_name/newproject', function(req, res) {
             });
         }
     });
+        }
 });
 
 // Get Project - redirect to Get - All Lists and Tasks
@@ -185,7 +205,7 @@ app.get('/:project_name/getall', function(req,res){
             res.sendStatus(404);
         }
         else if (proj === 0) {
-            res.json({ success: false, message: 'Could not find user.'});
+            res.json({ success: false, message: 'Could not find project.'});
         }
         else {
             var listQuery = {projectID: ObjectId(proj._id.toString())}
@@ -249,9 +269,9 @@ app.get('/:project_name/getall', function(req,res){
 
 /* ======== Team Actions ======== */
 // Create New Team, set creating user as default admin
-app.post('/:userid/newteam', function(req,res) {
-    console.log(req.params.userid)
-    var userQuery = {_id: ObjectId(req.params.userid)}
+app.post('/newteam', function(req,res) {
+    console.log(req.params.useremail)
+    var userQuery = {_id: ObjectId(req.params.useremail)}
     User.findOne(userQuery, function(error, doc) {
         var newTeam = new Team({
             team_name: req.body.team_name,
