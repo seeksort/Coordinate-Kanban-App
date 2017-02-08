@@ -42,7 +42,7 @@ var Login = withRouter(React.createClass({
             this.state.password = '';
             this.state.loggedin = data;
             if (this.state.loggedin) {
-                console.log('team')
+                console.log('logged in, redirect to team')
                 this.props.router.replace('/team');
             }
         }.bind(this));

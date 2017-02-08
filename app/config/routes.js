@@ -19,18 +19,16 @@ var
     TeamBoard = require('./../components/team/TeamBoard');
 
 // AJAX call to see if user has been authenticated before directing user to route
-function requireAuth(nextState, replace) {
-    var loginCheck = helpers.loginCheck();
-    console.log(loginCheck);
-    // setTimeout(function(){
-        if (!loginCheck) {
-            console.log('requireAuth')
+function requireAuth(nextState, replace, next) {
+    helpers.loginCheck().then(function(data){
+        if (!data) {
             replace({
               pathname: '/login',
               state: { nextPathname: nextState.location.pathname }
             })
         }
-    // }, 1000);
+        next();
+    })
 }
     
 module.exports = (

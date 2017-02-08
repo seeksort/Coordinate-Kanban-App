@@ -137,7 +137,8 @@ app.all('*', function(req, res, next){
         return res.send({success: false, message: "Invalid Login" });
     }
 });
- 
+
+// Route is for login check 
 app.get('/userlogin', function(req, res, next) {
     if(req.isAuthenticated()){
         return res.send({success: true, message: "Login successful." });

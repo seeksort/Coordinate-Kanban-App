@@ -24,7 +24,6 @@ var helpers = {
             'email': email,
             'password': password
         }).then(function(res){
-            console.log('helpers res: '+res.data.success)
             if (res.data.success === true) {
                 return true;
             }
@@ -41,7 +40,6 @@ var helpers = {
     loginCheck: function() {
         console.log('loginCheck')
         return axios.get('/userlogin').then(function(res){
-                console.log(res)
             if (res.data.success === true) {
                 console.log('should return true')
                 return true;
