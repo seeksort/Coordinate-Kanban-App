@@ -8,7 +8,10 @@ var Login = withRouter(React.createClass({
         return {
             email: '',
             password: '',
-            loggedin: false
+            loggedin: false,
+            newEmail: '',
+            newUsername: '',
+            newPassword: ''
         }
     },
 
@@ -29,24 +32,45 @@ var Login = withRouter(React.createClass({
         };
     },
 
-    handleChange: function(event){
+    handleLoginChange: function(event){
         var newState = {};
         newState[event.target.id] = event.target.value;
         this.setState(newState);
     },
 
-    handleSubmit: function(event){
+    handleLoginSubmit: function(event){
         event.preventDefault();
         helpers.login(this.state.email, this.state.password).then(function(data){
-            this.state.email = '';
-            this.state.password = '';
-            this.state.loggedin = data;
+            this.setState({ email:'', password: '', loggedin: data })
             if (this.state.loggedin) {
                 console.log('logged in, redirect to team')
+                $('.modal').modal('close');
                 this.props.router.replace('/team');
+            }
+            else {
+                alert('Incorrect username or password.');
             }
         }.bind(this));
     },
+
+    handleSignupChange: function(event){
+        var newState = {};
+        newState[event.target.id] = event.target.value;
+        this.setState(newState);
+    },
+
+    handleSignupSubmit: function(event){
+        event.preventDefault();
+        helpers.userSignup(this.state.newUsername, this.state.newEmail, this.state.newPassword).then(function(data){
+            console.log(data)
+            this.setState({ newEmail:'', newUsername: '', newPassword: '' })
+            if (data === true) {
+                alert('You have been registered!')
+                $('.modal').modal('close');
+            }
+        }.bind(this));
+    },
+
 
     render: function(){
         return (
@@ -64,8 +88,13 @@ var Login = withRouter(React.createClass({
                                 <LoginModals 
                                     email={this.state.email}
                                     password={this.state.password}
-                                    handleChange={this.handleChange}
-                                    handleSubmit={this.handleSubmit}
+                                    handleLoginChange={this.handleLoginChange}
+                                    handleLoginSubmit={this.handleLoginSubmit}
+                                    newEmail={this.state.newEmail}
+                                    newUsername={this.state.newUsername}
+                                    newPassword={this.state.newPassword}
+                                    handleSignupChange={this.handleSignupChange}
+                                    handleSignupSubmit={this.handleSignupSubmit}
                                 />
                                 
                             </div>

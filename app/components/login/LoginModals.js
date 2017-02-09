@@ -26,7 +26,7 @@ var LoginModal = React.createClass({
                         </div>
                         <div className="row">
                             {/* FORM WITH POST */}
-                            <form className="col s12" onSubmit={this.props.handleSubmit}>
+                            <form className="col s12" onSubmit={this.props.handleLoginSubmit}>
                                 <div className="row">
                                     <hr />
                                     <p style={{"textAlign": "center"}}>Or sign in with email:</p>
@@ -36,7 +36,7 @@ var LoginModal = React.createClass({
                                             type="email" 
                                             className="validate" 
                                             value={this.props.email}
-                                            onChange={this.props.handleChange}
+                                            onChange={this.props.handleLoginChange}
                                         />
                                         <label htmlFor="email">Email</label>
                                     </div>
@@ -46,7 +46,7 @@ var LoginModal = React.createClass({
                                             type="password" 
                                             className="validate" 
                                             value={this.props.password}
-                                            onChange={this.props.handleChange}
+                                            onChange={this.props.handleLoginChange}
                                         />
                                         <label htmlFor="password">Password</label>
                                     </div>
@@ -77,22 +77,40 @@ var LoginModal = React.createClass({
                         <h4>Sign Up</h4>
                         <div className="row">
                             {/* FORM WITH POST */}
-                            <form className="col s12">
+                            <form className="col s12" onSubmit={this.props.handleSignupSubmit}>
                                 <div className="row">
                                     <div className="input-field col s12">
-                                        <input id="email" type="email" className="validate" />
-                                        <label htmlFor="email">Email</label>
+                                        <input 
+                                            id="newEmail" 
+                                            type="email" 
+                                            className="validate" 
+                                            value={this.props.newEmail}
+                                            onChange={this.props.handleSignupChange}
+                                        />
+                                        <label htmlFor="newEmail">Email</label>
                                     </div>
                                     <div className="input-field col s12">
-                                        <input id="name" type="text" className="validate" />
-                                        <label htmlFor="name">User Name</label>
+                                        <input 
+                                            id="newUsername" 
+                                            type="text" 
+                                            className="validate" 
+                                            value={this.props.newUsername}
+                                            onChange={this.props.handleSignupChange}
+                                        />
+                                        <label htmlFor="newUsername">User Name</label>
                                     </div>
                                     <div className="input-field col s12">
-                                        <input id="password" type="password" className="validate" />
-                                        <label htmlFor="password">Password</label>
+                                        <input 
+                                            id="newPassword" 
+                                            type="password" 
+                                            className="validate" 
+                                            value={this.props.newPassword}
+                                            onChange={this.props.handleSignupChange}
+                                        />
+                                        <label htmlFor="newPassword">Password</label>
                                     </div>
                                     <div className="col s12 right-align">
-                                        <button className="modal-action waves-effect waves-green btn btn-modal" type="submit" name="action">Send Invite Email
+                                        <button className="modal-action waves-effect waves-green btn btn-modal" type="submit" name="action">Sign Up
                                         </button>
                                         <a className="modal-action modal-close waves-effect waves-green btn" onClick={$('#modal1').modal('close')}>Cancel</a>
                                     </div>

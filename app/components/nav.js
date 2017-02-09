@@ -59,7 +59,7 @@ var Nav = React.createClass({
                                     <a href="#" className="dropdown-button" data-activates="dropdown-notifications" data-beloworigin="true" data-hover="true"><i className="material-icons">notifications</i></a>
                                 </li>
                                 <li>
-                                    <a href="#" className="dropdown-button" data-activates="dropdown-profile" data-beloworigin="true" data-hover="true"><i className="material-icons">person_pin</i></a>
+                                    <a href="#/board" className="dropdown-button" data-activates="dropdown-profile" data-beloworigin="true" data-hover="true"><i className="material-icons">person_pin</i></a>
                                 </li>
                             </ul>
                         </div>
@@ -69,10 +69,10 @@ var Nav = React.createClass({
                     {/* side nav must be outside of nav tag to coexist w/ fixed nav. */}
                     <ul className="side-nav collapsible" id="mobile-demo">
                         <li>
-                            <div className="collapsible-header"><a href="#"><i className="tiny material-icons">people</i>Team</a></div>
+                            <div className="collapsible-header"><a href="#/team"><i className="tiny material-icons">people</i>Team</a></div>
                         </li>
                         <li>
-                            <div className="collapsible-header"><a href="#" className="secondary-content"><i className="tiny material-icons">expand_more</i></a><a href="#"><i className="tiny material-icons">developer_board</i>Projects</a></div>
+                            <div className="collapsible-header"><a href="#" className="secondary-content"><i className="tiny material-icons">expand_more</i></a><a href="#/projects"><i className="tiny material-icons">developer_board</i>Projects</a></div>
                             <div className="collapsible-body">
                                 <ul>
                                     <li><a href="#">Project One</a></li>
@@ -93,7 +93,7 @@ var Nav = React.createClass({
                             </div>
                         </li>
                         <li>
-                            <a><span className="user_name">Tina Turner</span></a>
+                            <a href="#/board"><span className="user_name">Tina Turner</span></a>
                         </li>
                         <li>
                             <a href="#">Sign Out</a>

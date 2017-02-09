@@ -47,7 +47,8 @@ var List = React.createClass({
                 <TaskModal 
                     key={index}
                     id={"list-"+index}
-                    title={currentTask.task_name}
+                    taskid={currentTask._id}
+                    task_name={currentTask.task_name}
                     description={currentTask.description}
                     assigned={currentTask.assigned}
                     comments={currentTask.comments}

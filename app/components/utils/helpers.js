@@ -38,7 +38,6 @@ var helpers = {
 
     // Check if logged in
     loginCheck: function() {
-        console.log('loginCheck')
         return axios.get('/userlogin').then(function(res){
             if (res.data.success === true) {
                 console.log('should return true')
@@ -48,6 +47,28 @@ var helpers = {
                 console.log('should return false')
                 return false;
             }
+        });
+    },
+
+    // Register new user
+    userSignup: function(username, email, password) {
+        console.log('userSignup');
+        return axios.post('/newuser', {
+            'username': username,
+            'email': email,
+            'password': password
+        }).then(function(res){
+            if (res.data.error == 'userExists') {
+                alert('Sorry, that user already exists.');
+                return false;
+            }
+            else {
+                return true;            
+            }
+        }).catch(function (error) {
+            console.log(error);
+            alert('Registration error.');
+            return false
         });
     },
 
@@ -70,6 +91,17 @@ var helpers = {
             'task_name': taskName
         }).then(function(res){
             console.log('new task created.');
+        }).catch(function (error) {
+            console.log(error);
+        });
+    },
+
+    // Update a task
+    updateTask: function(taskid, apiParam, state) {
+        var url = '/' + taskid + '/' + apiParam
+        axios.post(url, state).then(function(res){
+            console.log(res);
+            console.log('task updated.');
         }).catch(function (error) {
             console.log(error);
         });

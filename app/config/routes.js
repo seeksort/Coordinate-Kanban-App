@@ -37,7 +37,7 @@ module.exports = (
 
         <Route path='/' component={Main}>
 
-            <IndexRedirect to="/team" />
+            <IndexRedirect to="/board" />
 
             <Route path='login' component={Login} />
 

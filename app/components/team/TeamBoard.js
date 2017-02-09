@@ -6,7 +6,17 @@ var React = require('react'),
 
 var TeamBoard = React.createClass({
     getInitialState: function() {
-        return { team_name: '', team_desc: '', team_members: [], admin_members: [] };
+        return {
+            team_name: '',
+            team_desc: '',
+            team_members: [],
+            admin_members: [],
+            addUserName: '',
+            addTeam: '',
+            deleteTeam: '',
+            removeMember: '',
+            updateMember: ''
+        };
     },
     setParent: function(member) { 
         //

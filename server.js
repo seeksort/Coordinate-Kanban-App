@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Start Mongoose & test connection
 // Need Mongoose ObjectId type in order to search for specific model's ID
 var ObjectId = require('mongoose').Types.ObjectId,
-    databaseUri = 'mongodb://localhost/kanban2',
+    databaseUri = 'mongodb://localhost/kanban',
     db = mongoose.connection,
     // Import Mongoose models for tables
     User = require('./models/User.js'),
@@ -91,7 +91,7 @@ app.post('/newuser', function(req, res, next) {
         if (error) {
             console.log('there was an error ' + error);
             if (error.name == 'UserExistsError') {
-                return res.json({ message : 'a user with that email already exists.'});
+                return res.json({ error: 'userExists', message : 'a user with that email already exists.'});
             }
             else {
                 return res.json({ message : error.message });       
@@ -129,14 +129,14 @@ app.post('/userlogin', function(req, res, next) {
 
 /* ======== Require authentication on all routes ======== */
 // Middleware authentication will intercept unauth users and send 401 Not Auth error.
-app.all('*', function(req, res, next){
-    if(req.isAuthenticated()){
-        next();
-    }
-    else {
-        return res.send({success: false, message: "Invalid Login" });
-    }
-});
+// app.all('*', function(req, res, next){
+//     if(req.isAuthenticated()){
+//         next();
+//     }
+//     else {
+//         return res.send({success: false, message: "Invalid Login" });
+//     }
+// });
 
 // Route is for login check 
 app.get('/userlogin', function(req, res, next) {
@@ -282,6 +282,7 @@ app.get('/:project_name/getall', function(req,res){
 
 /* ======== Team Actions ======== */
 // Create New Team, set creating user as default admin
+//CURRENT
 app.post('/newteam', function(req,res) {
     console.log(req.user.email)
     var userQuery = {email: req.user.email}
@@ -320,7 +321,13 @@ app.post('/newteam', function(req,res) {
         
     })
 })
+//CURRENT
+// Delete team
+app.post('/deleteteam', function(req,res){
+    //TODO
+});
 
+//CURRENT
 // Get Team Members
 app.post('/myteam', function(req, res) {
     var userQuery = {"email": req.body.email};
@@ -337,6 +344,7 @@ app.post('/myteam', function(req, res) {
     });
 });
 
+//CURRENT
 // Add Team Member - TEMP, will add websocket later
 app.post('/:team_name/addteammember', function(req, res){
     // Check to see if user in database, using email. if not, send user not found
@@ -383,6 +391,12 @@ app.post('/:team_name/addteammember', function(req, res){
     });
 });
 
+//CURRENT
+// Remove Team Member
+app.get('/:teamid/removemember', function(req, res){
+    //TODO
+});
+
 // Websocket
 io.on('connection', function (socket) {
     // Add Team Member - WEBSOCKET (added you to team)
@@ -398,6 +412,7 @@ io.on('connection', function (socket) {
     });
 });
 
+//CURRENT
 // Update Team Member (name, role, title) - WEBSOCKET (your permissions have been udpated - page refresh)
 //TODO
 

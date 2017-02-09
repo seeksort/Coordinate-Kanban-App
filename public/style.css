@@ -376,9 +376,16 @@ div.task-ind.add-new-card:hover {
     background-color: #FFF;
     width: 80%;
 }
+.comment-box-div {
+    display: inline-block;
+    width: 80%;
+}
+textarea.materialize-textarea {
+    background-color: #FFF;
+}
 .team-member-icon {
     float: left;
-    display: block;
+    display: inline-block;
     margin: 0 4px;
 }
 /*Masonry.js classes*/

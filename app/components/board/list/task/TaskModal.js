@@ -1,13 +1,26 @@
 var React = require('react'),
     moment = require('moment'),
     TaskModalActivity = require('./TaskModalActivity'),
-    Modal = require('react-materialize').Modal; // Modal component from react-materialize
+    Modal = require('react-materialize').Modal,
+    helpers = require('./../../../utils/helpers');
 
 Modal.defaultProps = {
     actions: false
 };
 
 var TaskModal = React.createClass({
+    getInitialState: function() {
+        return {
+            comments: [],
+            // task_name: this.props.task_name,
+            due_date: '',
+            user_name: '',
+            comment: '',
+            desc: '',
+            param: ''
+        }
+    },
+
     componentDidMount: function() {
         // Initialize date picker and set default date
         $('.datepicker').pickadate({});
@@ -61,6 +74,46 @@ var TaskModal = React.createClass({
         });
     },
 
+    handleChange: function(event){
+        var newState = {};
+        newState[event.target.dataset.state] = event.target.value;
+        this.setState(newState);
+        var newState = {};
+        newState["param"] = event.target.dataset.param;
+        this.setState(newState);
+    },
+
+    handleSubmit: function(event){
+        console.log(this.state.param)
+        event.preventDefault();
+        var apiParam = ""
+        switch (this.state.param) {
+            case "add-comment":
+                apiParam = "addcomment";
+                break;
+            case "task-update":
+                apiParam = "taskupdate";
+                break;
+            case "edit-due-date":
+                apiParam = "duedate";
+                break;
+            default:
+                break;
+        }
+
+        helpers.updateTask(this.props.taskid, apiParam, this.state).then(function(){
+            var newState = {
+                comments: [],
+                // task_name: this.props.task_name,
+                due_date: '',
+                user_name: '',
+                comment: '',
+                desc: ''
+            }
+            this.setState(newState);
+        }.bind(this));
+    },
+
     render: function() {
         return(
             <Modal
@@ -68,7 +121,7 @@ var TaskModal = React.createClass({
                     <div className="task-ind">
                     {/* Indiv Card */}
                         <a href="#modal1">
-                            <span className="task-name">{this.props.title}</span>
+                            <span className="task-name">{this.props.task_name}</span>
                             <div className="due-date-div">
                                 <div className="due-date-text">
                                     <i className="material-icons">schedule</i>{this.evalDate.call(this)}
@@ -82,7 +135,7 @@ var TaskModal = React.createClass({
                 <div className="task-modal-title-div">
                 <i className="material-icons right modal-close">close</i>
                     <div className="task-modal-title-details">
-                        <p><span className="task-modal-title">{this.props.title}</span></p>
+                        <p><span className="task-modal-title">{this.props.task_name}</span></p>
                     </div>
                 </div>
                 <div className="task-modal-content">
@@ -111,13 +164,22 @@ var TaskModal = React.createClass({
                     </div>
                     <div className="task-modal-comment">
                         <div className="modal-heading-first comment-title">Add Comment</div>
-                        <div className="comment-user-div">
-                            <span className="comment-user-pic team-member-icon"><img src="yuna.jpg" /></span>
-                            <div className="comment-box-div">
-                                <textarea id="textarea1" cols="45"></textarea>
-                            <a href="" className="waves-effect waves-light btn">Submit</a>
+                        {/* FORM WITH POST */}
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="comment-user-div">
+                                <div className="comment-user-pic team-member-icon"><img src="yuna.jpg" /></div>
+                                <div className="comment-box-div">
+                                    <textarea 
+                                        className="materialize-textarea"
+                                        data-state="comment"
+                                        data-param="add-comment"
+                                        value={this.state.comment}
+                                        onChange={this.handleChange}
+                                    ></textarea>
+                                <button className="waves-effect waves-light btn">Submit</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <div className="task-modal-activity">
                         <div className="modal-heading-first activity-title">Comments</div>
