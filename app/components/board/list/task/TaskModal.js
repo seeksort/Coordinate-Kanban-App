@@ -13,10 +13,11 @@ var TaskModal = React.createClass({
         return {
             comments: [],
             // task_name: this.props.task_name,
-            due_date: '',
+            due_date: this.props.due_date,
             user_name: '',
+            task_name: this.props.task_name,
             comment: '',
-            desc: '',
+            desc: this.props.description,
             param: ''
         }
     },
@@ -31,6 +32,19 @@ var TaskModal = React.createClass({
             var day = parseInt(moment(this.props.due_date).format("D"))
             picker.set('select', [year, month, day]);
         }
+        picker.on({
+            set: function(datevalue){
+                newState['due_date'] = datevalue;
+                this.setState(newState);
+                var newState = {};
+                newState["param"] = event.target.dataset.param;
+                this.setState(newState);
+                console.log(this.state)
+            },
+            close: function(event){
+                handleSubmit(event);
+            }
+        });
     },
 
     componentDidUpdate: function() {
@@ -43,6 +57,19 @@ var TaskModal = React.createClass({
             var day = parseInt(moment(this.props.due_date).format("D"))
             picker.set('select', [year, month, day]);
         }
+        picker.on({
+            set: function(datevalue){
+                newState['due_date'] = datevalue;
+                this.setState(newState);
+                var newState = {};
+                newState["param"] = event.target.dataset.param;
+                this.setState(newState);
+                console.log(this.state)
+            },
+            close: function(event){
+                handleSubmit(event);
+            }
+        });
     },
 
     evalDate: function() {
@@ -83,6 +110,17 @@ var TaskModal = React.createClass({
         this.setState(newState);
     },
 
+    handleDateChange: function(event){
+        var picker = $('.datepicker').pickadate('picker');
+        var newState = {};
+        newState[event.target.dataset.state] = picker.get();
+        this.setState(newState);
+        var newState = {};
+        newState["param"] = event.target.dataset.param;
+        this.setState(newState);
+    },
+
+
     handleSubmit: function(event){
         console.log(this.state.param)
         event.preventDefault();
@@ -100,18 +138,15 @@ var TaskModal = React.createClass({
             default:
                 break;
         }
-
-        helpers.updateTask(this.props.taskid, apiParam, this.state).then(function(){
-            var newState = {
-                comments: [],
-                // task_name: this.props.task_name,
-                due_date: '',
-                user_name: '',
-                comment: '',
-                desc: ''
-            }
-            this.setState(newState);
-        }.bind(this));
+        console.log(apiParam)
+        helpers.updateTask(this.props.taskid, apiParam, this.state);
+        var newState = {
+            comments: [],
+            due_date: '',
+            user_name: '',
+            comment: ''
+        }
+        this.setState(newState);
     },
 
     render: function() {
@@ -121,7 +156,7 @@ var TaskModal = React.createClass({
                     <div className="task-ind">
                     {/* Indiv Card */}
                         <a href="#modal1">
-                            <span className="task-name">{this.props.task_name}</span>
+                            <span className="task-name">{this.state.task_name}</span>
                             <div className="due-date-div">
                                 <div className="due-date-text">
                                     <i className="material-icons">schedule</i>{this.evalDate.call(this)}
@@ -135,7 +170,15 @@ var TaskModal = React.createClass({
                 <div className="task-modal-title-div">
                 <i className="material-icons right modal-close">close</i>
                     <div className="task-modal-title-details">
-                        <p><span className="task-modal-title">{this.props.task_name}</span></p>
+                        <p><input 
+                            className="validate task-modal-title" 
+                            type="text"
+                            data-state="task_name"
+                            data-param="task-update"
+                            value={this.state.task_name}
+                            onChange={this.handleChange}
+                            onInput={this.handleSubmit}
+                        /></p>
                     </div>
                 </div>
                 <div className="task-modal-content">
@@ -152,13 +195,29 @@ var TaskModal = React.createClass({
                             </div>
                             <div className="task-modal-ppl-date col s6">
                                 <p className="modal-heading-second">Due Date:</p>
-                                <input type="date" className="datepicker" />
+                                <input 
+                                    type="date" 
+                                    className="datepicker"
+                                    data-state="due_date"
+                                    data-param="task-update"
+                                    value={this.state.due_date}
+                                    onChange={this.handleDateChange}
+                                    onInput={this.handleSubmit}
+                                />
                             </div>
                         </div>
                         <div className="task-modal-description">
                             <p className="modal-heading-second">Description</p>
                             <p className="modal-description">
-                                {this.props.description}
+                                <input 
+                                    className="validate task-modal-title" 
+                                    type="text"
+                                    data-state="desc"
+                                    data-param="edit-due-date"
+                                    value={this.state.desc}
+                                    onChange={this.handleChange}
+                                    onInput={this.handleSubmit}
+                                />
                             </p>
                         </div>
                     </div>

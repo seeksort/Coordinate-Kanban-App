@@ -614,14 +614,14 @@ app.post('/:listid/listupdate', function(req, res) {
 // Update Task - WEBSOCKET
 app.post('/:taskid/taskupdate', function(req, res) {
     var updateObj;
-    var title = req.body.field.toString();
+    var title = req.body.field;
     // query can update either task_name or description
-    if (title === "task_name") {
-        updateObj = {task_name: req.body.text}
+    updateObj = {
+        task_name: req.body.task_name,
+        description: req.body.desc
     }
-    else {
-        updateObj = {description: req.body.text}
-    }
+
+    console.log(updateObj);
     var taskQuery = { _id: ObjectId(req.params.taskid) }
     var update = {
         $set: updateObj
