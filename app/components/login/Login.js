@@ -45,7 +45,7 @@ var Login = withRouter(React.createClass({
             if (this.state.loggedin) {
                 console.log('logged in, redirect to team')
                 $('.modal').modal('close');
-                this.props.router.replace('/team');
+                this.props.router.replace('/board');
             }
             else {
                 alert('Incorrect username or password.');

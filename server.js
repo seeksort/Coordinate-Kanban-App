@@ -718,7 +718,7 @@ app.post('/:taskid/duedate', function(req, res) {
     }
     var update = {
         $set: {
-            due_date: Timestamp(req.body.due_date)
+            due_date: Date(req.body.due_date)
         }
     }
     Task.findOneAndUpdate(taskQuery, update, function(err, doc) {

@@ -42,17 +42,20 @@ var List = React.createClass({
     },
 
     renderTasks: function() {
+        var listIndex = this.props.listIndex
         return this.props.tasks.map(function(currentTask,index){
             return (
                 <TaskModal 
                     key={index}
                     id={"list-"+index}
+                    taskIndex={index}
+                    listIndex={listIndex}
                     taskid={currentTask._id}
                     task_name={currentTask.task_name}
                     description={currentTask.description}
                     assigned={currentTask.assigned}
                     comments={currentTask.comments}
-                    dueDate={currentTask.due_date || ''}
+                    due_date={currentTask.due_date}
                 />
             )
         });
@@ -71,10 +74,6 @@ var List = React.createClass({
                 <div className="task-group">
                     
                     {this.renderTasks.call(this)}
-
-
-                    <div className="">
-                    </div>
                     
                     <Modal
                         trigger={

@@ -23,58 +23,27 @@ var TaskModal = React.createClass({
     },
 
     componentDidMount: function() {
+        var comp = this;
         // Initialize date picker and set default date
-        $('.datepicker').pickadate({});
-        var picker = $('.datepicker').pickadate('picker');
-        if (this.props.due_date !== '') {
-            var year = parseInt(moment(this.props.due_date).format("YYYY"))
-            var month = parseInt(moment(this.props.due_date).format("M"))
-            var day = parseInt(moment(this.props.due_date).format("D"))
-            picker.set('select', [year, month, day]);
-        }
-        picker.on({
-            set: function(datevalue){
-                newState['due_date'] = datevalue;
-                this.setState(newState);
-                var newState = {};
-                newState["param"] = event.target.dataset.param;
-                this.setState(newState);
-                console.log(this.state)
-            },
-            close: function(event){
-                handleSubmit(event);
-            }
+        $('.datepicker').pickadate({
+            formatSubmit: 'yyyy/mm/dd',
+            onSet: function(event) {
+                var val = $(this).get('select', 'yyyy-mm-dd');
+                this.setState({value: val});
+                this.handleDateChange({target: {due_date: this.state.value}});
+            }.bind(this)
         });
     },
 
     componentDidUpdate: function() {
-        // Initialize date picker and set default date
-        $('.datepicker').pickadate({});
-        var picker = $('.datepicker').pickadate('picker');
-        if (this.props.due_date !== '') {
-            var year = parseInt(moment(this.props.due_date).format("YYYY"))
-            var month = parseInt(moment(this.props.due_date).format("M"))
-            var day = parseInt(moment(this.props.due_date).format("D"))
-            picker.set('select', [year, month, day]);
-        }
-        picker.on({
-            set: function(datevalue){
-                newState['due_date'] = datevalue;
-                this.setState(newState);
-                var newState = {};
-                newState["param"] = event.target.dataset.param;
-                this.setState(newState);
-                console.log(this.state)
-            },
-            close: function(event){
-                handleSubmit(event);
-            }
+        $('.datepicker').pickadate({
+            formatSubmit: 'yyyy/mm/dd',
         });
     },
 
     evalDate: function() {
-        if (this.props.dueDate !== '') {
-            return moment(this.props.dueDate).format("MMM D") 
+        if (this.state.due_date !== undefined) {
+            return moment(this.state.due_date).format("MMM D");
         }
         else {
             return ''
@@ -111,19 +80,15 @@ var TaskModal = React.createClass({
     },
 
     handleDateChange: function(event){
-        var picker = $('.datepicker').pickadate('picker');
-        var newState = {};
-        newState[event.target.dataset.state] = picker.get();
-        this.setState(newState);
-        var newState = {};
-        newState["param"] = event.target.dataset.param;
-        this.setState(newState);
+        this.setState({due_date: event.target.value})
     },
 
 
-    handleSubmit: function(event){
+    handleSubmit: function(event = 0){
         console.log(this.state.param)
-        event.preventDefault();
+        if (event !== 0) {
+            event.preventDefault();        
+        }
         var apiParam = ""
         switch (this.state.param) {
             case "add-comment":
@@ -139,10 +104,10 @@ var TaskModal = React.createClass({
                 break;
         }
         console.log(apiParam)
+        console.log(this.state)
         helpers.updateTask(this.props.taskid, apiParam, this.state);
         var newState = {
             comments: [],
-            due_date: '',
             user_name: '',
             comment: ''
         }
@@ -155,7 +120,7 @@ var TaskModal = React.createClass({
                 trigger = {
                     <div className="task-ind">
                     {/* Indiv Card */}
-                        <a href="#modal1">
+                        <a href={"#modal" + this.props.listIndex + this.props.taskIndex}>
                             <span className="task-name">{this.state.task_name}</span>
                             <div className="due-date-div">
                                 <div className="due-date-text">
@@ -200,7 +165,7 @@ var TaskModal = React.createClass({
                                     className="datepicker"
                                     data-state="due_date"
                                     data-param="task-update"
-                                    value={this.state.due_date}
+                                    data-value={this.state.due_date !== undefined && moment(this.state.due_date).format("YYYY/MM/DD")}
                                     onChange={this.handleDateChange}
                                     onInput={this.handleSubmit}
                                 />

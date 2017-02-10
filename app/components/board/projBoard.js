@@ -94,6 +94,7 @@ var ProjBoard = React.createClass({
                 <List 
                     key={index}
                     id={"list-"+index}
+                    listIndex={index}
                     title={currentList.title}
                     listId={currentList.listId}
                     tasks={currentList.tasks}
