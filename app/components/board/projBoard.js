@@ -14,7 +14,8 @@ var ProjBoard = React.createClass({
     getInitialState: function() {
         return {
             listName: '',
-            lists: []
+            lists: [],
+            users: []
         }
     },
 
@@ -38,7 +39,8 @@ var ProjBoard = React.createClass({
 
         // Make server call to get project
         helpers.getProject("bake-some-pies").then(function(data){
-            this.setState({lists: data.lists});
+            this.setState({lists: data.lists, users: data.users});
+            console.log(this.state)
         }.bind(this))
     },
 
@@ -89,6 +91,7 @@ var ProjBoard = React.createClass({
 
     renderLists: function() {
         var parentFcn = this.setParent
+        var users = this.state.users
         return this.state.lists.map(function(currentList,index){
             return (
                 <List 
@@ -99,6 +102,7 @@ var ProjBoard = React.createClass({
                     listId={currentList.listId}
                     tasks={currentList.tasks}
                     setParent={parentFcn}
+                    users={users}
                 />
             )
         });

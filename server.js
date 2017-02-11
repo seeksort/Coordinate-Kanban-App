@@ -129,14 +129,14 @@ app.post('/userlogin', function(req, res, next) {
 
 /* ======== Require authentication on all routes ======== */
 // Middleware authentication will intercept unauth users and send 401 Not Auth error.
-// app.all('*', function(req, res, next){
-//     if(req.isAuthenticated()){
-//         next();
-//     }
-//     else {
-//         return res.send({success: false, message: "Invalid Login" });
-//     }
-// });
+app.all('*', function(req, res, next){
+    if(req.isAuthenticated()){
+        next();
+    }
+    else {
+        return res.send({success: false, message: "Invalid Login" });
+    }
+});
 
 // Route is for login check 
 app.get('/userlogin', function(req, res, next) {
@@ -221,59 +221,82 @@ app.get('/:project_name/getall', function(req,res){
             res.json({ success: false, message: 'Could not find project.'});
         }
         else {
-            var listQuery = {projectID: ObjectId(proj._id.toString())}
-            console.log(listQuery)
-            List.find({}, function(err, lists) {
+            // Add list of all users
+            User.find({}, function(err, users){
                 if (err) {
                     console.log(err);
                     res.sendStatus(404);
                 }
-                else if (lists === 0 ) {
-                    // A project with no lists was found.
-                    res.json({ 
-                        success: true,
-                        project_name: proj.project_name,
-                        lists: [{
-                            title: '',
-                            listId: '',
-                            tasks: []
-                        }]
-                    });
+                else if (proj === 0) {
+                    res.json({ success: false, message: 'Could not find users.'});
                 }
                 else {
-                    resObj = { 
-                        success: true,
-                        project_name: proj.project_name,
-                        lists: []
-                    }
-                    lists.forEach(function(currList, indexList) {
-                        var populatedList = {
-                            title: currList.list_name,
-                            listId: currList._id,
-                            tasks: []
-                        };
-                        var taskQuery = {list: currList._id};
-                        Task.find(taskQuery, function(err, tasks){
-                            if (err) {
-                                console.log(err);
-                                res.sendStatus(404);
+                    var userArr = []
+                    users.forEach(function(el){
+                        var userObj = {user_name: el.username, id: el._id}
+                        userArr.push(userObj);
+                    })
+
+                    var listQuery = {projectID: ObjectId(proj._id.toString())}
+                    console.log(listQuery)
+                    List.find({}, function(err, lists) {
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(404);
+                        }
+                        else if (lists === 0 ) {
+                            // A project with no lists was found.
+                            res.json({ 
+                                success: true,
+                                users: userArr,
+                                project_name: proj.project_name,
+                                lists: [{
+                                    title: '',
+                                    listId: '',
+                                    tasks: []
+                                }]
+                            });
+                        }
+                        else {
+                            resObj = { 
+                                success: true,
+                                users: userArr,
+                                project_name: proj.project_name,
+                                lists: []
                             }
-                            else if (tasks === 0) {
-                                // A list with no tasks was found.
-                                resObj.lists.push(populatedList);
-                            }
-                            else {
-                                tasks.forEach(function(currTask, indexTask){
-                                    populatedList.tasks.push(currTask);
+                            lists.forEach(function(currList, indexList) {
+                                var populatedList = {
+                                    title: currList.list_name,
+                                    listId: currList._id,
+                                    tasks: []
+                                };
+                                var taskQuery = {list: currList._id};
+                                Task.find(taskQuery)
+                                .populate(
+                                    'assigned', 'username -_id'
+                                )
+                                .exec(function(err, tasks){
+                                    if (err) {
+                                        console.log(err);
+                                        res.sendStatus(404);
+                                    }
+                                    else if (tasks === 0) {
+                                        // A list with no tasks was found.
+                                        resObj.lists.push(populatedList);
+                                    }
+                                    else {
+                                        tasks.forEach(function(currTask, indexTask){
+                                            populatedList.tasks.push(currTask);
+                                        });
+                                        resObj.lists.push(populatedList);
+                                    }
                                 });
-                                resObj.lists.push(populatedList);
-                                console.log(resObj.lists)
-                            }
-                        });
+                            });
+                            setTimeout(function(){
+                                res.json(resObj);
+                            }, 1000);
+                        }
                     });
-                    setTimeout(function(){
-                        res.json(resObj);
-                    }, 1000);
                 }
             });
         }
@@ -355,10 +378,10 @@ app.post('/:team_name/addteammember', function(req, res){
     User.findOne(userQuery, function(err, user){
         if (err) {
             console.log(err);
-            res.send({'message': 'an error occurred'});
+            res.send({success: false, 'message': 'an error occurred'});
         }
         else if (user <= 0) {
-            res.send({'message': 'user not found'});
+            res.send({success: false, 'message': 'user not found'});
         }
         else {
             // Look for team, if found add user id
@@ -378,12 +401,12 @@ app.post('/:team_name/addteammember', function(req, res){
             Team.findOneAndUpdate(teamQuery, teamUpdate, function(err, doc) {
                 if (err) {
                     console.log(err);
-                    res.send({'message': 'there was an error'});
+                    res.send({success: false, 'message': 'server error, update did not succeed'});
                 }
                 else if (doc <= 0)
-                    res.send({'message': 'team not found'});
+                    res.send({success: false, 'message': 'team not found'});
                 else {
-                    res.send({'message': 'success'});
+                    res.send({success: true, 'message': 'success'});
                 }
             });       
             
@@ -434,10 +457,10 @@ app.post('/:team_name/:project_name/newlist', function(req, res) {
     Team.findOne(teamQuery, function(error, team){
         if (error) {
             console.log(error);
-            res.send({'message': 'an error occurred'});
+            res.send({success: false, 'message': 'an error occurred'});
         }
         else if (team <= 0) {
-            res.send({'message': 'team not found'});
+            res.send({success: false, 'message': 'team not found'});
         }
         else {
             // Remove dashes from project_name param and replace w/ space for regex search
@@ -454,10 +477,10 @@ app.post('/:team_name/:project_name/newlist', function(req, res) {
             Project.findOne(projectQuery, function(err, project){
                 if (err) {
                     console.log(err);
-                    res.send({'message': 'an error occurred'});
+                    res.send({success: false, 'message': 'an error occurred'});
                 }
                 else if (project <= 0) {
-                    res.send({'message': 'project not found'});
+                    res.send({success: false, 'message': 'project not found'});
                 }
                 else {
                     var newList = new List({
@@ -496,35 +519,41 @@ app.post('/:listid/newtask', function(req, res) {
 });
 
 // Update Member to Task - WEBSOCKET
-app.post('/:taskid/addmember', function(req, res) {
-    var userQuery = { username: req.body.username }
+app.post('/:taskid/assignmember', function(req, res) {
+    var userQuery = { username: req.body.user_name }
     User.findOne(userQuery, function(err, user){
         if (err) {
             console.log(err);
-            res.json({'message': 'an error occurred'});
+            res.json({success: false, 'message': 'server error, update did not succeed'});
         }
         else if (user <= 0) {
-            res.send({'message': 'user not found'});
+            res.send({success: false, 'message': 'user not found'});
         }
         else {
-            var taskQuery = { _id: ObjectId(req.params.taskid) }
-            var updateMember = {
-                $addToSet: {
-                    assigned: {
-                        userID: ObjectId(user._id)
+            var taskQuery = { 
+                _id: ObjectId(req.params.taskid),
+                "assigned": {
+                    $not: {
+                        $eq: user._id
                     }
                 }
             }
-            Task.findOneAndUpdate(taskQuery, updateMember, function(err, doc) {
+            
+            var updateMember = {
+                $push: {
+                    "assigned": user._id
+                }
+            }
+            Task.findOneAndUpdate(taskQuery, updateMember, {upsert: true}, function(err, doc) {
                 if (err) {
                     console.log(err);
-                    res.send({'message': 'there was an error'});
+                    res.send({success: false, 'message': 'server error, update did not succeed'});
                 }
                 else if (doc <= 0) {
-                    res.send({'message': 'task not found'});
+                    res.send({success: false, 'message': 'task not found'});
                 }
                 else {
-                    res.send({'message': 'success'});
+                    res.send({success: true, 'message': 'success'});
                 }
             });
             
@@ -537,10 +566,10 @@ app.post('/:taskid/addcomment', function(req, res) {
     User.findOne(userQuery, function(err, user){
         if (err) {
             console.log(err);
-            res.json({'message': 'an error occurred'});
+            res.json({success: false, 'message': 'server error, update did not succeed'});
         }
         else if (user <= 0) {
-            res.send({'message': 'user not found'});
+            res.send({success: false, 'message': 'user not found'});
         }
         else {
             var time = moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
@@ -557,13 +586,13 @@ app.post('/:taskid/addcomment', function(req, res) {
             Task.findOneAndUpdate(taskQuery, updateMember, function(err, doc) {
                 if (err) {
                     console.log(err);
-                    res.send({'message': 'there was an error'});
+                    res.send({success: false, 'message': 'server error, update did not succeed'});
                 }
                 else if (doc <= 0) {
-                    res.send({'message': 'task not found'});
+                    res.send({success: false, 'message': 'task not found'});
                 }
                 else {
-                    res.send({'message': 'success'});
+                    res.send({success: true, 'message': 'success'});
                 }
             });
         }
@@ -580,13 +609,13 @@ app.post('/:taskid/desc', function(req, res) {
     Task.findOneAndUpdate(taskQuery, updateDesc, function(err, doc) {
         if (err) {
             console.log(err);
-            res.send({'message': 'there was an error'});
+            res.send({success: false, 'message': 'server error, update did not succeed'});
         }
         else if (doc <= 0) {
-            res.send({'message': 'task not found'});
+            res.send({success: false, 'message': 'task not found'});
         }
         else {
-            res.send({'message': 'success'});
+            res.send({success: true, 'message': 'success'});
         }
     });
 });
@@ -601,13 +630,13 @@ app.post('/:listid/listupdate', function(req, res) {
     List.findOneAndUpdate(listQuery, update, function(err, doc) {
         if (err) {
             console.log(err);
-            res.send({'message': 'there was an error'});
+            res.send({success: false, 'message': 'server error, update did not succeed'});
         }
         else if (doc <= 0) {
-            res.send({'message': 'list not found'});
+            res.send({success: false, 'message': 'list not found'});
         }
         else {
-            res.send({'message': 'success'});
+            res.send({success: true, 'message': 'success'});
         }
     });
 });
@@ -629,13 +658,13 @@ app.post('/:taskid/taskupdate', function(req, res) {
     Task.findOneAndUpdate(taskQuery, update, function(err, doc) {
         if (err) {
             console.log(err);
-            res.send({'message': 'there was an error'});
+            res.send({success: false, 'message': 'server error, update did not succeed'});
         }
         else if (doc <= 0) {
-            res.send({'message': 'task not found'});
+            res.send({success: false, 'message': 'task not found'});
         }
         else {
-            res.send({'message': 'success'});
+            res.send({success: true, 'message': 'success'});
         }
     });
 });
@@ -645,10 +674,10 @@ app.post('/:taskid/removemember', function(req, res) {
     User.findOne(userQuery, function(err, user){
         if (err) {
             console.log(err);
-            res.json({'message': 'an error occurred'});
+            res.json({success: false, 'message': 'server error, update did not succeed'});
         }
         else if (user <= 0) {
-            res.send({'message': 'user not found'});
+            res.send({success: false, 'message': 'user not found'});
         }
         else {
             var taskQuery = { _id: ObjectId(req.params.taskid) }
@@ -662,13 +691,13 @@ app.post('/:taskid/removemember', function(req, res) {
             Task.findOneAndUpdate(taskQuery, updateMember, function(err, doc) {
                 if (err) {
                     console.log(err);
-                    res.send({'message': 'there was an error'});
+                    res.send({success: false, 'message': 'server error, update did not succeed'});
                 }
                 else if (doc <= 0) {
-                    res.send({'message': 'task not found'});
+                    res.send({success: false, 'message': 'task not found'});
                 }
                 else {
-                    res.send({'message': 'success'});
+                    res.send({success: true, 'message': 'success'});
                 }
             });
             
@@ -683,13 +712,13 @@ app.post('/:listid/removelist', function(req, res) {
     List.remove(listQuery, function(err, obj) {
         if (err) {
             console.log(err);
-            res.send({'message': 'there was an error'});
+            res.send({success: false, 'message': 'server error, update did not succeed'});
         } 
         else if (obj.result.n === 0) {
-            res.send({'message': 'the list was not found'})
+            res.send({success: false, 'message': 'the list was not found'})
         }
         else {
-            res.send({'message': 'success'});
+            res.send({success: true, 'message': 'success'});
         }
     })
 });
@@ -701,13 +730,13 @@ app.post('/:taskid/removetask', function(req, res) {
     Task.remove(listQuery, function(err, obj) {
         if (err) {
             console.log(err);
-            res.send({'message': 'there was an error'});
+            res.send({success: false, 'message': 'server error, update did not succeed'});
         } 
         else if (obj.result.n === 0) {
-            res.send({'message': 'the task was not found'})
+            res.send({success: false, 'message': 'the task was not found'})
         }
         else {
-            res.send({'message': 'success'});
+            res.send({success: true, 'message': 'success'});
         }
     });
 });
@@ -724,22 +753,16 @@ app.post('/:taskid/duedate', function(req, res) {
     Task.findOneAndUpdate(taskQuery, update, function(err, doc) {
         if (err) {
             console.log(err);
-            res.send({'message': 'there was an error'});
+            res.send({success: false, 'message': 'server error, update did not succeed'});
         }
         else if (doc <= 0) {
-            res.send({'message': 'task not found'});
+            res.send({success: false, 'message': 'task not found'});
         }
         else {
-            res.send({'message': 'success'});
+            res.send({success: true, 'message': 'success'});
         }
     });
 });
-
-/*
-Info for figuring out date from front-end:
-    document.getElementById("P805428233").value
-    > "17 March, 2017" "DD MMMM, YYYY"
-*/
 
 // Turn on server
 app.listen(PORT, function() {

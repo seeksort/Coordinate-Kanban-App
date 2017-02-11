@@ -10,8 +10,7 @@ Modal.defaultProps = {
 var List = React.createClass({
     getInitialState: function() {
         return {
-            taskName: '',
-            tasks: this.props.tasks
+            taskName: ''
         }
     },
 
@@ -32,6 +31,7 @@ var List = React.createClass({
         // Variables for incomplete app...
         var team = 'regulators';
         var project = 'bake-some-pies';
+        $('.modal1').modal('close');
         helpers.addTask(this.props.listId, this.state.taskName).then(function(data){
             this.state.taskName = '';
             // Another server call to reload tasks
@@ -43,6 +43,8 @@ var List = React.createClass({
 
     renderTasks: function() {
         var listIndex = this.props.listIndex
+        var users = this.props.users
+        var parentFcn = this.props.setParent
         return this.props.tasks.map(function(currentTask,index){
             return (
                 <TaskModal 
@@ -56,6 +58,8 @@ var List = React.createClass({
                     assigned={currentTask.assigned}
                     comments={currentTask.comments}
                     due_date={currentTask.due_date}
+                    users={users}
+                    setParent={parentFcn}
                 />
             )
         });

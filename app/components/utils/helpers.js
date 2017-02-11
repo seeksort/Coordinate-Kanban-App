@@ -100,8 +100,13 @@ var helpers = {
     updateTask: function(taskid, apiParam, state) {
         var url = '/' + taskid + '/' + apiParam
         axios.post(url, state).then(function(res){
-            console.log(res);
-            console.log('task updated.');
+            if (res.success) {
+                console.log('task updated.');
+            }
+            else {
+                console.log(res.data.message)
+                alert('could not update task!');
+            }
         }).catch(function (error) {
             console.log(error);
         });
@@ -112,9 +117,11 @@ var helpers = {
         var url = '/' + projectName + '/getall'
         console.log(url)
         return axios.get(url).then(function(res){
+            console.log(res)
             var projObj = {
                 title: res.data.project_name,
-                lists: res.data.lists
+                lists: res.data.lists,
+                users: res.data.users
             }
             return projObj;
         });

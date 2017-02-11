@@ -343,7 +343,7 @@ div.task-ind.add-new-card:hover {
 .comment-details {
     display: inline-block;
 }
-.task-modal-title {
+.task-modal-title-details > p > input[type=text] {
     font-weight: bold;
     font-size: 24px;
 }
@@ -387,6 +387,11 @@ textarea.materialize-textarea {
     float: left;
     display: inline-block;
     margin: 0 4px;
+}
+
+.task-modal-ppl-date > .input-field {
+    margin-top: 0px;
+    padding-left: 0px;
 }
 /*Masonry.js classes*/
 .gutter-sizer {

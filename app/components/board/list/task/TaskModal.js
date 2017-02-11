@@ -1,6 +1,7 @@
 var React = require('react'),
     moment = require('moment'),
     TaskModalActivity = require('./TaskModalActivity'),
+    TaskModalMembers = require('./TaskModalMembers'),
     Modal = require('react-materialize').Modal,
     helpers = require('./../../../utils/helpers');
 
@@ -11,6 +12,8 @@ Modal.defaultProps = {
 var TaskModal = React.createClass({
     getInitialState: function() {
         return {
+            users: this.props.users,
+            assigned: this.props.assigned,
             comments: [],
             due_date: this.props.due_date,
             user_name: '',
@@ -22,6 +25,7 @@ var TaskModal = React.createClass({
     },
 
     componentDidMount: function() {
+        console.log(this.props)
         var comp = this;
         // Initialize date picker and set default date
         $('.datepicker').pickadate({
@@ -41,7 +45,7 @@ var TaskModal = React.createClass({
         this.evalDateColor();
     },
 
-    componentDidUpdate: function() {
+    componentDidUpdate: function(prevProps, prevState) {
         $('.datepicker').pickadate({
             formatSubmit: 'yyyy/mm/dd',
         });
@@ -51,22 +55,25 @@ var TaskModal = React.createClass({
         if (this.state.due_date !== undefined) {
             return moment(this.state.due_date).format("MMM D");
         }
-        else {
-            return ''
-        }
     },
 
     evalDateColor: function() {
         if ((this.state.due_date !== undefined) && (moment(this.state.due_date).valueOf()) <= (Date.now())){
             var findId = ("text" + this.props.listIndex + this.props.taskIndex)
-            console.log(findId);
             document.getElementById(findId).style.backgroundColor = "#CC4343";
         }
     },
 
-    renderAssigned: function() {
-        return this.props.assigned.map(function(currentMember,index){
-            return (<li>{currentMember}</li>)
+    renderMembers: function() {
+        return this.state.users.map(function(currentMember,index){
+            return (
+                <TaskModalMembers 
+                    key={index} 
+                    id={currentMember.id}
+                    value={currentMember.user_name}
+                    user_name={currentMember.user_name}
+                />
+            )
         });
     },
 
@@ -84,17 +91,30 @@ var TaskModal = React.createClass({
         });
     },
 
+    renderAssigned: function(){
+        var str = '';
+        if (this.state.assigned !== undefined) {
+            this.state.assigned.map(function(curr, i) {
+                if (curr.username!== undefined) {
+                    str += curr.username + ', ';                
+                }
+            });
+        } 
+        return str.slice(0, -2);
+    },
+
     handleChange: function(event){
         var newState = {};
         newState[event.target.dataset.state] = event.target.value;
+        console.log(newState)
         this.setState(newState);
         var newState = {};
         newState["param"] = event.target.dataset.param;
         this.setState(newState);
+        console.log('current state: ' + this.state)
     },
 
     handleSubmit: function(event = 0){
-        console.log(this.state.param)
         if (event !== 0) {
             event.preventDefault();        
         }
@@ -109,18 +129,16 @@ var TaskModal = React.createClass({
             case "edit-due-date":
                 apiParam = "duedate";
                 break;
+            case "assign-member":
+                apiParam = "assignmember";
+                break;
             default:
                 break;
         }
-        console.log(apiParam)
-        console.log(this.state)
         helpers.updateTask(this.props.taskid, apiParam, this.state);
-        var newState = {
-            comments: [],
-            user_name: '',
-            comment: ''
-        }
-        this.setState(newState);
+        helpers.getProject("bake-some-pies").then(function(data){
+            this.props.setParent(data.lists);
+        }.bind(this))
     },
 
     render: function() {
@@ -133,7 +151,7 @@ var TaskModal = React.createClass({
                             <span className="task-name">{this.state.task_name}</span>
                             <div className="due-date-div">
                                 <div className="due-date-text" id={"text" + this.props.listIndex + this.props.taskIndex}>
-                                    <i className="material-icons">schedule</i>{this.evalDate.call(this)}
+                                    {this.props.due_date !== undefined && <i className="material-icons">schedule</i>}{this.evalDate.call(this)}
                                 </div>
                             </div>
                         </a>
@@ -145,7 +163,7 @@ var TaskModal = React.createClass({
                 <i className="material-icons right modal-close">close</i>
                     <div className="task-modal-title-details">
                         <p><input 
-                            className="validate task-modal-title" 
+                            className="validate" 
                             type="text"
                             data-state="task_name"
                             data-param="task-update"
@@ -160,12 +178,23 @@ var TaskModal = React.createClass({
                         <div className="row">
                             <div className="task-modal-ppl-date col s6">
                                 <p className="modal-heading-second">Assigned:</p>
-                                <ul>
-                                    <li>Team Member</li>
-                                    <li>Team Member</li>
-                                    {this.renderAssigned.call(this)}
-
-                                </ul>
+                                <p className="assigned-member">{this.renderAssigned.call(this) || '-- No one assigned --'}</p>
+                                <p className="modal-heading-second">Assign a member...</p>
+                                <div className="input-field col s12">
+                                    <form onSubmit={this.handleSubmit}>
+                                        <select 
+                                            className="browser-default" 
+                                            data-state="user_name"
+                                            data-param="assign-member" 
+                                            value={this.state.user_name}
+                                            onChange={this.handleChange}
+                                        >
+                                            <option value=""></option>
+                                            {this.renderMembers.call(this)}
+                                        </select>
+                                        <input type="submit" value="Submit" />
+                                    </form>
+                                </div>
                             </div>
                             <div className="task-modal-ppl-date col s6">
                                 <p className="modal-heading-second">Due Date:</p>
@@ -184,7 +213,7 @@ var TaskModal = React.createClass({
                             <p className="modal-heading-second">Description</p>
                             <p className="modal-description">
                                 <input 
-                                    className="validate task-modal-title" 
+                                    className="validate" 
                                     type="text"
                                     data-state="desc"
                                     data-param="edit-due-date"
