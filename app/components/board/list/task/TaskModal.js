@@ -12,7 +12,6 @@ var TaskModal = React.createClass({
     getInitialState: function() {
         return {
             comments: [],
-            // task_name: this.props.task_name,
             due_date: this.props.due_date,
             user_name: '',
             task_name: this.props.task_name,
@@ -27,12 +26,19 @@ var TaskModal = React.createClass({
         // Initialize date picker and set default date
         $('.datepicker').pickadate({
             formatSubmit: 'yyyy/mm/dd',
+            closeOnSelect: true,
             onSet: function(event) {
-                var val = $(this).get('select', 'yyyy-mm-dd');
-                this.setState({value: val});
-                this.handleDateChange({target: {due_date: this.state.value}});
+                var val = new Date(event.select);
+                console.log((event))
+                console.log(val)
+                this.setState({
+                    due_date: val,
+                    param: 'edit-due-date'
+                });
+                this.handleSubmit();
             }.bind(this)
         });
+        this.evalDateColor();
     },
 
     componentDidUpdate: function() {
@@ -47,6 +53,14 @@ var TaskModal = React.createClass({
         }
         else {
             return ''
+        }
+    },
+
+    evalDateColor: function() {
+        if ((this.state.due_date !== undefined) && (moment(this.state.due_date).valueOf()) <= (Date.now())){
+            var findId = ("text" + this.props.listIndex + this.props.taskIndex)
+            console.log(findId);
+            document.getElementById(findId).style.backgroundColor = "#CC4343";
         }
     },
 
@@ -78,11 +92,6 @@ var TaskModal = React.createClass({
         newState["param"] = event.target.dataset.param;
         this.setState(newState);
     },
-
-    handleDateChange: function(event){
-        this.setState({due_date: event.target.value})
-    },
-
 
     handleSubmit: function(event = 0){
         console.log(this.state.param)
@@ -123,7 +132,7 @@ var TaskModal = React.createClass({
                         <a href={"#modal" + this.props.listIndex + this.props.taskIndex}>
                             <span className="task-name">{this.state.task_name}</span>
                             <div className="due-date-div">
-                                <div className="due-date-text">
+                                <div className="due-date-text" id={"text" + this.props.listIndex + this.props.taskIndex}>
                                     <i className="material-icons">schedule</i>{this.evalDate.call(this)}
                                 </div>
                             </div>
