@@ -1,8 +1,12 @@
+var path = require('path')
+var webpack = require('webpack')
+
 module.exports = {
     entry: "./app/app.js",
     output: {
-        path: __dirname,
-        filename: "public/bundle.js"
+        path: path.join(__dirname, 'public'),
+        filename: 'bundle.js',
+        publicPath: '/public/'
     },
     module: {
         loaders: [
@@ -16,5 +20,8 @@ module.exports = {
             }
         ]
     },
-    devtool: "eval-source-map"
+    devtool: "eval-source-map",
+    entry: [
+    './app/app'
+  ],
 };
