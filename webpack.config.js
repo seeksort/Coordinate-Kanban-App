@@ -20,8 +20,15 @@ module.exports = {
             }
         ]
     },
-    devtool: "eval-source-map",
-    entry: [
-    './app/app'
-  ],
+    resolveLoader: {
+        root: [
+            path.join(__dirname, 'node_modules'),
+        ],
+    },
+    resolve: {
+        root: [
+            path.join(__dirname, 'node_modules'),
+        ],
+    },
+    devtool: "eval-source-map"
 };
