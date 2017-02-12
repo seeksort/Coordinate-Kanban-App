@@ -13,7 +13,7 @@ var
 // require components to be used as Routes
 var 
     Main = require('./../components/Main'),
-    Board = require('./../components/board/ProjBoard'),
+    Board = require('./../components/board/projBoard'),
     Login = require('./../components/login/Login'),
     Projects = require('./../components/projects/Projects'),
     TeamBoard = require('./../components/team/TeamBoard');

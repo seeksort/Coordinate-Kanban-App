@@ -1,5 +1,5 @@
 var React = require('react'),
-    Nav = require('./../Nav'),
+    Nav = require('./../nav'),
     ProjTeamTitle = require('./ProjTeamTitle'),
     ProjDescriptions = require('./ProjDescriptions'),
     Modal = require('react-materialize').Modal; // Modal component from react-materialize
