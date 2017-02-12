@@ -1,5 +1,5 @@
 var React = require('react'),
-    Nav = require('./../Nav'),
+    Nav = require('./../nav'),
     List = require('./list/List'),
     Modal = require('react-materialize').Modal,
     helpers = require('./../utils/helpers'),
