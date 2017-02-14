@@ -40,11 +40,9 @@ var helpers = {
     loginCheck: function() {
         return axios.get('/userlogin').then(function(res){
             if (res.data.success === true) {
-                console.log('should return true')
                 return true;
             }
             else {
-                console.log('should return false')
                 return false;
             }
         });
@@ -100,7 +98,7 @@ var helpers = {
     updateTask: function(taskid, apiParam, state) {
         var url = '/' + taskid + '/' + apiParam
         axios.post(url, state).then(function(res){
-            if (res.success) {
+            if (res.data.success === true) {
                 console.log('task updated.');
             }
             else {
@@ -108,7 +106,7 @@ var helpers = {
                 alert('could not update task!');
             }
         }).catch(function (error) {
-            console.log(error);
+            console.log(error.data.message);
         });
     },
 

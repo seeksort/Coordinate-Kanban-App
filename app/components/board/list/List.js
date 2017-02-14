@@ -31,7 +31,7 @@ var List = React.createClass({
         // Variables for incomplete app...
         var team = 'regulators';
         var project = 'bake-some-pies';
-        $('.modal1').modal('close');
+        $('.modal').modal('close');
         helpers.addTask(this.props.listId, this.state.taskName).then(function(data){
             this.state.taskName = '';
             // Another server call to reload tasks

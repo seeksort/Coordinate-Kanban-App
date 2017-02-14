@@ -2,7 +2,7 @@ var React = require('react'),
     Nav = require('./../nav'),
     ProjTeamTitle = require('./ProjTeamTitle'),
     ProjDescriptions = require('./ProjDescriptions'),
-    Modal = require('react-materialize').Modal; // Modal component from react-materialize
+    Modal = require('react-materialize').Modal;
 
 var Projects = React.createClass({
     componentDidMount: function() {

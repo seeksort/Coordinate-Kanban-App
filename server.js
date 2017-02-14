@@ -64,15 +64,21 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   cookie: { 
-    maxAge: 60000,
+    maxAge: 6000000,
     secure: false 
   }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(User.serializeUser(function(user, done){
+    done(null, user.id);
+}));
+passport.deserializeUser(User.deserializeUser(function(id, done) {
+    User.findOne({ _id: id }).then(function(user) {
+        done(null, { id: user.id, username: user.username});
+    })
+}));
 
 /* ======== Default Route ======== */
 app.get('/', function(req, res) {
@@ -238,7 +244,6 @@ app.get('/:project_name/getall', function(req,res){
                     })
 
                     var listQuery = {projectID: ObjectId(proj._id.toString())}
-                    console.log(listQuery)
                     List.find({}, function(err, lists) {
                         if (err) {
                             console.log(err);
@@ -368,7 +373,7 @@ app.post('/myteam', function(req, res) {
 });
 
 //CURRENT
-// Add Team Member - TEMP, will add websocket later
+// Add Team Member
 app.post('/:team_name/addteammember', function(req, res){
     // Check to see if user in database, using email. if not, send user not found
     var userQuery = {email: {
@@ -420,23 +425,8 @@ app.get('/:teamid/removemember', function(req, res){
     //TODO
 });
 
-// Websocket
-io.on('connection', function (socket) {
-    // Add Team Member - WEBSOCKET (added you to team)
-    socket.on('add member', function (msg) {
-        console.log(msg);
-        //TODO
-        });
-    // Delete Team - WEBSOCKET (this team has been deleted)
-    socket.emit('delete team', { message: 'team deleted' });
-    socket.on('delete', function (data) {
-        console.log(data);
-        //TODO
-    });
-});
-
 //CURRENT
-// Update Team Member (name, role, title) - WEBSOCKET (your permissions have been udpated - page refresh)
+// Update Team Member (name, role, title) (your permissions have been udpated - page refresh)
 //TODO
 
 /* ======== Project Actions - certain actions (add/update member/list/task/comment) should update notifications table ======== */
@@ -449,7 +439,7 @@ app.post('/getprojlists', function(req,res) {
 // Get - Due Soon
     //TODO
 
-// Add List - WEBSOCKET
+// Add List
 app.post('/:team_name/:project_name/newlist', function(req, res) {
     var teamQuery = {team_name: {
         $regex: new RegExp('^' + req.params.team_name, 'i')
@@ -501,7 +491,7 @@ app.post('/:team_name/:project_name/newlist', function(req, res) {
         }
     });
 });
-// Add Task (user can have more than one task w/ same title, diff _id) - WEBSOCKET
+// Add Task (user can have more than one task w/ same title, diff _id)
 app.post('/:listid/newtask', function(req, res) {
     var newTask = new Task({
         task_name: req.body.task_name,
@@ -518,8 +508,9 @@ app.post('/:listid/newtask', function(req, res) {
     })
 });
 
-// Update Member to Task - WEBSOCKET
+// Update Member to Task
 app.post('/:taskid/assignmember', function(req, res) {
+    console.log(req.body)
     var userQuery = { username: req.body.user_name }
     User.findOne(userQuery, function(err, user){
         if (err) {
@@ -560,9 +551,11 @@ app.post('/:taskid/assignmember', function(req, res) {
         }
     });
 });
-// Add Comment to Task - WEBSOCKET
+// Add Comment to Task
 app.post('/:taskid/addcomment', function(req, res) {
-    var userQuery = { username: req.body.username }
+    console.log(req)
+    var userQuery = { username: req.user.username }
+    console.log(userQuery)
     User.findOne(userQuery, function(err, user){
         if (err) {
             console.log(err);
@@ -592,6 +585,7 @@ app.post('/:taskid/addcomment', function(req, res) {
                     res.send({success: false, 'message': 'task not found'});
                 }
                 else {
+                    console.log(doc)
                     res.send({success: true, 'message': 'success'});
                 }
             });
@@ -619,7 +613,7 @@ app.post('/:taskid/desc', function(req, res) {
         }
     });
 });
-// Update List - WEBSOCKET
+// Update List
 app.post('/:listid/listupdate', function(req, res) {
     var listQuery = { _id: ObjectId(req.params.listid) }
     var update = {
@@ -640,7 +634,7 @@ app.post('/:listid/listupdate', function(req, res) {
         }
     });
 });
-// Update Task - WEBSOCKET
+// Update Task
 app.post('/:taskid/taskupdate', function(req, res) {
     var updateObj;
     var title = req.body.field;
@@ -668,7 +662,7 @@ app.post('/:taskid/taskupdate', function(req, res) {
         }
     });
 });
-// Remove Member from Task - WEBSOCKET
+// Remove Member from Task
 app.post('/:taskid/removemember', function(req, res) {
     var userQuery = { username: req.body.username }
     User.findOne(userQuery, function(err, user){
@@ -704,7 +698,7 @@ app.post('/:taskid/removemember', function(req, res) {
         }
     });
 });
-// Delete List - WEBSOCKET
+// Delete List
 app.post('/:listid/removelist', function(req, res) {
     var listQuery = {
         _id: ObjectId(req.params.listid)
@@ -722,7 +716,7 @@ app.post('/:listid/removelist', function(req, res) {
         }
     })
 });
-// Delete Task - WEBSOCKET
+// Delete Task
 app.post('/:taskid/removetask', function(req, res) {
     var listQuery = {
         _id: ObjectId(req.params.taskid)
@@ -740,7 +734,7 @@ app.post('/:taskid/removetask', function(req, res) {
         }
     });
 });
-// Add/update Due Date - WEBSOCKET
+// Add/update Due Date
 app.post('/:taskid/duedate', function(req, res) {
     var taskQuery = {
         _id: ObjectId(req.params.taskid)

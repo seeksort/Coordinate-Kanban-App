@@ -25,7 +25,6 @@ var TaskModal = React.createClass({
     },
 
     componentDidMount: function() {
-        console.log(this.props)
         var comp = this;
         // Initialize date picker and set default date
         $('.datepicker').pickadate({
@@ -39,7 +38,7 @@ var TaskModal = React.createClass({
                     due_date: val,
                     param: 'edit-due-date'
                 });
-                this.handleSubmit();
+                this.handleSubmit()
             }.bind(this)
         });
         this.evalDateColor();
@@ -48,7 +47,19 @@ var TaskModal = React.createClass({
     componentDidUpdate: function(prevProps, prevState) {
         $('.datepicker').pickadate({
             formatSubmit: 'yyyy/mm/dd',
+            closeOnSelect: true,
+            onSet: function(event) {
+                var val = new Date(event.select);
+                console.log((event))
+                console.log(val)
+                this.setState({
+                    due_date: val,
+                    param: 'edit-due-date'
+                });
+                this.handleSubmit()
+            }.bind(this)
         });
+        this.evalDateColor();
     },
 
     evalDate: function() {
@@ -106,12 +117,16 @@ var TaskModal = React.createClass({
     handleChange: function(event){
         var newState = {};
         newState[event.target.dataset.state] = event.target.value;
-        console.log(newState)
-        this.setState(newState);
-        var newState = {};
+        // this.setState(newState);
+        // var newState = {};
         newState["param"] = event.target.dataset.param;
         this.setState(newState);
         console.log('current state: ' + this.state)
+        // if (event.target.dataset.state === "task_name" ||
+        //     event.target.dataset.state === "due_date" ||
+        //     event.target.dataset.state === "desc") {
+
+        // }
     },
 
     handleSubmit: function(event = 0){
@@ -136,6 +151,7 @@ var TaskModal = React.createClass({
                 break;
         }
         helpers.updateTask(this.props.taskid, apiParam, this.state);
+        $('.modal').modal('close');
         helpers.getProject("bake-some-pies").then(function(data){
             this.props.setParent(data.lists);
         }.bind(this))
@@ -169,7 +185,7 @@ var TaskModal = React.createClass({
                             data-param="task-update"
                             value={this.state.task_name}
                             onChange={this.handleChange}
-                            onInput={this.handleSubmit}
+                            onBlur={this.handleSubmit}
                         /></p>
                     </div>
                 </div>
@@ -205,7 +221,6 @@ var TaskModal = React.createClass({
                                     data-param="task-update"
                                     data-value={this.state.due_date !== undefined && moment(this.state.due_date).format("YYYY/MM/DD")}
                                     onChange={this.handleDateChange}
-                                    onInput={this.handleSubmit}
                                 />
                             </div>
                         </div>
@@ -219,7 +234,7 @@ var TaskModal = React.createClass({
                                     data-param="edit-due-date"
                                     value={this.state.desc}
                                     onChange={this.handleChange}
-                                    onInput={this.handleSubmit}
+                                    onBlur={this.handleSubmit}
                                 />
                             </p>
                         </div>
