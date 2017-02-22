@@ -68,11 +68,11 @@ var List = React.createClass({
     render: function() {
         return(
 
-            <div className="list grid-item">
+            <div className="list grid-item" data-title={this.props.title}>
             {/* List */}
                 <div className="task-title">
                     <div className="task-title-text">
-                        <h5>{this.props.title}</h5>
+                        <h5 className="task-title-txt">{this.props.title}</h5>
                     </div>    
                 </div>
                 <div className="task-group">

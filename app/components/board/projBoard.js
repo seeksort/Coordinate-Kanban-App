@@ -3,8 +3,9 @@ var React = require('react'),
     List = require('./list/List'),
     Modal = require('react-materialize').Modal,
     helpers = require('./../utils/helpers'),
-    Packery = require('packery'),
-    Draggabilly = require('draggabilly');
+    // Packery = require('packery'),
+    // Draggabilly = require('draggabilly'),
+    Isotope = require('isotope-layout');
 
 Modal.defaultProps = {
     actions: false
@@ -20,23 +21,31 @@ var ProjBoard = React.createClass({
     },
 
     componentDidMount: function() {
-        // Packery intitialize
+        // Isotope intitialize
         var elem = document.querySelector('.grid');
-        var pckry = new Packery(elem, {
-            // options
-            columnWidth: '.grid-sizer',
-            gutter: '.gutter-sizer',
+        var iso = new Isotope(elem, {
+            layoutMode: 'fitRows',
             itemSelector: '.grid-item',
             percentPosition: true,
-            fitWidth: false
+            fitRows: {
+                // options
+                columnWidth: '.grid-sizer',
+                gutter: '.gutter-sizer'
+            },
+            getSortData: {
+                title: '[data-title]', // value of attribute
+            },
+            sortBy: 'title'
         });
-        // Packery + Draggabilly
-        // Drag Lists
-        pckry.getItemElements().forEach(function(itemElem) {
-            var draggie = new Draggabilly(itemElem);
-            pckry.bindDraggabillyEvents(draggie);
+        // bind sort button click
+        $(document.body).on( 'click', '#sorter', function() {
+          var sortValue = $(this).attr('data-sort-value');
+          $grid.isotope({ sortBy: 'title' });
         });
-
+        // Trigger tooltip
+        $(document).ready(function(){
+            $('.tooltipped').tooltip({delay: 50});
+        });
         // Make server call to get project
         helpers.getProject("bake-some-pies").then(function(data){
             this.setState({lists: data.lists, users: data.users});
@@ -45,21 +54,30 @@ var ProjBoard = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        // Packery intitialize
+        // Isotope intitialize
         var elem = document.querySelector('.grid');
-        var pckry = new Packery(elem, {
-            // options
-            columnWidth: '.grid-sizer',
-            gutter: '.gutter-sizer',
+        var iso = new Isotope(elem, {
+            layoutMode: 'fitRows',
             itemSelector: '.grid-item',
             percentPosition: true,
-            fitWidth: false
+            fitRows: {
+                // options
+                columnWidth: '.grid-sizer',
+                gutter: '.gutter-sizer'
+            },
+            getSortData: {
+                title: '[data-title]', // value of attribute
+            },
+            sortBy: 'title'
         });
-        // Packery + Draggabilly
-        // Drag Lists
-        pckry.getItemElements().forEach(function(itemElem) {
-            var draggie = new Draggabilly(itemElem);
-            pckry.bindDraggabillyEvents(draggie);
+        // bind sort button click
+        $(document.body).on( 'click', '#sorter', function() {
+          var sortValue = $(this).attr('data-sort-value');
+          $grid.isotope({ sortBy: 'title' });
+        });
+        // Trigger tooltip
+        $(document).ready(function(){
+            $('.tooltipped').tooltip({delay: 50});
         });
     },
 
@@ -131,7 +149,7 @@ var ProjBoard = React.createClass({
                         {/* Filter */}
                         <div className="proj-buttons-div">
                              <div className="proj-buttons-inner">
-                                 <a href="#!" className="dropdown-button" id="filter-icon" data-activates="dropdown-filters" data-beloworigin="true" data-hover="true"><i className="material-icons center">filter_list</i></a>
+                                 <a href="" className="tooltipped"data-delay="50" data-tooltip="Re-sort" id="sorter" data-sort-value="title"><i className="material-icons center">filter_list</i></a>
                              </div>
 
                             {/* Add a List */}

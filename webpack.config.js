@@ -29,6 +29,11 @@ module.exports = {
         root: [
             path.join(__dirname, 'node_modules'),
         ],
+        alias: {
+          'masonry': 'masonry-layout',
+          'isotope': 'isotope-layout',
+          'fitRows': 'fit-rows'
+        }
     },
     devtool: "eval-source-map"
 };

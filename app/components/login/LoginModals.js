@@ -20,16 +20,13 @@ var LoginModal = React.createClass({
                     <div className="modal-content">
                         <i className="material-icons right modal-close">close</i>
                         <h4>Log In</h4>
-                        <div className="row center-align">
 
-                            <div className="col s12 g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-                        </div>
                         <div className="row">
                             {/* FORM WITH POST */}
                             <form className="col s12" onSubmit={this.props.handleLoginSubmit}>
                                 <div className="row">
                                     <hr />
-                                    <p style={{"textAlign": "center"}}>Or sign in with email:</p>
+                                    <p style={{"textAlign": "center"}}>Sign in with email:</p>
                                     <div className="input-field col s12">
                                         <input 
                                             id="email" 

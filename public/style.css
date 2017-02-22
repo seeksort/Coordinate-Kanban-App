@@ -281,6 +281,7 @@ div.task-ind.add-new-card:hover {
 }
 .grid-item {
     text-align: left;
+    margin-bottom: 10px;
 }
 .due-date-div {
     display: block;
