@@ -68,7 +68,7 @@ var List = React.createClass({
     render: function() {
         return(
 
-            <div className="list grid-item" data-title={this.props.title}>
+            <div className="list grid-item" data-title={this.props.title.toLowerCase()}>
             {/* List */}
                 <div className="task-title">
                     <div className="task-title-text">
