@@ -15,7 +15,6 @@ mongoose.Promise = Promise;
 
 var app = express();
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
 // Local Host or Heroku env.Port
 var PORT = process.env.PORT || 3000;
 
@@ -131,6 +130,13 @@ app.post('/userlogin', function(req, res, next) {
             return res.send({success: true, message: "Login successful." }); 
         });
     })(req, res, next);
+});
+
+// Logout Route
+app.get('/logout', function(req, res) {
+  req.logout();
+  req.session.destroy();
+  res.send({success: true, message: "You have been logged out." });
 });
 
 /* ======== Require authentication on all routes ======== */
@@ -310,7 +316,6 @@ app.get('/:project_name/getall', function(req,res){
 
 /* ======== Team Actions ======== */
 // Create New Team, set creating user as default admin
-//CURRENT
 app.post('/newteam', function(req,res) {
     console.log(req.user.email)
     var userQuery = {email: req.user.email}
@@ -349,13 +354,11 @@ app.post('/newteam', function(req,res) {
         
     })
 })
-//CURRENT
 // Delete team
 app.post('/deleteteam', function(req,res){
     //TODO
 });
 
-//CURRENT
 // Get Team Members
 app.post('/myteam', function(req, res) {
     var userQuery = {"email": req.body.email};
@@ -372,7 +375,6 @@ app.post('/myteam', function(req, res) {
     });
 });
 
-//CURRENT
 // Add Team Member
 app.post('/:team_name/addteammember', function(req, res){
     // Check to see if user in database, using email. if not, send user not found
@@ -419,13 +421,11 @@ app.post('/:team_name/addteammember', function(req, res){
     });
 });
 
-//CURRENT
 // Remove Team Member
 app.get('/:teamid/removemember', function(req, res){
     //TODO
 });
 
-//CURRENT
 // Update Team Member (name, role, title) (your permissions have been udpated - page refresh)
 //TODO
 

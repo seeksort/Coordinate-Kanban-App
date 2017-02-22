@@ -2,22 +2,6 @@ var axios = require('axios');
 
 var helpers = {
 
-    // Team - get team info based on user email
-    getTeam: function(loggedInUser){
-        // var loggedInUser = 'shiba@muchwow.com'; //dummy name for testing
-        // return axios.get('')
-    },
-
-    // Add Member
-    addMember: function(memberObj) {
-        // console.log(memberObj); //debug
-        // var socket = io();
-        // socket.emit('add member', memberObj);
-        // socket.on('add member', function(msg) {
-
-        // });
-    },
-
     // Login
     login: function(email, password){
         return axios.post('/userlogin', {
@@ -43,6 +27,20 @@ var helpers = {
                 return true;
             }
             else {
+                return false;
+            }
+        });
+    },
+
+    // Logout
+    logout: function() {
+        return axios.get('/logout').then(function(res){
+            if (res.data.success === true) {
+                alert('You have been logged out.');
+                return true;
+            }
+            else {
+                alert('An error occurred. Please contact administrator.')
                 return false;
             }
         });

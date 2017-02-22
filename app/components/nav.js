@@ -1,10 +1,21 @@
-var React = require('react');
+var React = require('react'),
+    helpers = require('./utils/helpers'),
+    withRouter = require('react-router').withRouter;
 
-var Nav = React.createClass({
+var Nav = withRouter(React.createClass({
     componentDidMount: function() {
         $(".button-collapse").sideNav();
         $('.dropdown-button').dropdown();
     },
+
+    handleSignOut: function() {
+        helpers.logout().then(function(data){
+            if (data) {
+                this.props.router.replace('/login');
+            }
+        }.bind(this));
+    },
+
     render: function(){
         return (
             <div>
@@ -17,16 +28,10 @@ var Nav = React.createClass({
                     <li><a href="#"><i className="tiny material-icons">add</i>Create Project...</a></li>
                 </ul>
                 <ul id="dropdown-notifications" className="dropdown-content">
-                    <li><a href="#">
-                        <span className="notif-team-member">Goku</span> completed <span className="notif-task">Obtain 3rd dragonball</span>.<br /><span className="notif-time">22 minutes ago</span>
-                        </a></li>
-                    <li><a href="#"><span className="notif-team-member">Piccolo</span> was assigned to <span className="notif-task">Mentor Gohan</span>.<br /><span className="notif-time">3 hours ago</span></a></li>
-                    {/* Show when empty */}
                     <li><a>No recent notifications</a></li>
                 </ul>
                 <ul id="dropdown-profile" className="dropdown-content">
-                    <li><span className="user_name">Tina Turner</span></li>
-                    <li><a href="#">Sign Out</a></li>
+                    <li><a href="" onClick={this.handleSignOut}>Sign Out</a></li>
                 </ul>
                 {/* Nav */}
                 <div className="nav-fixed">
@@ -85,18 +90,12 @@ var Nav = React.createClass({
                             <div className="collapsible-header"><a href="#" className="secondary-content"><i className="tiny material-icons">expand_more</i></a><a href="#"><i className="tiny material-icons">notifications</i>Notifications</a></div>
                             <div className="collapsible-body">
                                 <ul>
-                                    <li><a href="#"><span className="notif-team-member">Goku</span> completed <span className="notif-task">Obtain 3rd dragonball</span>.</a></li>
-                                    <li><a href="#"><span className="notif-team-member">Piccolo</span> was assigned to <span className="notif-task">Mentor Gohan</span>.</a></li>
-                                    {/* Show when empty */}
                                     <li><a>No recent notifications</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li>
-                            <a href="#/board"><span className="user_name">Tina Turner</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Sign Out</a>
+                            <a href="" onClick={this.handleSignOut}>Sign Out</a>
                         </li>
                     </ul>
                 </div>
@@ -107,6 +106,6 @@ var Nav = React.createClass({
 
         );
     }
-});
+}));
 
 module.exports = Nav;
