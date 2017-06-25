@@ -40,18 +40,7 @@ var Nav = withRouter(React.createClass({
                             {/* Normal Nav */} 
                             <a href="#/team" className="brand-logo center">Get It Together</a>
                             <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-                            <ul className="left hide-on-med-and-down">
-                                {/* Search Bar */}
-                                <li>
-                                    <form>
-                                        <div className="input-field">
-                                            <input id="search" type="search" required placeholder="Search..." />
-                                            <label htmlFor="search"><i className="material-icons ">search</i></label>
-                                            <i className="material-icons">close</i>
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
+
                             {/* Top Right Nav */} 
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
                                 <li>
