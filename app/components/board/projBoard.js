@@ -103,8 +103,12 @@ var ProjBoard = React.createClass({
 
     setParent: function(newLists){
         this.setState({
+            lists: []
+        })
+        this.setState({
             lists: newLists
         })
+        alert("Update successful.")
     },
 
     renderLists: function() {

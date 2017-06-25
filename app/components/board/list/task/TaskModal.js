@@ -150,11 +150,11 @@ var TaskModal = React.createClass({
             default:
                 break;
         }
-        helpers.updateTask(this.props.taskid, apiParam, this.state);
-        $('.modal').modal('close');
-        helpers.getProject("bake-some-pies").then(function(data){
+        helpers.updateTask(this.props.taskid, apiParam, this.state)
+        .then(helpers.getProject("bake-some-pies").then(function(data){
+            $('.modal').modal('close');
             this.props.setParent(data.lists);
-        }.bind(this))
+        }.bind(this)));
     },
 
     render: function() {
