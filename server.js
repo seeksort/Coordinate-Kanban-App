@@ -1,19 +1,10 @@
 // import npm modules
 var 
     express = require('express'),
-    bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
-    morgan = require('morgan'),
-    moment = require('moment'),
-    Promise = require('bluebird'),
-    passport = require('passport'),
-    session = require('express-session'),
-    MongoStore = require('connect-mongo')(session),
-    LocalStrategy = require('passport-local').Strategy;
+    morgan = require('morgan');
 
-var router = require('./api-routes/api');
-
-mongoose.Promise = Promise;
+var router = require('./server-routes/api-auth');
 
 var app = express();
 var server = require('http').Server(app);

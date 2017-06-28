@@ -3,3 +3,4 @@ node_modules
 notes.txt
 bundle.js
 frontback.js
+.eslintignore

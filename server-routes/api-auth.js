@@ -4,11 +4,12 @@ var
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     moment = require('moment'),
-    Promise = require('bluebird'),
     passport = require('passport'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session),
     LocalStrategy = require('passport-local').Strategy;
+
+require('./db')(router);
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -16,7 +17,6 @@ router.use(bodyParser.urlencoded({ extended: false }));
 // Start Mongoose & test connection
 // Need Mongoose ObjectId type in order to search for specific model's ID
 var ObjectId = require('mongoose').Types.ObjectId,
-    databaseUri = 'mongodb://localhost/kanban',
     db = mongoose.connection,
     // Import Mongoose models for tables
     User = require('./../models/User.js'),
@@ -25,23 +25,6 @@ var ObjectId = require('mongoose').Types.ObjectId,
     List = require('./../models/List.js'),
     Task = require('./../models/Task.js');
 
-// Use either localhost or env, if in Heroku
-if (process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI);
-} 
-else {
-    mongoose.connect(databaseUri);
-}
-
-// Catch Mongoose errors
-db.on('error', function(error) {
-    console.log('Mongoose Error: ', error);
-});
-
-//Connect to database
-db.once('open', function() {
-    console.log('Mongoose connection successful.');
-});
 
 // Passport.js passport-local-mongoose authentication
 router.use(session({
@@ -67,8 +50,6 @@ passport.deserializeUser(User.deserializeUser(function(id, done) {
         done(null, { id: user.id, username: user.username});
     })
 }));
-
-
 
 /* ======== User Account Actions ======== */
 // Create new account
