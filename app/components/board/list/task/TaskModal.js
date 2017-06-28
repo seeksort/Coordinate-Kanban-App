@@ -30,14 +30,16 @@ var TaskModal = React.createClass({
         $('.datepicker').pickadate({
             formatSubmit: 'yyyy/mm/dd',
             closeOnSelect: true,
+            selectYears: true,
+            selectMonths: true,
             onSet: function(event) {
                 var val = new Date(event.select);
-                console.log((event))
-                console.log(val)
                 this.setState({
                     due_date: val,
                     param: 'edit-due-date'
                 });
+            }.bind(this),
+            onClose: function() {
                 this.handleSubmit()
             }.bind(this)
         });
@@ -50,12 +52,13 @@ var TaskModal = React.createClass({
             closeOnSelect: true,
             onSet: function(event) {
                 var val = new Date(event.select);
-                console.log((event))
-                console.log(val)
                 this.setState({
                     due_date: val,
                     param: 'edit-due-date'
                 });
+                this.handleSubmit()
+            }.bind(this),
+            onClose: function() {
                 this.handleSubmit()
             }.bind(this)
         });
@@ -121,7 +124,6 @@ var TaskModal = React.createClass({
         // var newState = {};
         newState["param"] = event.target.dataset.param;
         this.setState(newState);
-        console.log('current state: ' + this.state)
         // if (event.target.dataset.state === "task_name" ||
         //     event.target.dataset.state === "due_date" ||
         //     event.target.dataset.state === "desc") {
@@ -219,7 +221,7 @@ var TaskModal = React.createClass({
                                     className="datepicker"
                                     data-state="due_date"
                                     data-param="task-update"
-                                    data-value={this.state.due_date !== undefined && moment(this.state.due_date).format("YYYY/MM/DD")}
+                                    data-value={this.state.due_date === undefined ? moment().format("YYYY/MM/DD") : moment(this.state.due_date).format("YYYY/MM/DD")}
                                     onChange={this.handleDateChange}
                                 />
                             </div>
