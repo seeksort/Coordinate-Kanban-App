@@ -97,7 +97,7 @@ var TaskModal = React.createClass({
                 <TaskModalActivity 
                     key={index}
                     id={"list-"+index}
-                    commentDate={currentComment.commentDate}
+                    commentDate={currentComment.comment_date}
                     text={currentComment.text}
                     userID={currentComment.userID}
                 />

@@ -11,7 +11,7 @@ var TaskModalActivity = React.createClass({
                     {this.props.text}
                     </p>
                     <span></span>
-                    <span className="notif-time">{moment(this.props.commentDate).fromNow()}</span>
+                    <span className="notif-time">{moment(this.props.commentDate, 'dddd, MMMM Do YYYY, h:mm:ss a').fromNow()}</span>
                 </div>
             </div>
         )
