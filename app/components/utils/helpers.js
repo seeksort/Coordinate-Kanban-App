@@ -94,17 +94,17 @@ var helpers = {
 
     // Update a task
     updateTask: function(taskid, apiParam, state) {
-        var url = '/' + taskid + '/' + apiParam
-        axios.post(url, state).then(function(res){
-            if (res.data.success === true) {
-                console.log('task updated.');
-            }
-            else {
-                console.log(res.data.message)
-                alert('could not update task!');
-            }
-        }).catch(function (error) {
-            console.log(error.data.message);
+        return new Promise(function(resolve, reject) {
+            var url = '/' + taskid + '/' + apiParam
+            axios.post(url, state).then(function(res){
+                if (res.data.success === true) {
+                    resolve('task updated.');
+                }
+                else {
+                    reject(res.data.message)
+                    alert('could not update task!');
+                }
+            })
         });
     },
 
