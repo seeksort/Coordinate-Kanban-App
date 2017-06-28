@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
 
-
-module.exports = (router) => {
+module.exports = function() {
 
     // Set up database
     mongoose.Promise = Promise;

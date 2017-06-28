@@ -4,7 +4,7 @@ var
     mongoose = require('mongoose'),
     morgan = require('morgan');
 
-var router = require('./server-routes/api-auth');
+var router = require('./server-routes/routes');
 
 var app = express();
 var server = require('http').Server(app);
