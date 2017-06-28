@@ -146,6 +146,9 @@ var TaskModal = React.createClass({
             case "edit-due-date":
                 apiParam = "duedate";
                 break;
+            case "desc":
+                apiParam = "desc";
+                break;
             case "assign-member":
                 apiParam = "assignmember";
                 break;
@@ -233,7 +236,7 @@ var TaskModal = React.createClass({
                                     className="validate" 
                                     type="text"
                                     data-state="desc"
-                                    data-param="edit-due-date"
+                                    data-param="desc"
                                     value={this.state.desc}
                                     onChange={this.handleChange}
                                     onBlur={this.handleSubmit}
