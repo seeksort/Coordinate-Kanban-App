@@ -15,6 +15,13 @@ This was a captivating, enfuriating, and thought-provoking project. The problems
 
 A Trello clone was probably a bit ambitious, and it does not currently have all of the functionality I wanted. But right now, a user can authenticate, create lists and tasks, and add task details (dates, descriptions, assigned members, comments). Not too shabby. 
 
+## Functionality not yet implemented:
+
+- Actions to delete/update projects lists, tasks, comments
+- Commenting with user name and unique user icon
+- Reorganized CSS
+- Update some POST endpoints to PUT, if the request is an update
+
 <img src="screenshot.png" alt="placeholder" width="500">
 
 [Heroku link](https://getittogetherkanban.herokuapp.com)
