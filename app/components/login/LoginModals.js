@@ -25,8 +25,17 @@ var LoginModal = React.createClass({
                             {/* FORM WITH POST */}
                             <form className="col s12" onSubmit={this.props.handleLoginSubmit}>
                                 <div className="row">
-                                    <hr />
-                                    <p style={{"textAlign": "center"}}>Sign in with email:</p>
+                                    <div className="col s4">
+                                        <h5>Guest Account:</h5>
+                                    </div>
+                                    <div className="col s8">
+                                        <p>Email: guest@wow.com</p>
+                                        <p>Password: iamaguest</p>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div className="row">
+                                    <br />
                                     <div className="input-field col s12">
                                         <input 
                                             id="email" 
